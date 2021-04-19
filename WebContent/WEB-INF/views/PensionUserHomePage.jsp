@@ -107,13 +107,13 @@ window.onclick = function(event) {
 		<div class="dropdown">
 			<button onclick="myFunction()" class="dropbtn">Pension Payment System </button>
 			<div id="myDropdown" class="dropdown-content">
-				<a id="1" href="HRM/addEmployeeRecord.do"> Pension Employee Record Entry</a>
-				<a id="2" href="HRM/addLeaveRecord.do">Inheritance Record Entry </a> 
-				<a id="3" href="HRM/addTransferRecord.do">Allowance Record Enty</a> 
-				<a id="4" href="HRM/addIncrementRecord.do">Deduction Record Entry</a> 
-				<a id="5" href="HRM/addPromotionRecord.do">Monthly Report</a> 
-				<a id="6" href="HRM/addSuspendRecord.do">Yearly Report</a>
-				<a id="6" href="HRM/addSuspendRecord.do">Bonus Report</a>
+				<a id="1" href="PensionNothiDataUpdate.do"> Pension Employee Record Entry</a>
+				<a id="2" href="PensionInharitanceDataUpdate.do">Inheritance Record Entry </a> 
+				<a id="3" href="PensionAllwanceDataUpdate.do">Allowance Record Enty</a> 
+				<a id="4" href="PensionDeductionDataUpdate.do">Deduction Record Entry</a> 
+				<a id="5" href="PensionMonthlyReport.do">Monthly Report</a> 
+				<a id="6" href="PensionYearlyReport.do">Yearly Report</a>
+				<a id="7" href="PensionBonusReport.do">Bonus Report</a>
 			</div>
 		</div>
 

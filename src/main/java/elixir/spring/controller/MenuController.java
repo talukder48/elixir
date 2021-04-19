@@ -29,5 +29,35 @@ public class MenuController {
 	public String AddTransferMenuParser() {
 		return "HRM/AddTransferRecord";		
 	}
-
+	
+	
+	
+	
+	
+	@RequestMapping(value = "PensionNothiDataUpdate.do")
+	public String PensionNothiDataUpdate() {
+		return "PPS/PensionNothiDataUpdate";		
+	}
+	@RequestMapping(value = "PensionInharitanceDataUpdate.do")
+	public String PensionInharitanceDataUpdate() {
+		return "PPS/PensionInharitanceDataUpdate";		
+	}
+	@RequestMapping(value = "PensionAllwanceDataUpdate.do")
+	public String PensionAllwanceDataUpdate() {
+		return "PPS/PensionAllwanceDataUpdate";		
+	}
+	@RequestMapping(value = "PensionDeductionDataUpdate.do")
+	public String PensionDeductionDataUpdate() {
+		return "PPS/PensionDeductionDataUpdate";		
+	}	
+	@RequestMapping(value = "PensionMonthlyReport.do")
+	public String PensionMonthlyReport() {
+		return "PPS/PensionMonthlyReport";		
+	}
+	@RequestMapping(value = "PensionYearlyReport.do")
+	public String PensionYearlyReport() {
+		return "PPS/PensionYearlyReport";		
+	}
+	
+	
 }
