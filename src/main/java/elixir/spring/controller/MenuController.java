@@ -60,4 +60,14 @@ public class MenuController {
 	}
 	
 	
+	@RequestMapping(value = "AccountingVoucherEntryPages.do")
+	public String AccountingVoucherEntryPages() {
+		return "AIS/AccountingVoucherEntry";		
+	}
+	
+	@RequestMapping(value = "NewGlOpeningPages.do")
+	public String NewGlOpeningPages() {
+		return "AIS/NewGlOpeningPages";		
+	}
+	
 }

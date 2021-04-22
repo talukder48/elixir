@@ -52,6 +52,9 @@ public class HomeController {
 		if (user.getUserName().equals("1457")) {
 			return "PensionUserHomePage";
 		}
+		else if(user.getUserName().equals("1000")) {
+			return "AccountingUserHomePages";
+		}
 		else return "HrmUserHomePage";
 		
 	}
