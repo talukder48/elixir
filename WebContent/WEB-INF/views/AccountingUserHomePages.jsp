@@ -108,6 +108,7 @@ window.onclick = function(event) {
 			<button onclick="myFunction()" class="dropbtn">All Accounting Entry Pages</button>
 			<div id="myDropdown" class="dropdown-content">
 				<a id="1" href="AccountingVoucherEntryPages.do"> Voucher Entry Pages</a>
+				<a id="2" href="TransactionEntryValidation.do">Voucher Validation Entry Page </a> 
 				<a id="2" href="NewGlOpeningPages.do">New Account Entry </a> 
 				
 			</div>

@@ -64,6 +64,10 @@ public class MenuController {
 	public String AccountingVoucherEntryPages() {
 		return "AIS/AccountingVoucherEntry";		
 	}
+	@RequestMapping(value = "TransactionEntryValidation.do")
+	public String TransactionEntryValidation() {
+		return "AIS/TransactionEntryValidation";		
+	}
 	
 	@RequestMapping(value = "NewGlOpeningPages.do")
 	public String NewGlOpeningPages() {
