@@ -42,12 +42,7 @@ public class HomeController {
 		model.addAttribute("userName", user.getUserName());
 		model.addAttribute("password", user.getPassword());	
 		HttpSession sessionParam = request.getSession();				
-		Map map=new HashMap();
-		map.put("AIS", "AIS/AccountingSystem.jsp");
-		map.put("HRM", "HRM/HumanResource.jsp");
-		
-		sessionParam.putValue("Array", map);
-		model.addAttribute("pgmid",map);
+		sessionParam.putValue("BranchCode", "0600");
 		
 		if (user.getUserName().equals("1457")) {
 			return "PensionUserHomePage";

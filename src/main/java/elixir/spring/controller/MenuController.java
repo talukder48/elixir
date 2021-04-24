@@ -68,10 +68,29 @@ public class MenuController {
 	public String TransactionEntryValidation() {
 		return "AIS/TransactionEntryValidation";		
 	}
-	
 	@RequestMapping(value = "NewGlOpeningPages.do")
 	public String NewGlOpeningPages() {
 		return "AIS/NewGlOpeningPages";		
+	}
+	@RequestMapping(value = "VouherViewReport.do")
+	public String VouherViewReport() {
+		return "AIS/VouherViewReport";		
+	}
+	@RequestMapping(value = "CashBookViewReport.do")
+	public String CashBookViewReport() {
+		return "AIS/CashBookViewReport";		
+	}
+	@RequestMapping(value = "GLStatementViewReport.do")
+	public String GLStatementViewReport() {
+		return "AIS/GLStatementViewReport";		
+	}
+	@RequestMapping(value = "GLRegisterViewReport.do")
+	public String GLRegisterViewReport() {
+		return "AIS/GLRegisterViewReport";		
+	}
+	@RequestMapping(value = "TrailBalanceViewReport.do")
+	public String TrailBalanceViewReport() {
+		return "AIS/TrailBalanceViewReport";		
 	}
 	
 }

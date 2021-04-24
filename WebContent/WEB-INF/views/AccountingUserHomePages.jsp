@@ -10,7 +10,7 @@
 
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Insert title here</title>
+<title>Bangladesh House Building Finance Corporation</title>
 <script src="http://domain.tld/path/to/external.js"
 	type="text/javascript"></script>
 <style>
@@ -105,17 +105,16 @@ window.onclick = function(event) {
 		</div>
 
 		<div class="dropdown">
-			<button onclick="myFunction()" class="dropbtn"> General Accounts </button>
+			<button onclick="myFunction()" class="dropbtn"> General Accounting </button>
 			<div id="myDropdown" class="dropdown-content">
 				<a id="1" href="AccountingVoucherEntryPages.do"> Voucher Entry</a>
 				<a id="2" href="TransactionEntryValidation.do">Voucher Validation   </a> 
 				<a id="3" href="NewGlOpeningPages.do">New Account  </a> 
-				
-				<a id="3" href="NewGlOpeningPages.do">Voucher Print </a> 
-				<a id="1" href="TransactionEntryValidation.do">Cash Book </a> 
-				<a id="1" href="TransactionEntryValidation.do">GL Statement </a> 
-				<a id="1" href="TransactionEntryValidation.do">GL Register </a>
-				<a id="2" href="AccountingVoucherEntryPages.do"> Trail Balance</a>
+				<a id="4" href="VouherViewReport.do">Voucher Print </a> 
+				<a id="5" href="CashBookViewReport.do">Cash Book </a> 
+				<a id="6" href="GLStatementViewReport.do">GL Statement </a> 
+				<a id="7" href="GLRegisterViewReport.do">GL Register </a>
+				<a id="8" href="TrailBalanceViewReport.do"> Trail Balance</a>
 												
 			</div>
 		</div>
