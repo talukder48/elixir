@@ -105,19 +105,22 @@ window.onclick = function(event) {
 		</div>
 
 		<div class="dropdown">
-			<button onclick="myFunction()" class="dropbtn">All Accounting Entry Pages</button>
+			<button onclick="myFunction()" class="dropbtn"> General Accounts </button>
 			<div id="myDropdown" class="dropdown-content">
-				<a id="1" href="AccountingVoucherEntryPages.do"> Voucher Entry Pages</a>
-				<a id="2" href="TransactionEntryValidation.do">Voucher Validation Entry Page </a> 
-				<a id="2" href="NewGlOpeningPages.do">New Account Entry </a> 
+				<a id="1" href="AccountingVoucherEntryPages.do"> Voucher Entry</a>
+				<a id="2" href="TransactionEntryValidation.do">Voucher Validation   </a> 
+				<a id="3" href="NewGlOpeningPages.do">New Account  </a> 
 				
+				<a id="3" href="NewGlOpeningPages.do">Voucher Print </a> 
+				<a id="1" href="TransactionEntryValidation.do">Cash Book </a> 
+				<a id="1" href="TransactionEntryValidation.do">GL Statement </a> 
+				<a id="1" href="TransactionEntryValidation.do">GL Register </a>
+				<a id="2" href="AccountingVoucherEntryPages.do"> Trail Balance</a>
+												
 			</div>
 		</div>
 
-		<script>
-
-</script>
-
+			
 
 	</f:view>
 </body>

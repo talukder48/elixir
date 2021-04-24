@@ -53,7 +53,7 @@ input[type=submit]:hover {
 
 .container {
 	border-radius: 5px;
-	background-color: #FAE5D3;
+	background-color: #ccff99;
 	padding: 20px;
 }
 
@@ -456,7 +456,8 @@ function ViewBatchNumber()
 </head>
 <body onload="initValues()">
 		<center>
-		<h2 style="color:#006600;">Validate Batch Details</h2>
+		<h1>Bangladesh House Building Finance Corporation</h1>
+		<h4> General Accounting System System</h4>
 		
 		<div class="container">
 		<fieldset>	

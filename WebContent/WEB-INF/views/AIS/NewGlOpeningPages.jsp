@@ -53,7 +53,7 @@ input[type=submit]:hover {
 
 .container {
 	border-radius: 5px;
-	background-color: #FAE5D3;
+	background-color: #ccff99;
 	padding: 20px;
 }
 
@@ -61,11 +61,13 @@ input[type=submit]:hover {
 	float: left;
 	width: 40%;
 	margin-top: 6px;
+	text-align: left;
 }
 .col-15{
 float: left;
 	width: 20%;
 	margin-top: 6px;
+	text-align: left;
 }
 .col-35{
 float: left;
@@ -223,7 +225,8 @@ $(function() {
 <body onload="initValues()">
 	<center>
 	
-	<h4>[Branch Wise GL Head Opening]</h4>
+	<h1>Bangladesh House Building Finance Corporation</h1>
+		<h4> General Accounting System System</h4>
 	<div class="container">
 	
 				<div class="row">

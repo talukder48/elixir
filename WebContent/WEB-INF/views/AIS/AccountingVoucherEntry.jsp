@@ -62,19 +62,19 @@ table, th, td {
 	border: solid 1px #45a049;
 	border-collapse: collapse;
 	padding: 4px 8px;
-	text-align: center;
+	text-align: left;
 	float: center;
 }
 .gridcontainer{
   background-color: #FAD7A0 ;
 }
 .container {
-background-color: #FAE5D3;
+background-color: #ccff99;
 	border-radius: 5px;
 	padding: 20px;
 }
 .containerfooter{
-background-color: #FAE5D3
+background-color: #ccff99
 }
 
 .row:after {
