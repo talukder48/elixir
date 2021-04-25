@@ -15,7 +15,7 @@ body {
  /*  background-image: url('../../Media/bg6.jpg') ;
   background-repeat: no-repeat;
   background-size:  /* 300px 100px    auto ; */
-  background-color: #006666; 
+  background-color: #ffffff; 
 }
 table {
 	width: 100%;
@@ -67,14 +67,17 @@ table, th, td {
 }
 .gridcontainer{
   background-color: #ffffcc ;
+  
 }
 .container {
-background-color: #FAD7A0;
+background-color: #006666;
 	border-radius: 5px;
 	padding: 20px;
+	color:white;
 }
 .containerfooter{
-background-color: #FAD7A0
+background-color: #006666;
+color:white;
 }
 
 .row:after {
@@ -660,9 +663,8 @@ function initValues(){
 </head>
 <body onload="initValues()">
 <center>
-<h1>Bangladesh House Building Finance Corporation</h1>
-		<h4> General Accounting System System</h4>
-
+<h1 style="color:green;">Bangladesh House Building Finance Corporation</h1>
+		<h3  style="color:green;"> General Accounting System </h3>
 <fieldset>
 	<div class="container">
 	

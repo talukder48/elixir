@@ -324,7 +324,7 @@ function ViewAllReport()
 <body onload="initValues()">
 		<center>
 		<h1 style="color:white;">Bangladesh House Building Finance Corporation</h1>
-		<h3  style="color:white;"> General Accounting System System</h3>
+		<h3  style="color:white;"> General Accounting System </h3>
 		
 		<div class="container">
 		<fieldset>	
