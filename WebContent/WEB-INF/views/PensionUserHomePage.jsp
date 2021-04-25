@@ -111,9 +111,9 @@ window.onclick = function(event) {
 				<a id="2" href="PensionInharitanceDataUpdate.do">Inheritance Record Entry </a> 
 				<a id="3" href="PensionAllwanceDataUpdate.do">Allowance Record Enty</a> 
 				<a id="4" href="PensionDeductionDataUpdate.do">Deduction Record Entry</a> 
-				<a id="5" href="PensionMonthlyReport.do">Monthly Report</a> 
-				<a id="6" href="PensionYearlyReport.do">Yearly Report</a>
-				<a id="7" href="PensionBonusReport.do">Bonus Report</a>
+				<a id="5" href="PensionMonthlyReportView.do">Monthly Report</a> 
+				<a id="6" href="PensionYearlyReportview.do">Yearly Report</a>
+				<a id="7" href="PensionBonusReportView.do">Bonus Report</a>
 			</div>
 		</div>
 

@@ -5,16 +5,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
-
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
 </head>
 <style> 
 body {
-  background-color: #006666;
+  background-color: #006666; 
  /*  background-image: url('../../Media/bg6.jpg') ;
   background-repeat: repeat;
   background-size: /* 300px 100px   auto ; */
@@ -59,7 +53,7 @@ input[type=submit]:hover {
 
 .col-25 {
 	float: left;
-	width: 15%;
+	width: 40%;
 	margin-top: 6px;
 }
 .col-15{
@@ -69,13 +63,13 @@ float: left;
 }
 .col-45{
 float: left;
-	width: 20%;
+	width: 46%;
 	margin-top: 6px;
 }
 
 .col-75 {
 	float: left;
-	width: 40%;
+	width: 50%;
 	margin-top: 6px;
 }
 
@@ -208,77 +202,20 @@ function SetValue(key,value){
 function clear(){
 	DataMap="";
 }
-function loadgitem(){
-	clear();	
-	var loggedBranch="<%=session.getAttribute("BranchCode")%>";
-	SetValue("loggedBranch", loggedBranch);
-	SetValue("Class", "AccontingParameterSetup");
-	SetValue("Method", "FetchGLData");	
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			var obj = JSON.parse(this.responseText);
-			if (obj.ERROR_MSG != "") {
-				alert(obj.ERROR_MSG);
-			} else {				 
-				gl_srting=obj.GL_LIST;					
-				var select = document.getElementById("glcode");                  
-				 var gl_arrayList = gl_srting.split(',');
-				 for(var i = 0; i < gl_arrayList.length; i++) {
-					 gl_arrayList[i] = gl_arrayList[i].replace("/^\s*/", "").replace("/^\s*/", "");				
-				    var gl_keyValue = gl_arrayList[i].split(':');
-				    var option = document.createElement("option");
-				    option.value=gl_keyValue[0];
-				    option.text=gl_keyValue[1]+":"+gl_keyValue[0];	
-				    select.add(option, null);				   				   
-				 }
-			}
-		}
-	};
-	xhttp.open("POST", "TransactionServlet?" + DataMap, true);
-	xhttp.send();		
-}
 
 function initValues(){
 	var dt = new Date();
 	var user = "<%= session.getAttribute("User_Id")%>";
-	var usr_brn = "<%= session.getAttribute("BranchCode")%>";	
-	document.getElementById("BranchCode").value=usr_brn;
+	document.getElementById("Year").value=dt.getFullYear();
 	
-	loadgitem();
-	
-	document.getElementById("BranchCode").focus();
+	const months = ["JAN", "FEB", "MAR","APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+	var current_datetime = new Date()
+	entdOn = current_datetime.getDate() + "-" + months[current_datetime.getMonth()] + "-" + current_datetime.getFullYear()
+	document.getElementById("MonthCode").value = dt.getMonth()+1; 
+		
+	document.getElementById("Year").focus();
 }
-function BranchCodeValidation(event){
-	if (event.keyCode == 13 || event.which == 13) {		
-	if (document.getElementById("Branch_Code").value != "") {
-		clear();
-		SetValue("branch_code",document.getElementById("Branch_Code").value);
-		SetValue("Class","PRMSValidator");
-		SetValue("Method","BranchKeyPress");
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
-				if (obj.ERROR_MSG != "") {
-					alert(obj.ERROR_MSG);
-				} else {
-					if (obj.ERROR_MSG != "") {
-						alert(obj.ERROR_MSG);
-					} else {						
-						document.getElementById("BranchCode").focus();
-					}					
-				}
-			}
-		};
-		xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-		xhttp.send();
-	}
-	else{
-		document.getElementById("BranchCode").focus();
-	}
- }
-}
+
 function YearValidation(event)
 {
 	if (event.keyCode == 13 || event.which == 13) {
@@ -292,22 +229,17 @@ function MonthCodeValidation(event)
 		document.getElementById("ReportType").focus();
 	}
 }
-$(function() {
-	$("#TransactionDate").datepicker({
-		dateFormat : 'dd-M-yy'
-	});
-});
 
-function ViewAllReport()
+function GetPensionReport()
 {	    
 	   
 	var usr_brn = "<%= session.getAttribute("BranchCode")%>";	
-	var DataString="loggedBranch="+usr_brn+"&ReportType="+document.getElementById("ReportType").value+
-	"&BranchCode="+document.getElementById("BranchCode").value+
-	"&glcode="+document.getElementById("glcode").value;
+	var DataString="loggedBranch="+usr_brn+"&MonthCode="+document.getElementById("MonthCode").value
+	+"&Year="+document.getElementById("Year").value+"&ReportType="+document.getElementById("ReportType").value+
+	"&pensionDist="+document.getElementById("pensionDist").value+"&BonusType="+document.getElementById("BonusType").value+"&ActivationType=A";
 	
 		var xhttp = new XMLHttpRequest();		
-		xhttp.open("POST", "TranReportServlet?"+DataString, true);
+		xhttp.open("POST", "PenReportServlet?"+DataString, true);
 		
 		xhttp.responseType = "blob";
 		xhttp.onreadystatechange = function () {
@@ -339,39 +271,79 @@ function ViewAllReport()
 <body onload="initValues()">
 		<center>
 		<h1 style="color:white;">Bangladesh House Building Finance Corporation</h1>
-		<h3  style="color:white;"> General Accounting System System</h3>
+		<h3 style="color:white;">Pension Payment System</h3>
 		
 		<div class="container">
 		<fieldset>	
-		   <legend>Transaction Details</legend> 			
+		   <legend>Bonus Report Lists</legend> 			
 				<div class="row">
 					<div class="col-25">
-						<label for="BranchCode">BranchCode</label>
+						<label for="Year">Pension Year</label>
 					</div>
 					<div class="col-45">
-						<input type="text" id="BranchCode" name="BranchCode" onkeypress="BranchCodeValidation(event)">
+						<input type="text" id="Year" name="Year" onkeypress="YearValidation(event)">
 					</div>
 				</div>
 				
 				<div class="row">
 					<div class="col-25">
-						<label for="glcode">GL Code</label>
+							<label for="pensionDist">Branch Location</label>
 					</div>
 					<div class="col-75">
-					<select id="glcode" name="glcode">
-						
-					</select>
+						<select id="pensionDist" name="pensionDist"  onkeypress="pensionDistValidation(event)">
+							<option value="D">Dhaka</option>
+							<option value="O">Outside of Dhaka</option>
+							<option value="A">All[Both Dhaka,Outside of Dhaka]</option>							
+						</select>
 					</div>
 				</div>
-												
+				
+				<div class="row">
+					<div class="col-25">
+							<label for="BonusType">Bonus Type</label>
+					</div>
+					<div class="col-75">
+						<select id="BonusType" name="BonusType"  onkeypress="pensionDistValidation(event)">
+							<option value="EIDFIT">EID UL Fitor</option>
+							
+							 <option value="NOBOVORSHO">NoboBorsho</option> 
+											
+						</select>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-25">
+							<label for="MonthCode">Pension Month</label>
+					</div>
+					<div class="col-75">
+						<select id="MonthCode" name="MonthCode"  onkeypress="MonthCodeValidation(event)">
+							<option value="1">January</option>
+							<option value="2">February</option>
+							<option value="3">March</option>
+							<option value="4">April</option>
+							<option value="5">May</option>
+							<option value="6">June</option>
+							<option value="7">July</option>
+							<option value="8">August</option>
+							<option value="9">September</option>
+							<option value="10">October</option>
+							<option value="11">November</option>
+							<option value="12">December</option>
+							
+						</select>
+					</div>
+				</div>
+								
 				<div class="row">
 					<div class="col-25">
 							<label for="ReportType">Report Type</label>
 					</div>
 					<div class="col-75">
 						<select id="ReportType" name="ReportType" >
-							<option value="GLStatement">GL Statement</option>
-							<!-- <option value="ViewGLBalance">GL Balance List</option> -->
+							<option value="PensionBonusDetails">Bonus Details Report</option>
+							<option value="PensionBonusAdvice">Bonus Advice Report</option>
+																									
 						</select>
 					</div>
 				</div>
@@ -381,9 +353,8 @@ function ViewAllReport()
 						<label for="report_download"></label>
 					</div>
 					<div class="col-75">
-						<input type="submit" id="report_download" value="Print Report" onclick="ViewAllReport()" > <br>
+						<input type="submit" id="report_download" value="Download" onclick="GetPensionReport()" > <br>
 					</div>
-					
 				</div>													
 		</div>
 		<br><br><br>

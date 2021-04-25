@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<Resource name="jdbc/bhbfc_office" auth="Container" type="javax.sql.DataSource" 
+	driverClassName="oracle.jdbc.OracleDriver" 
+	url="jdbc:oracle:thin:@192.168.151.11:1576/EMPDB" 
+	username="INNOVATION" 
+	password="bhbfc$2021" 
+	maxActive="10000"
+	maxTotal="10000" 	
+	maxIdle="5000" 		
+    minIdle="100"	
+	maxWaitMillis="-1" />
+</Context>

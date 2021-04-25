@@ -21,10 +21,9 @@
     height: 2.5em;
 } */
 body {
- /*  background-image: url('../../Media/bg6.jpg') ;
-  background-repeat: no-repeat;
-  background-size:  /* 300px 100px    auto ; */
-  background-color: #ffffcc; 
+ 
+  background-color: #006666; 
+
 }
 
  {
@@ -60,7 +59,7 @@ input[type=submit]:hover {
 
 .container {
 	border-radius: 5px;
-	background-color: #ccff99;
+	background-color: #ffffff;
 	padding: 20px;
 }
 
@@ -173,7 +172,17 @@ float: left;
 </style>
 <script type="text/javascript">
 
-
+var DataMap="";
+function SetValue(key,value){
+	var Node = "<cell> <key>"+key+"</key> <value>"+value+"</value> </cell>";
+	DataMap=DataMap+Node;
+}
+function clear(){
+	DataMap="";
+}
+function xmlFinal(){
+	DataMap="data=<root>"+DataMap+"</root>";
+}
 
 
 function autocomplete(inp, arr) {
@@ -245,19 +254,6 @@ function autocomplete(inp, arr) {
 
 
 
-var DataMap="";
-function SetValue(key,value){
-	var Node = key+"*"+value;
-	if(DataMap!=""){
-		DataMap=DataMap+"$"+Node;
-	}
-	else{
-		DataMap="data="+Node;
-	}
-}
-function clear(){
-	DataMap="";
-}
 /* cause google chrome cant assign fetched data in front end form */
 var emp_joining_date = "";
 var emp_dob = "";
@@ -301,6 +297,7 @@ function NothiValidation(event){
 	SetValue("NothiNo", document.getElementById("NothiNo").value);
 	SetValue("Class", "PensionValidation");
 	SetValue("Method", "FetchPensionEmployeeData");	
+	xmlFinal();
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
@@ -345,7 +342,7 @@ function NothiValidation(event){
 		}
 	};
 	
-	xhttp.open("POST", "HTTPValidator?" + DataMap, true);
+	xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
 	xhttp.send();					
 
 		}
@@ -502,7 +499,7 @@ function AddPensionEmployeeInfo(event)
 		SetValue("PensionType",document.getElementById("PensionType").value);	
 		SetValue("Class","PensionValidation");
 		SetValue("Method","AddPensionEmployee");
-		
+		xmlFinal();
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
@@ -524,8 +521,8 @@ function AddPensionEmployeeInfo(event)
 </head>
 <body onload="initValues()">
 	<center>
-		<h1>Bangladesh House Building Finance Corporation</h1>
-		<h4>Pension Payment System</h4>
+		<h1 style="color:white;">Bangladesh House Building Finance Corporation</h1>
+		<h3 style="color:white;">Pension Payment System</h3>
 		<div class="container">
 		   	
 		      <fieldset>

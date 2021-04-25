@@ -31,9 +31,7 @@ public class AjaxCallController {
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
-		
-		
+		}				
 		OutputMap.put("ERROR_MSG", "");
 		String GsonString = "";
 		Gson gsonObj = new Gson();

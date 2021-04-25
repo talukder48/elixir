@@ -14,7 +14,7 @@
 </head>
 <style> 
 body {
-  background-color: #cccccc;
+  background-color: #006666;
  /*  background-image: url('../../Media/bg6.jpg') ;
   background-repeat: repeat;
   background-size: /* 300px 100px   auto ; */
@@ -53,7 +53,7 @@ input[type=submit]:hover {
 
 .container {
 	border-radius: 5px;
-	background-color: #ccff99;
+	background-color: #ffffff;
 	padding: 20px;
 }
 
@@ -456,8 +456,8 @@ function ViewBatchNumber()
 </head>
 <body onload="initValues()">
 		<center>
-		<h1>Bangladesh House Building Finance Corporation</h1>
-		<h4> General Accounting System System</h4>
+		<h1 style="color:white;">Bangladesh House Building Finance Corporation</h1>
+		<h3  style="color:white;"> General Accounting System System</h3>
 		
 		<div class="container">
 		<fieldset>	

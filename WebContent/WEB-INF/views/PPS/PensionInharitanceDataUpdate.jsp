@@ -18,10 +18,9 @@
     height: 2.5em;
 } */
 body {
- /*  background-image: url('../../Media/bg6.jpg') ;
-  background-repeat: no-repeat;
-  background-size:  /* 300px 100px    auto ; */
-  background-color: #ffffcc; 
+ 
+  background-color: #006666; 
+
 }
 
  {
@@ -57,7 +56,7 @@ input[type=submit]:hover {
 
 .container {
 	border-radius: 5px;
-	background-color: #ccff99;
+	background-color:#ffffff;
 	padding: 20px;
 }
 
@@ -170,10 +169,19 @@ float: left;
 </style>
 
 <script type="text/javascript">
+var DataMap="";
+function SetValue(key,value){
+	var Node = "<cell> <key>"+key+"</key> <value>"+value+"</value> </cell>";
+	DataMap=DataMap+Node;
+}
+function clear(){
+	DataMap="";
+}
+function xmlFinal(){
+	DataMap="data=<root>"+DataMap+"</root>";
+}
+
 var BD_DistrictList = ["Bagerhat","Bandarban","Barguna","Barisal","Bhola","Bogra","Brahmanbaria","Chandpur","Chittagong","Chuadanga","Comilla","Cox's Bazar","Dhaka","Dinajpur","Faridpur","Feni","Gaibandha","Gazipur","Gopalganj","Habiganj","Jaipurhat","Jamalpur","Jessore","Jhalakati","Jhenaidah","Khagrachari","Khulna","Kishoreganj","Kurigram","Kustia","Lakshmipur","Lalmonirhat","Madaripur","Magura","Manikganj","Meherpur","Moulvibazar","Munshiganj","Mymensingh","Naogaon","Narail","Narayanganj","Narsingdi","Natore","Nawabganj","Netrakona","Nilphamari","Noakhali","Pabna","Panchagarh","Chattagram","Patuakhali","Pirojpur","Rajbari","Rajshahi","Rangpur","Satkhira","Shariatpur","Sherpur","Sirajganj","Sunamganj","Sylhet","Tangail","Thakurgaon"];
-
-
-
 function autocomplete(inp, arr) {
 	  var currentFocus;
 	  inp.addEventListener("input", function(e) {
@@ -250,20 +258,7 @@ function autocomplete(inp, arr) {
 	    var filter = /^([012]?\d|3[01])-([Jj][Aa][Nn]|[Ff][Ee][bB]|[Mm][Aa][Rr]|[Aa][Pp][Rr]|[Mm][Aa][Yy]|[Jj][Uu][Nn]|[Jj][u]l|[aA][Uu][gG]|[Ss][eE][pP]|[oO][Cc]|[Nn][oO][Vv]|[Dd][Ee][Cc])-(19|20)\d\d$/
 	    return filter.test(myDate);
 	}
-	var DataMap="";
-	function SetValue(key,value){
-		var Node = key+"*"+value;
-		if(DataMap!=""){
-			DataMap=DataMap+"$"+Node;
-		}
-		else{
-			DataMap="data="+Node;
-		}
-	}
-	function clear(){
-		DataMap="";
-	}
-
+	
 	function initValues() {
 		document.getElementById("NothiNo").value = "";
 		document.getElementById("EmployeeName").value = "";
@@ -296,6 +291,7 @@ function autocomplete(inp, arr) {
 		SetValue("NothiNo", document.getElementById("NothiNo").value);
 		SetValue("Class", "PensionValidation");
 		SetValue("Method", "FetchPensionEmployeeData");	
+		xmlFinal();
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
@@ -315,7 +311,7 @@ function autocomplete(inp, arr) {
 			}
 		};
 		
-		xhttp.open("POST", "HTTPValidator?" + DataMap, true);
+		xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
 		xhttp.send();					
 
 		}
@@ -328,6 +324,7 @@ function autocomplete(inp, arr) {
 		SetValue("SerialNo", document.getElementById("SerialNo").value);
 		SetValue("Class", "PensionValidation");
 		SetValue("Method", "FetchPensionInharitance");	
+		xmlFinal();
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
@@ -376,7 +373,7 @@ function autocomplete(inp, arr) {
 			}
 		};
 		
-		xhttp.open("POST", "HTTPValidator?" + DataMap, true);
+		xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
 		xhttp.send();					
 
 		}
@@ -499,7 +496,7 @@ function AddPensionInharitanceInfo(event)
 		SetValue("BranchDistrict",document.getElementById("BranchDistrict").value);		
 		SetValue("Class","PensionValidation");
 		SetValue("Method","AddPensionInharitance");
-		
+		xmlFinal();
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
@@ -512,7 +509,7 @@ function AddPensionInharitanceInfo(event)
 				}									
 		}
 	};
-	xhttp.open("POST", "HTTPValidator?" + DataMap, true);
+	xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
 	xhttp.send();			
 }	
 	
@@ -529,8 +526,8 @@ $(function() {
 </head>
 <body onload="initValues()">
 	<center>
-	<h1>Bangladesh House Building Finance Corporation</h1>
-		<h4>Pension Payment System</h4>
+	<h1 style="color:white;">Bangladesh House Building Finance Corporation</h1>
+		<h3 style="color:white;">Pension Payment System</h3>
 		<div class="container">
 		
              <fieldset>

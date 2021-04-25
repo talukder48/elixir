@@ -15,7 +15,7 @@ body {
  /*  background-image: url('../../Media/bg6.jpg') ;
   background-repeat: no-repeat;
   background-size:  /* 300px 100px    auto ; */
-  background-color: #ffffcc; 
+  background-color: #006666; 
 }
 table {
 	width: 100%;
@@ -66,15 +66,15 @@ table, th, td {
 	float: center;
 }
 .gridcontainer{
-  background-color: #FAD7A0 ;
+  background-color: #ffffcc ;
 }
 .container {
-background-color: #ccff99;
+background-color: #FAD7A0;
 	border-radius: 5px;
 	padding: 20px;
 }
 .containerfooter{
-background-color: #ccff99
+background-color: #FAD7A0
 }
 
 .row:after {

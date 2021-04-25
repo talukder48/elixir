@@ -58,6 +58,10 @@ public class MenuController {
 	public String PensionYearlyReport() {
 		return "PPS/PensionYearlyReport";		
 	}
+	@RequestMapping(value = "PensionBonusReportView.do")
+	public String PensionBonusReportView() {
+		return "PPS/PensionBonusReportView";		
+	}
 	
 	
 	@RequestMapping(value = "AccountingVoucherEntryPages.do")

@@ -8,12 +8,10 @@
 </head>
 <style> 
 body {
-  background-color: #ffffcc;
- /*  background-image: url('../../Media/bg6.jpg') ;
-  background-repeat: repeat;
-  background-size: /* 300px 100px   auto ; */
-}
+ 
+  background-color: #006666; 
 
+}
  {
 	box-sizing: border-box;
 }
@@ -47,7 +45,7 @@ input[type=submit]:hover {
 
 .container {
 	border-radius: 5px;
-	background-color: #ccff99;
+	background-color: #ffffff;
 	padding: 20px;
 }
 
@@ -191,16 +189,14 @@ float: left;
 <script type="text/javascript">
 var DataMap="";
 function SetValue(key,value){
-	var Node = key+"*"+value;
-	if(DataMap!=""){
-		DataMap=DataMap+"$"+Node;
-	}
-	else{
-		DataMap="data="+Node;
-	}
+	var Node = "<cell> <key>"+key+"</key> <value>"+value+"</value> </cell>";
+	DataMap=DataMap+Node;
 }
 function clear(){
 	DataMap="";
+}
+function xmlFinal(){
+	DataMap="data=<root>"+DataMap+"</root>";
 }
 
 function initValues(){
@@ -226,6 +222,7 @@ function BranchCodeValidation(event){
 		SetValue("branch_code",document.getElementById("Branch_Code").value);
 		SetValue("Class","PRMSValidator");
 		SetValue("Method","BranchKeyPress");
+		xmlFinal();
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
@@ -241,7 +238,7 @@ function BranchCodeValidation(event){
 				}
 			}
 		};
-		xhttp.open("POST", "HTTPValidator?" + DataMap, true);
+		xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
 		xhttp.send();
 	}
 	else{
@@ -303,8 +300,8 @@ function GetPensionReport()
 </head>
 <body onload="initValues()">
 		<center>
-		<h1>Bangladesh House Building Finance Corporation</h1>
-		<h4>Pension Payment System</h4>
+		<h1 style="color:white;">Bangladesh House Building Finance Corporation</h1>
+		<h3 style="color:white;">Pension Payment System</h3>
 		
 		<div class="container">
 		<fieldset>	
