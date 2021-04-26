@@ -14,8 +14,7 @@
                         
         
         <property name="java-output-path" value="/elixir/build/classes"/>
-                
-        <property name="context-root" value="BHBFC"/>
+        <property name="context-root" value="elixir"/>
                     
     
     </wb-module>

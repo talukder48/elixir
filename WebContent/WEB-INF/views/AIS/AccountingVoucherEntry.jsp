@@ -148,6 +148,7 @@ function loadgllist(){
 	SetValue("loggedBranch", loggedBranch);
 	SetValue("Class", "AccontingParameterSetup");
 	SetValue("Method", "FetchGLData");	
+	xmlFinal()
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
@@ -166,7 +167,7 @@ function loadgllist(){
 			}
 		}
 	};
-	xhttp.open("POST", "TransactionServlet?" + DataMap, true);
+	xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
 	xhttp.send();		
 }
 
@@ -298,18 +299,16 @@ function initValues(){
 
       
     var DataMap="";
-    function SetValue(key,value){
-    	var Node = key+"*"+value;
-    	if(DataMap!=""){
-    		DataMap=DataMap+"$"+Node;
-    	}
-    	else{
-    		DataMap="data="+Node;
-    	}
-    }
-    function clear(){
-    	DataMap="";
-    }   
+	function SetValue(key,value){
+		var Node = "<cell> <key>"+key+"</key> <value>"+value+"</value> </cell>";
+		DataMap=DataMap+Node;
+	}
+	function clear(){
+		DataMap="";
+	}
+	function xmlFinal(){
+		DataMap="data=<root>"+DataMap+"</root>";
+	}
 
     function refreshValues(){
     	document.getElementById("DrCrType").value="";
@@ -347,6 +346,7 @@ function initValues(){
     			SetValue("gldescription", document.getElementById("glcode").value);
     			SetValue("Class", "AccontingParameterSetup");
     			SetValue("Method", "GLCodeValidation");	
+    			xmlFinal();
     			var xhttp = new XMLHttpRequest();
     			xhttp.onreadystatechange = function() {
     				if (this.readyState == 4 && this.status == 200) {
@@ -360,7 +360,7 @@ function initValues(){
     					}
     				}
     			
-    			xhttp.open("POST", "TransactionServlet?" + DataMap, true);
+    			xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
     			xhttp.send();    			
     			}
     		else{
@@ -621,7 +621,8 @@ function initValues(){
 	            	SetValue("TransactionAmtCR", document.getElementById("TransactionAmtCR").value);
 	            	SetValue("asonDate", document.getElementById("asonDate").value);
 	            	SetValue("User_Id", User_Id);
-	            	SetValue("loggedBranch", loggedBranch);        	
+	            	SetValue("loggedBranch", loggedBranch);  
+	            	xmlFinal();
 	            	var xhttp = new XMLHttpRequest();
 	            	xhttp.onreadystatechange = function() {
 	            		if (this.readyState == 4 && this.status == 200) {
@@ -634,7 +635,7 @@ function initValues(){
 	            			}
 	            		}
 	            	};
-	            	xhttp.open("POST", "TransactionServlet?" + "grid=" + dataGrid + "&"+ DataMap, true);
+	            	xhttp.open("POST", "CommomAjaxCallHandler?" + "grid=" + dataGrid + "&"+ DataMap, true);
 	            	xhttp.send();
 	        		}    	    	
 	    	}  

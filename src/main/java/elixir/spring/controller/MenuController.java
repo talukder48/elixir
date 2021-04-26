@@ -50,11 +50,11 @@ public class MenuController {
 	public String PensionDeductionDataUpdate() {
 		return "PPS/PensionDeductionDataUpdate";		
 	}	
-	@RequestMapping(value = "PensionMonthlyReport.do")
+	@RequestMapping(value = "PensionMonthlyReportView.do")
 	public String PensionMonthlyReport() {
 		return "PPS/PensionMonthlyReport";		
 	}
-	@RequestMapping(value = "PensionYearlyReport.do")
+	@RequestMapping(value = "PensionYearlyReportview.do")
 	public String PensionYearlyReport() {
 		return "PPS/PensionYearlyReport";		
 	}

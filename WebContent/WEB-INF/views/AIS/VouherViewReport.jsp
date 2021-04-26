@@ -197,16 +197,14 @@ float: left;
 <script type="text/javascript">
 var DataMap="";
 function SetValue(key,value){
-	var Node = key+"*"+value;
-	if(DataMap!=""){
-		DataMap=DataMap+"$"+Node;
-	}
-	else{
-		DataMap="data="+Node;
-	}
+	var Node = "<cell> <key>"+key+"</key> <value>"+value+"</value> </cell>";
+	DataMap=DataMap+Node;
 }
 function clear(){
 	DataMap="";
+}
+function xmlFinal(){
+	DataMap="data=<root>"+DataMap+"</root>";
 }
 
 function initValues(){
@@ -220,9 +218,6 @@ function initValues(){
 	entdOn = current_datetime.getDate() + "-" + months[current_datetime.getMonth()] + "-" + current_datetime.getFullYear()
 	document.getElementById("MonthCode").value = dt.getMonth()+1; 
 	
-	if(user == "F9999" || "F1520"){
-		document.getElementById('Branch_Code').readOnly = false;
-	}
 	
 	document.getElementById("BranchCode").focus();
 }
@@ -233,6 +228,7 @@ function BranchCodeValidation(event){
 		SetValue("branch_code",document.getElementById("Branch_Code").value);
 		SetValue("Class","PRMSValidator");
 		SetValue("Method","BranchKeyPress");
+		xmlFinal();
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
@@ -287,7 +283,7 @@ function AuthBatchNumber(event){
 		    SetValue("BatchNumber",document.getElementById("BatchNumber").value);		    
 			SetValue("Class","AccountingManagement");
 			SetValue("Method","AuthorizeTransaction");
-			
+			xmlFinal();
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
@@ -300,7 +296,7 @@ function AuthBatchNumber(event){
 						}	
 				}
 			};
-			xhttp.open("POST", "TransactionServlet?" + DataMap, true);
+			xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
 			xhttp.send();		  
 	  } else {
 		  document.getElementById("authbatch").focus();

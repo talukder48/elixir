@@ -197,23 +197,23 @@ float: left;
 <script type="text/javascript">
 var DataMap="";
 function SetValue(key,value){
-	var Node = key+"*"+value;
-	if(DataMap!=""){
-		DataMap=DataMap+"$"+Node;
-	}
-	else{
-		DataMap="data="+Node;
-	}
+	var Node = "<cell> <key>"+key+"</key> <value>"+value+"</value> </cell>";
+	DataMap=DataMap+Node;
 }
 function clear(){
 	DataMap="";
 }
+function xmlFinal(){
+	DataMap="data=<root>"+DataMap+"</root>";
+}
+
 function loadgitem(){
 	clear();	
 	var loggedBranch="<%=session.getAttribute("BranchCode")%>";
 	SetValue("loggedBranch", loggedBranch);
 	SetValue("Class", "AccontingParameterSetup");
 	SetValue("Method", "FetchGLData");	
+	xmlFinal();
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
@@ -235,7 +235,7 @@ function loadgitem(){
 			}
 		}
 	};
-	xhttp.open("POST", "TransactionServlet?" + DataMap, true);
+	xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
 	xhttp.send();		
 }
 
@@ -256,6 +256,7 @@ function BranchCodeValidation(event){
 		SetValue("branch_code",document.getElementById("Branch_Code").value);
 		SetValue("Class","PRMSValidator");
 		SetValue("Method","BranchKeyPress");
+		xmlFinal();
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
@@ -271,7 +272,7 @@ function BranchCodeValidation(event){
 				}
 			}
 		};
-		xhttp.open("POST", "HTTPValidator?" + DataMap, true);
+		xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
 		xhttp.send();
 	}
 	else{
