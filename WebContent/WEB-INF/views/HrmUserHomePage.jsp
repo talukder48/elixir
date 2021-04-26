@@ -36,7 +36,7 @@
 	display: none;
 	position: absolute;
 	background-color: #f1f1f1;
-	min-width: 180px;
+	min-width: 190px;
 	overflow: auto;
 	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 	z-index: 1;
@@ -105,11 +105,11 @@ window.onclick = function(event) {
 			<button onclick="myFunction()" class="dropbtn">HR Management Menu</button>
 			<div id="myDropdown" class="dropdown-content">
 				<a id="1" href="HRM/addEmployeeRecord.do">Employee Record Entry</a>
-				<a id="2" href="HRM/addLeaveRecord.do">Leave Record Entry</a> <a
-					id="3" href="HRM/addTransferRecord.do">Transfer Record Enty</a> <a
-					id="4" href="HRM/addIncrementRecord.do">Increment Record</a> <a
-					id="5" href="HRM/addPromotionRecord.do">Promotion Record</a> <a
-					id="6" href="HRM/addSuspendRecord.do">Suspend Record</a>
+				<a id="3" href="HRM/addTransferRecord.do">Transfer Record Entry</a> 
+				<a id="4" href="HRM/addIncrementRecord.do">Increment Record Entry</a> 
+				<a id="5" href="HRM/addPromotionRecord.do">Promotion Record Entry</a>
+				<a id="6" href="HRM/addSuspendRecord.do">Suspend Record Entry</a>
+				<a id="2" href="HRM/addLeaveRecord.do">All Leave Record Entry</a> 
 			</div>
 		</div>
 

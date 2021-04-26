@@ -621,7 +621,8 @@ function initValues(){
 	            	SetValue("TransactionAmtCR", document.getElementById("TransactionAmtCR").value);
 	            	SetValue("asonDate", document.getElementById("asonDate").value);
 	            	SetValue("User_Id", User_Id);
-	            	SetValue("loggedBranch", loggedBranch);  
+	            	SetValue("gridData", dataGrid);  
+	            	SetValue("loggedBranch", loggedBranch);
 	            	xmlFinal();
 	            	var xhttp = new XMLHttpRequest();
 	            	xhttp.onreadystatechange = function() {
@@ -635,7 +636,7 @@ function initValues(){
 	            			}
 	            		}
 	            	};
-	            	xhttp.open("POST", "CommomAjaxCallHandler?" + "grid=" + dataGrid + "&"+ DataMap, true);
+	            	xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
 	            	xhttp.send();
 	        		}    	    	
 	    	}  
