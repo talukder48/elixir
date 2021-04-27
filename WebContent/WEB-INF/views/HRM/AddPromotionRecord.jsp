@@ -117,19 +117,17 @@ float: left;
 </style>
 
 <script type="text/javascript">
-	var DataMap="";
-	function SetValue(key,value){
-		var Node = key+"*"+value;
-		if(DataMap!=""){
-			DataMap=DataMap+"$"+Node;
-		}
-		else{
-			DataMap="data="+Node;
-		}
-	}
-	function clear(){
-		DataMap="";
-	}
+var DataMap="";
+function SetValue(key,value){
+	var Node = "<cell> <key>"+key+"</key> <value>"+value+"</value> </cell>";
+	DataMap=DataMap+Node;
+}
+function clear(){
+	DataMap="";
+}
+function xmlFinal(){
+	DataMap="data=<root>"+DataMap+"</root>";
+}
 
 	function initValues() {
 		document.getElementById("EmployeeId").value="";
@@ -154,6 +152,7 @@ float: left;
 			SetValue("EmployeeId",document.getElementById("EmployeeId").value);
 			SetValue("Class","PRMSValidator");
 			SetValue("Method","EmployeeIdValidation");
+			xmlFinal();
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
@@ -169,7 +168,7 @@ float: left;
 						}									
 				}
 			};
-			xhttp.open("POST", "HTTPValidator?" + DataMap, true);
+			xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
 			xhttp.send();			
 		}
 	}
@@ -199,7 +198,7 @@ float: left;
 					SetValue("branch_code",document.getElementById("NewBranch").value);
 					SetValue("Class","PRMSValidator");
 					SetValue("Method","BranchKeyPress");
-					
+					xmlFinal();
 					var xhttp = new XMLHttpRequest();
 					xhttp.onreadystatechange = function() {
 						if (this.readyState == 4 && this.status == 200) {
@@ -212,7 +211,7 @@ float: left;
 							}
 						}
 					};
-					xhttp.open("POST", "HTTPValidator?" + DataMap, true);
+					xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
 					xhttp.send();
 
 				}
@@ -315,7 +314,7 @@ function IsValidDate(myDate) {
 				SetValue("effective_date",document.getElementById("EffectiveDate").value);
 				SetValue("Class","AdminOperation");
 				SetValue("Method","EmployeeInfoUpdation");
-				
+				xmlFinal();
 			  var xhttp = new XMLHttpRequest();
 				xhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
@@ -329,7 +328,7 @@ function IsValidDate(myDate) {
 					}
 				};			
 
-				xhttp.open("POST", "HTTPValidator?" + DataMap, true);
+				xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
 				xhttp.send();
 		  }
 		  else{

@@ -98,7 +98,7 @@ window.onclick = function(event) {
 <body onload="init()">
 	<f:view>
 		<div align="center">
-			<h1>Bangladesh House building Finance Corporation</h1>
+			<h1>Bangladesh House Building Finance Corporation</h1>
 		</div>
 
 		<div class="dropdown">

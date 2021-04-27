@@ -14,7 +14,9 @@
 <script src="http://domain.tld/path/to/external.js"
 	type="text/javascript"></script>
 <style>
-.dropbtn {
+
+
+.AccEntyDropBtn {
 	background-color: #3498DB;
 	color: white;
 	padding: 16px;
@@ -23,16 +25,16 @@
 	cursor: pointer;
 }
 
-.dropbtn:hover, .dropbtn:focus {
+.AccEntyDropBtn:hover, .AccEntyDropBtn:focus {
 	background-color: #2980B9;
 }
 
-.dropdown {
+.AccEntyDropDown {
 	position: relative;
 	display: inline-block;
 }
 
-.dropdown-content {
+.AccEntyDropDown-content {
 	display: none;
 	position: absolute;
 	background-color: #f1f1f1;
@@ -42,16 +44,58 @@
 	z-index: 1;
 }
 
-.dropdown-content a {
+.AccEntyDropDown-content a {
 	color: black;
 	padding: 12px 16px;
 	text-decoration: none;
 	display: block;
 }
 
-.dropdown a:hover {
+.AccEntyDropDown a:hover {
 	background-color: #ddd;
 }
+
+.AccReportDropBtn {
+	background-color: #3498DB;
+	color: white;
+	padding: 16px;
+	font-size: 16px;
+	border: none;
+	cursor: pointer;
+}
+
+.AccReportDropBtn:hover, .AccReportDropBtn:focus {
+	background-color: #2980B9;
+}
+
+.AccReportDropDown {
+	position: relative;
+	display: inline-block;
+}
+
+.AccReportDropDown-content {
+	display: none;
+	position: absolute;
+	background-color: #f1f1f1;
+	min-width: 190px;
+	overflow: auto;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+.AccReportDropDown-content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+
+.AccReportDropDown a:hover {
+	background-color: #ddd;
+}
+
+
+
 
 .show {
 	display: block;
@@ -72,18 +116,18 @@ function xmlFinal(){
 function init()
 {
 	var ArrayList="<%=session.getAttribute("Array")%>";
-	document.getElementById("myDropdown").innerHTML = links;
+	document.getElementById("accDropDown").innerHTML = links;
 	
 }
 
 
-function myFunction() {
-  document.getElementById("myDropdown").classList.toggle("show");
+function AccEntyFunction() {
+  document.getElementById("accDropDown").classList.toggle("show");
 }
 
 window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
+  if (!event.target.matches('.AccEntyDropBtn')) {
+    var dropdowns = document.getElementsByClassName("AccEntyDropDown-content");
     var i;
     for (i = 0; i < dropdowns.length; i++) {
       var openDropdown = dropdowns[i];
@@ -93,6 +137,24 @@ window.onclick = function(event) {
     }
   }
 }
+
+
+function AccReportFunction() {
+	  document.getElementById("reportDropdown").classList.toggle("show");
+	}
+
+	window.onclick = function(event) {
+	  if (!event.target.matches('.AccReportDropBtn')) {
+	    var dropdowns = document.getElementsByClassName("AccReportDropDown-content");
+	    var i;
+	    for (i = 0; i < dropdowns.length; i++) {
+	      var openDropdown = dropdowns[i];
+	      if (openDropdown.classList.contains('show')) {
+	        openDropdown.classList.remove('show');
+	      }
+	    }
+	  }
+	}
 </script>
 </head>
 <body onload="init()">
@@ -101,22 +163,30 @@ window.onclick = function(event) {
 
 
 		<div align="center">
-			<h1>Bangladesh House building Finance Corporation</h1>
+			<h1>Bangladesh House Building Finance Corporation</h1>
 		</div>
 
-		<div class="dropdown">
-			<button onclick="myFunction()" class="dropbtn"> General Accounting </button>
-			<div id="myDropdown" class="dropdown-content">
-				<a id="1" href="AccountingVoucherEntryPages.do"> Voucher Entry</a>
-				<a id="2" href="TransactionEntryValidation.do">Voucher Validation   </a> 
-				<a id="3" href="NewGlOpeningPages.do">New Account  </a> 
-				<a id="4" href="VouherViewReport.do">Voucher Print </a> 
-				<a id="5" href="CashBookViewReport.do">Cash Book </a> 
-				<a id="6" href="GLStatementViewReport.do">GL Statement </a> 
-				<a id="7" href="GLRegisterViewReport.do">GL Register </a>
-				<a id="8" href="TrailBalanceViewReport.do"> Trail Balance</a>
-												
+		<div class="AccEntyDropDown">
+			<button onclick="AccEntyFunction()" class="AccEntyDropBtn">  Entry Module    [Accounting] </button>
+			<div id="accDropDown" class="AccEntyDropDown-content">
+				<a id="1" href="AccountingVoucherEntryPages.do"> New Voucher Entry Form </a>
+				<a id="2" href="TransactionEntryValidation.do">Voucher Validation [Reject,Checking,Authorize]  </a> 
+				<a id="3" href="NewGlOpeningPages.do">Office Wise New Account Open  </a> 																
 			</div>
+			<br /><br /><br />
+			
+			<div class="AccReportDropDown">
+			<button onclick="AccReportFunction()" class="AccReportDropBtn">Report Module [Accounting]</button>
+			<div id="reportDropdown" class="AccReportDropDown-content">
+				<a id="4" href="VouherViewReport.do">Single Voucher Print </a> 
+				<a id="5" href="CashBookViewReport.do">Cash Book[Day Book] Report </a> 
+				<a id="6" href="GLStatementViewReport.do">General Ledger Statement </a> 
+				<a id="7" href="GLRegisterViewReport.do">General Ledger Register[Subsidiary] </a>
+				<a id="8" href="TrailBalanceViewReport.do">Financial Statements[TB,BS,PL]</a>
+			</div>
+			
+		</div>
+			
 		</div>
 
 			

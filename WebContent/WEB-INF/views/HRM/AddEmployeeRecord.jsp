@@ -125,16 +125,14 @@ float: left;
 <script type="text/javascript">
 var DataMap="";
 function SetValue(key,value){
-	var Node = key+"*"+value;
-	if(DataMap!=""){
-		DataMap=DataMap+"$"+Node;
-	}
-	else{
-		DataMap="data="+Node;
-	}
+	var Node = "<cell> <key>"+key+"</key> <value>"+value+"</value> </cell>";
+	DataMap=DataMap+Node;
 }
 function clear(){
 	DataMap="";
+}
+function xmlFinal(){
+	DataMap="data=<root>"+DataMap+"</root>";
 }
 /* cause google chrome cant assign fetched data in front end form */
 var emp_joining_date = "";
@@ -174,7 +172,7 @@ function EmployeeIdValidation(event){
 		SetValue("EmployeeId",document.getElementById("EmployeeId").value);
 		SetValue("Class","AdminOperation");
 		SetValue("Method","FetchEmpData");
-		
+		xmlFinal();
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
@@ -217,7 +215,7 @@ function EmployeeIdValidation(event){
 			}
 		};
 		
-		xhttp.open("POST", "HTTPValidator?" + DataMap, true);
+		xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
 		xhttp.send();					
 	}
 }
@@ -234,6 +232,7 @@ function BranchCodeValidation(event){
 		SetValue("branch_code",document.getElementById("BranchCode").value);
 		SetValue("Class","PRMSValidator");
 		SetValue("Method","BranchKeyPress");
+		xmlFinal();
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
@@ -249,7 +248,7 @@ function BranchCodeValidation(event){
 				}
 			}
 		};
-		xhttp.open("POST", "HTTPValidator?" + DataMap, true);
+		xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
 		xhttp.send();
 	}
 	else{
@@ -395,10 +394,10 @@ function AddEmployeeInfo(event)
 		SetValue("SeniorityCode",document.getElementById("SeniorityCode").value);
 		SetValue("Address",document.getElementById("Address").value);
 		SetValue("ReligionType",document.getElementById("ReligionType").value);
-		SetValue("HighestDegree",document.getElementById("HighestDegree").value);
-		
+		SetValue("HighestDegree",document.getElementById("HighestDegree").value);		
 		SetValue("Class","AdminOperation");
 		SetValue("Method","AddNewEmployee");
+		xmlFinal();
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
@@ -411,7 +410,7 @@ function AddEmployeeInfo(event)
 				}									
 		}
 	};
-	xhttp.open("POST", "HTTPValidator?" + DataMap, true);
+	xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
 	xhttp.send();			
 }
 
