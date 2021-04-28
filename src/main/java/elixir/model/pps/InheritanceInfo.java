@@ -1,4 +1,4 @@
-package elixir.pps.model;
+package elixir.model.pps;
 
 public class InheritanceInfo {
 

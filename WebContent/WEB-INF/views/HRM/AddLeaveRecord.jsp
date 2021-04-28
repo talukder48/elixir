@@ -326,11 +326,19 @@ function IsValidDate(myDate) {
 						<label for="LeaveType">Leave Type</label>
 					</div>
 					<div class="col-20">
-						<select id="LeaveType" name="LeaveType"  maxlength="45" onkeypress="ActivationTypeValidator(event)">
-							
-							<option value="E">E-Earn Leave</option>	
-							<option value="M">M-Medical</option>
-							<option value="C">C-Casual Leave</option>	
+						<select id="LeaveType" name="LeaveType"   onkeypress="ActivationTypeValidator(event)" style="width: 350px;">
+							 
+							<option value="1">Outstanding Leave</option>	
+							<option value="2">Special Handicap Related Leave</option>
+							<option value="3">Education Leave</option>
+							<option value="4">Post Retirement Leave</option>
+							<option value="5">Maternity Leave</option>
+							<option value="6">Full Average Payment Leave</option>	
+							<option value="7">Half Average Payment Leave</option>
+							<option value="8">Quarantine Leave</option>	
+							<option value="9">Medical Leave</option>
+							<option value="10">Casual Leave</option>
+								
 												
 						</select>
 					</div>

@@ -1,4 +1,4 @@
-package elixir.hrm.model;
+package elixir.model.hrm;
 
 public class Employee {
 	private String empId;
