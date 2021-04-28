@@ -104,12 +104,12 @@ window.onclick = function(event) {
 		<div class="dropdown">
 			<button onclick="myFunction()" class="dropbtn">HR Management Menu</button>
 			<div id="myDropdown" class="dropdown-content">
-				<a id="1" href="HRM/addEmployeeRecord.do">Employee Record Entry</a>
-				<a id="3" href="HRM/addTransferRecord.do">Transfer Record Entry</a> 
-				<a id="4" href="HRM/addIncrementRecord.do">Increment Record Entry</a> 
-				<a id="5" href="HRM/addPromotionRecord.do">Promotion Record Entry</a>
-				<a id="6" href="HRM/addSuspendRecord.do">Suspend Record Entry</a>
-				<a id="2" href="HRM/addLeaveRecord.do">All Leave Record Entry</a> 
+				<a id="1" href="addEmployeeRecord.do">Employee Record Entry</a>
+				<a id="3" href="addTransferRecord.do">Transfer Record Entry</a> 
+				<a id="4" href="addIncrementRecord.do">Increment Record Entry</a> 
+				<a id="5" href="addPromotionRecord.do">Promotion Record Entry</a>
+				<a id="6" href="addSuspendRecord.do">Suspend Record Entry</a>
+				<a id="2" href="addLeaveRecord.do">All Leave Record Entry</a> 
 			</div>
 		</div>
 

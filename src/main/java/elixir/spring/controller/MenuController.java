@@ -5,28 +5,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class MenuController {
-	@RequestMapping(value = "HRM/addEmployeeRecord.do")
-	public String AddEmployeeMenuParser() {
+	@RequestMapping(value = "addEmployeeRecord.do")
+	public String addEmployeeRecord() {
 		return "HRM/AddEmployeeRecord";		
 	}
-	@RequestMapping(value = "HRM/addIncrementRecord.do")
-	public String AddIncrementMenuParser() {
+	@RequestMapping(value = "addIncrementRecord.do")
+	public String addIncrementRecord() {
 		return "HRM/AddIncrementRecord";		
 	}
-	@RequestMapping(value = "HRM/addLeaveRecord.do")
-	public String AddLeaveMenuParser() {
+	@RequestMapping(value = "addLeaveRecord.do")
+	public String addLeaveRecord() {
 		return "HRM/AddLeaveRecord";		
 	}
-	@RequestMapping(value = "HRM/addPromotionRecord.do")
-	public String AddPromotionMenuParser() {
+	@RequestMapping(value = "addPromotionRecord.do")
+	public String addPromotionRecord() {
 		return "HRM/AddPromotionRecord";		
 	}
-	@RequestMapping(value = "HRM/addSuspendRecord.do")
-	public String AddSuspendMenuParser() {
+	@RequestMapping(value = "addSuspendRecord.do")
+	public String addSuspendRecord() {
 		return "HRM/AddSuspendRecord";		
 	}
-	@RequestMapping(value = "HRM/addTransferRecord.do")
-	public String AddTransferMenuParser() {
+	@RequestMapping(value = "addTransferRecord.do")
+	public String addTransferRecord() {
 		return "HRM/AddTransferRecord";		
 	}
 	
