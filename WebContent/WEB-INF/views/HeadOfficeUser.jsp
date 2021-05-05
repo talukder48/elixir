@@ -328,15 +328,15 @@ function AccReportFunction() {
 		<br /><br />
 		
 		<div class="dropdown">
-			<button onclick="myFunction()" class="dropbtn">Management Information System</button>
+			<button onclick="myFunction()" class="dropbtn">Pension Payment System </button>
 			<div id="myDropdown" class="dropdown-content">
-				<a id="1" href="misLoanSanctionAndDisbursement.do">Loan Sanction & Disbursement</a>
-				<a id="2" href="misLoanRecovery.do">Loan Recovery [UC,CL]</a> 
-				<a id="3" href="misAuditObjectionDisposal.do">Disposal of Audit Objection</a> 
-				<a id="4" href="misKharidabariData.do">Kharidabari Data</a>
-				<a id="5" href="misCourtCaseSettlementData.do">Court Case Settlement </a>
-				<a id="6" href="misFaultyLoanCaseDeedReturn.do">Deed Return of Faulty Loan</a>
-				<a id="7" href="viewMISReport.do">MIS Report Module</a> 
+				<a id="1" href="PensionNothiDataUpdate.do"> Pension Employee Record Entry</a>
+				<a id="2" href="PensionInharitanceDataUpdate.do">Inheritance Record Entry </a> 
+				<a id="3" href="PensionAllwanceDataUpdate.do">Allowance Record Enty</a> 
+				<a id="4" href="PensionDeductionDataUpdate.do">Deduction Record Entry</a> 
+				<a id="5" href="PensionMonthlyReportView.do">Monthly Report</a> 
+				<a id="6" href="PensionYearlyReportview.do">Yearly Report</a>
+				<a id="7" href="PensionBonusReportView.do">Bonus Report</a>
 			</div>
 		</div>
 			

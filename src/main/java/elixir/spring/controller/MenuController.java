@@ -68,14 +68,33 @@ public class MenuController {
 	public String AccountingVoucherEntryPages() {
 		return "AIS/AccountingVoucherEntry";		
 	}
+	@RequestMapping(value = "VoucherEntryItemWise.do")
+	public String VoucherEntryItemWise() {
+		return "AIS/VoucherEntryItemWise";		
+	}
+	
 	@RequestMapping(value = "TransactionEntryValidation.do")
 	public String TransactionEntryValidation() {
 		return "AIS/TransactionEntryValidation";		
 	}
+	
+	@RequestMapping(value = "BranchWiseItemsCreation.do")
+	public String BranchWiseItemsCreation() {
+		return "AIS/BranchWiseItemsCreation";		
+	}	
+	
 	@RequestMapping(value = "NewGlOpeningPages.do")
 	public String NewGlOpeningPages() {
 		return "AIS/NewGlOpeningPages";		
 	}
+	
+	@RequestMapping(value = "GLOpeningBalance.do")
+	public String GLOpeningBalance() {
+		return "AIS/GLOpeningBalance";		
+	}
+	
+	
+	
 	@RequestMapping(value = "VouherViewReport.do")
 	public String VouherViewReport() {
 		return "AIS/VouherViewReport";		
@@ -95,6 +114,73 @@ public class MenuController {
 	@RequestMapping(value = "TrailBalanceViewReport.do")
 	public String TrailBalanceViewReport() {
 		return "AIS/TrailBalanceViewReport";		
+	}
+	
+	
+	@RequestMapping(value = "addEmployeeBasicData.do")
+	public String addEmployeeBasicData() {
+		return "PRMS/addEmployeeBasicData";		
+	}
+	@RequestMapping(value = "addEmployeeAllowanceData.do")
+	public String addEmployeeAllowanceData() {
+		return "PRMS/addEmployeeAllowanceData";		
+	}
+	@RequestMapping(value = "addEmployeeDeductionData.do")
+	public String addEmployeeDeductionData() {
+		return "PRMS/addEmployeeDeductionData";		
+	}
+	@RequestMapping(value = "addEmployeeIncentiveData.do")
+	public String addEmployeeIncentiveData() {
+		return "PRMS/addEmployeeIncentiveData";		
+	}
+	@RequestMapping(value = "ViewMonthlySalaryReport.do")
+	public String ViewMonthlySalaryReport() {
+		return "PRMS/ViewMonthlySalaryReport";		
+	}	
+	@RequestMapping(value = "ViewFestivalBonusReport.do")
+	public String ViewFestivalBonusReport() {
+		return "PRMS/ViewFestivalBonusReport";		
+	}
+	
+	@RequestMapping(value = "ViewIncentiveReport.do")
+	public String ViewIncentiveReport() {
+		return "PRMS/ViewIncentiveReport";		
+	}
+	
+	@RequestMapping(value = "ViewSalaryCertificate.do")
+	public String ViewSalaryCertificate() {
+		return "PRMS/ViewSalaryCertificate";		
+	}
+	
+	@RequestMapping(value = "misLoanSanctionAndDisbursement.do")
+	public String misLoanSanctionAndDisbursement() {
+		return "MIS/misLoanSanctionAndDisbursement";		
+	}
+	@RequestMapping(value = "misLoanRecovery.do")
+	public String misLoanRecovery() {
+		return "MIS/misLoanRecovery";		
+	}
+	
+	@RequestMapping(value = "misAuditObjectionDisposal.do")
+	public String misAuditObjectionDisposal() {
+		return "MIS/misAuditObjectionDisposal";		
+	}
+	
+	@RequestMapping(value = "misKharidabariData.do")
+	public String misKharidabariData() {
+		return "MIS/misKharidabariData";		
+	}
+	@RequestMapping(value = "misCourtCaseSettlementData.do")
+	public String misCourtCaseSettlementData() {
+		return "MIS/misCourtCaseSettlementData";		
+	}
+	@RequestMapping(value = "misFaultyLoanCaseDeedReturn.do")
+	public String misFaultyLoanCaseDeedReturn() {
+		return "MIS/misFaultyLoanCaseDeedReturn";		
+	}
+	@RequestMapping(value = "viewMISReport.do")
+	public String viewMISReport() {
+		return "MIS/viewMISReport";		
 	}
 	
 }

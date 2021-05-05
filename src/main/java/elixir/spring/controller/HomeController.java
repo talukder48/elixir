@@ -50,7 +50,7 @@ public class HomeController {
 		else if(user.getUserName().equals("1000")) {
 			return "AccountingUserHomePages";
 		}
-		else return "HrmUserHomePage";
+		else return "HeadOfficeUser";
 		
 	}
 	
