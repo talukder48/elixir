@@ -44,13 +44,16 @@ public class HomeController {
 		HttpSession sessionParam = request.getSession();				
 		sessionParam.putValue("BranchCode", "0600");
 		
-		if (user.getUserName().equals("1457")) {
-			return "PensionUserHomePage";
+	  if(user.getUserName().equals("1000")) {
+			return "BranchOfficeUser";
 		}
-		else if(user.getUserName().equals("1000")) {
-			return "AccountingUserHomePages";
+		else if(user.getUserName().equals("1457")) {
+			return "HeadOfficeUser";
 		}
-		else return "HeadOfficeUser";
+		else if(user.getUserName().equals("1453")) {
+			return "HeadOfficeAdminUser";
+		}
+		else return "PensionUserHomePage";
 		
 	}
 	

@@ -135,45 +135,6 @@
 	background-color: #ddd;
 }
 
-.pensiondropbtn {
-	background-color: #3498DB;
-	color: white;
-	padding: 16px;
-	font-size: 16px;
-	border: none;
-	cursor: pointer;
-}
-
-.pensiondropbtn:hover, .pensiondropbtn:focus {
-	background-color: #2980B9;
-}
-
-.dropdown {
-	position: relative;
-	display: inline-block;
-}
-
-.dropdown-content {
-	display: none;
-	position: absolute;
-	background-color: #f1f1f1;
-	min-width: 190px;
-	overflow: auto;
-	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-	z-index: 1;
-}
-
-.dropdown-content a {
-	color: black;
-	padding: 12px 16px;
-	text-decoration: none;
-	display: block;
-}
-
-.dropdown a:hover {
-	background-color: #ddd;
-}
-
 .misDropbtn {
 	background-color: #3498DB;
 	color: white;
@@ -212,6 +173,7 @@
 .misdropdown a:hover {
 	background-color: #ddd;
 }
+
 
 
 .show {
@@ -272,7 +234,9 @@ function AccReportFunction() {
 	    }
 	  }
 	}
-		
+	
+	
+	
 
 	function PayrollmyFunction() {
 	  document.getElementById("PayDropdown").classList.toggle("show");
@@ -292,13 +256,13 @@ function AccReportFunction() {
 	}	
 	
 	
-	function pensionFunction() {
-		  document.getElementById("penDropdown").classList.toggle("show");
+	function myFunction() {
+		  document.getElementById("misDropdown").classList.toggle("show");
 		}
 
 		window.onclick = function(event) {
-		  if (!event.target.matches('.pensiondropbtn')) {
-		    var dropdowns = document.getElementsByClassName("dropdown-content");
+		  if (!event.target.matches('.misDropbtn')) {
+		    var dropdowns = document.getElementsByClassName("misdropdown-content");
 		    var i;
 		    for (i = 0; i < dropdowns.length; i++) {
 		      var openDropdown = dropdowns[i];
@@ -307,25 +271,7 @@ function AccReportFunction() {
 		      }
 		    }
 		  }
-		}	
-		function MisFunction() {
-			  document.getElementById("misDropdown").classList.toggle("show");
-			}
-
-			window.onclick = function(event) {
-			  if (!event.target.matches('.misDropbtn')) {
-			    var dropdowns = document.getElementsByClassName("misdropdown-content");
-			    var i;
-			    for (i = 0; i < dropdowns.length; i++) {
-			      var openDropdown = dropdowns[i];
-			      if (openDropdown.classList.contains('show')) {
-			        openDropdown.classList.remove('show');
-			      }
-			    }
-			  }
-			}
-		
-		
+		}
 	
 </script>
 </head>
@@ -381,28 +327,18 @@ function AccReportFunction() {
 		
 		<br /><br />
 		
-		<div class="dropdown">
-			<button onclick="pensionFunction()" class="pensiondropbtn">Pension Payment System </button>
-			<div id="penDropdown" class="dropdown-content">
-				<a id="1" href="PensionNothiDataUpdate.do"> Pension Employee Record Entry</a>
-				<a id="2" href="PensionInharitanceDataUpdate.do">Inheritance Record Entry </a> 
-				<a id="3" href="PensionAllwanceDataUpdate.do">Allowance Record Enty</a> 
-				<a id="4" href="PensionDeductionDataUpdate.do">Deduction Record Entry</a> 
-				<a id="5" href="PensionMonthlyReportView.do">Monthly Report</a> 
-				<a id="6" href="PensionYearlyReportview.do">Yearly Report</a>
-				<a id="7" href="PensionBonusReportView.do">Bonus Report</a>
-			</div>
-		</div>
-			
-			<br /><br />
-			<div class="misdropdown">
-			<button onclick="MisFunction()" class="misDropbtn">Employee Loan Management System</button>
+		<div class="misdropdown">
+			<button onclick="myFunction()" class="misDropbtn">Management Information System</button>
 			<div id="misDropdown" class="misdropdown-content">
-			    <a id="1" href="viewSalaryDeductionReport.do">Salary Deduction Report</a>
-				<a id="1" href="viewAdvanceReport.do">Employee Loan Statements</a>
+				<a id="1" href="misLoanSanctionAndDisbursement.do">Loan Sanction & Disbursement</a>
+				<a id="2" href="misLoanRecovery.do">Loan Recovery [UC,CL]</a> 
+				<a id="3" href="misAuditObjectionDisposal.do">Disposal of Audit Objection</a> 
+				<a id="4" href="misKharidabariData.do">Kharidabari Data</a>
+				<a id="5" href="misCourtCaseSettlementData.do">Court Case Settlement </a>
+				<a id="6" href="misFaultyLoanCaseDeedReturn.do">Deed Return of Faulty Loan</a>
+				<a id="7" href="viewMISReport.do">MIS Report Module</a> 
 			</div>
 		</div>
-			
 			
 		</div>
 

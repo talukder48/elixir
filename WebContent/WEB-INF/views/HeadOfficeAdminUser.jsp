@@ -16,7 +16,7 @@
 <style>
 
 
-.AccEntyDropBtn {
+.hrmEntryDropBtn {
 	background-color: #3498DB;
 	color: white;
 	padding: 16px;
@@ -25,17 +25,17 @@
 	cursor: pointer;
 }
 
-.AccEntyDropBtn:hover, .AccEntyDropBtn:focus {
+.hrmEntryDropBtn:hover, .hrmEntryDropBtn:focus {
 	background-color: #2980B9;
 }
 
-.AccEntyDropDown {
+.hrmEntyDropDown {
     max-width: 200px;
 	position: relative;
 	display: inline-block;
 }
 
-.AccEntyDropDown-content {
+.hrmEntyDropDown-content {
 	display: none;
 	position: absolute;
 	background-color: #f1f1f1;
@@ -45,18 +45,18 @@
 	z-index: 1;
 }
 
-.AccEntyDropDown-content a {
+.hrmEntyDropDown-content a {
 	color: black;
 	padding: 12px 16px;
 	text-decoration: none;
 	display: block;
 }
 
-.AccEntyDropDown a:hover {
+.hrmEntyDropDown a:hover {
 	background-color: #ddd;
 }
 
-.AccReportDropBtn {
+.hrmReportDropBtn {
 	background-color: #3498DB;
 	color: white;
 	padding: 16px;
@@ -65,16 +65,16 @@
 	cursor: pointer;
 }
 
-.AccReportDropBtn:hover, .AccReportDropBtn:focus {
+.hrmReportDropBtn:hover, .hrmReportDropBtn:focus {
 	background-color: #2980B9;
 }
 
-.AccReportDropDown {
+.hrmReportDropDown {
 	position: relative;
 	display: inline-block;
 }
 
-.AccReportDropDown-content {
+.hrmReportDropDown-content {
 	display: none;
 	position: absolute;
 	background-color: #f1f1f1;
@@ -84,14 +84,14 @@
 	z-index: 1;
 }
 
-.AccReportDropDown-content a {
+.hrmReportDropDown-content a {
 	color: black;
 	padding: 12px 16px;
 	text-decoration: none;
 	display: block;
 }
 
-.AccReportDropDown a:hover {
+.hrmReportDropDown a:hover {
 	background-color: #ddd;
 }
 
@@ -135,7 +135,7 @@
 	background-color: #ddd;
 }
 
-.dropbtn {
+.pensiondropbtn {
 	background-color: #3498DB;
 	color: white;
 	padding: 16px;
@@ -144,7 +144,7 @@
 	cursor: pointer;
 }
 
-.dropbtn:hover, .dropbtn:focus {
+.pensiondropbtn:hover, .pensiondropbtn:focus {
 	background-color: #2980B9;
 }
 
@@ -174,6 +174,44 @@
 	background-color: #ddd;
 }
 
+.misDropbtn {
+	background-color: #3498DB;
+	color: white;
+	padding: 16px;
+	font-size: 16px;
+	border: none;
+	cursor: pointer;
+}
+
+.misDropbtn:hover, .misDropbtn:focus {
+	background-color: #2980B9;
+}
+
+.misdropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.misdropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #f1f1f1;
+	min-width: 190px;
+	overflow: auto;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+.misdropdown-content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+
+.misdropdown a:hover {
+	background-color: #ddd;
+}
 
 
 .show {
@@ -195,18 +233,18 @@ function xmlFinal(){
 function init()
 {
 	var ArrayList="<%=session.getAttribute("Array")%>";
-	document.getElementById("accDropDown").innerHTML = links;
+	document.getElementById("hrmEntyDropDown").innerHTML = links;
 	
 }
 
 
-function AccEntyFunction() {
-  document.getElementById("accDropDown").classList.toggle("show");
+function hrmEntyFunction() {
+  document.getElementById("hrmEntyDropDown").classList.toggle("show");
 }
 
 window.onclick = function(event) {
-  if (!event.target.matches('.AccEntyDropBtn')) {
-    var dropdowns = document.getElementsByClassName("AccEntyDropDown-content");
+  if (!event.target.matches('.hrmEntryDropBtn')) {
+    var dropdowns = document.getElementsByClassName("hrmEntyDropDown-content");
     var i;
     for (i = 0; i < dropdowns.length; i++) {
       var openDropdown = dropdowns[i];
@@ -218,13 +256,13 @@ window.onclick = function(event) {
 }
 
 
-function AccReportFunction() {
+function hrmReportFunction() {
 	  document.getElementById("reportDropdown").classList.toggle("show");
 	}
 
 	window.onclick = function(event) {
-	  if (!event.target.matches('.AccReportDropBtn')) {
-	    var dropdowns = document.getElementsByClassName("AccReportDropDown-content");
+	  if (!event.target.matches('.hrmReportDropBtn')) {
+	    var dropdowns = document.getElementsByClassName("hrmReportDropDown-content");
 	    var i;
 	    for (i = 0; i < dropdowns.length; i++) {
 	      var openDropdown = dropdowns[i];
@@ -234,9 +272,7 @@ function AccReportFunction() {
 	    }
 	  }
 	}
-	
-	
-	
+		
 
 	function PayrollmyFunction() {
 	  document.getElementById("PayDropdown").classList.toggle("show");
@@ -256,12 +292,12 @@ function AccReportFunction() {
 	}	
 	
 	
-	function myFunction() {
-		  document.getElementById("myDropdown").classList.toggle("show");
+	function pensionFunction() {
+		  document.getElementById("penDropdown").classList.toggle("show");
 		}
 
 		window.onclick = function(event) {
-		  if (!event.target.matches('.dropbtn')) {
+		  if (!event.target.matches('.pensiondropbtn')) {
 		    var dropdowns = document.getElementsByClassName("dropdown-content");
 		    var i;
 		    for (i = 0; i < dropdowns.length; i++) {
@@ -271,7 +307,25 @@ function AccReportFunction() {
 		      }
 		    }
 		  }
-		}
+		}	
+		function MisFunction() {
+			  document.getElementById("misDropdown").classList.toggle("show");
+			}
+
+			window.onclick = function(event) {
+			  if (!event.target.matches('.misDropbtn')) {
+			    var dropdowns = document.getElementsByClassName("misdropdown-content");
+			    var i;
+			    for (i = 0; i < dropdowns.length; i++) {
+			      var openDropdown = dropdowns[i];
+			      if (openDropdown.classList.contains('show')) {
+			        openDropdown.classList.remove('show');
+			      }
+			    }
+			  }
+			}
+		
+		
 	
 </script>
 </head>
@@ -285,60 +339,39 @@ function AccReportFunction() {
 			<h5>22, Purana Paltan</h5>
 		</div>
 
-		<div class="AccEntyDropDown">
-			<button onclick="AccEntyFunction()" class="AccEntyDropBtn">  General Accounting [Entry Module] </button>
-			<div id="accDropDown" class="AccEntyDropDown-content">
-				<a id="1" href="AccountingVoucherEntryPages.do"> Voucher Entry [Search] </a>
-				<a id="2" href="VoucherEntryItemWise.do"> Voucher Entry [Item Wise] </a>
-				<a id="3" href="TransactionEntryValidation.do">Voucher Validation </a> 				
-				<a id="4" href="NewGlOpeningPages.do"> New Account Open  </a>
-				<a id="5" href="BranchWiseItemsCreation.do">Branch Wise Item Creation  </a> 
-				<a id="6" href="GLOpeningBalance.do">Opening Balance </a>																
+		<div class="hrmEntyDropDown">
+			<button onclick="hrmEntyFunction()" class="hrmEntryDropBtn">  HR Management [Entry Module] </button>
+			<div id="hrmEntyDropDown" class="hrmEntyDropDown-content">
+				<a id="1" href="addEmployeeRecord.do">Employee Record Entry</a>
+				<a id="3" href="addTransferRecord.do">Transfer Record Entry</a> 
+				<a id="4" href="addIncrementRecord.do">Increment Record Entry</a> 
+				<a id="5" href="addPromotionRecord.do">Promotion Record Entry</a>
+				<a id="6" href="addSuspendRecord.do">Suspend Record Entry</a>
+				<a id="2" href="addLeaveRecord.do">All Leave Record Entry</a> 														
 			</div>
 			<br /><br />
 			
-			<div class="AccReportDropDown">
-			<button onclick="AccReportFunction()" class="AccReportDropBtn">General Accounting [Report Module]</button>
-			<div id="reportDropdown" class="AccReportDropDown-content">
-				<a id="4" href="VouherViewReport.do">Single Voucher Print </a> 
-				<a id="5" href="CashBookViewReport.do">Cash Book[Day Book] Report </a> 
-				<a id="6" href="GLStatementViewReport.do">General Ledger Statement </a> 
-				<a id="7" href="GLRegisterViewReport.do">General Ledger Register[Subsidiary] </a>
-				<a id="8" href="TrailBalanceViewReport.do">Financial Statements[TB,BS,PL]</a>
+			<div class="hrmReportDropDown">
+			<button onclick="hrmReportFunction()" class="hrmReportDropBtn">HR Management [Report Module]</button>
+			<div id="reportDropdown" class="hrmReportDropDown-content">
+				<a id="1" href="VouherViewReport.do"> Personal Data Register</a> 
+				<a id="2" href="CashBookViewReport.do">Advance Data Report </a> 
+				<a id="2" href="CashBookViewReport.do">Audit Objection Report </a>
+				<a id="2" href="CashBookViewReport.do">Leave Related Register </a>
+				<a id="2" href="CashBookViewReport.do">Transfer Related Report </a>
+				<a id="2" href="CashBookViewReport.do">All Employee Register </a>
 			</div>
 			
 		  </div>
 		  <br /><br />
 		  
-		  <div class="payRolldropdown">
-			<button onclick="PayrollmyFunction()" class="payrolldropbtn">Payroll Management System</button>
-			<div id="PayDropdown" class="payRolldropdown-content">
-				<a id="1" href="addEmployeeBasicData.do">Basic Profile</a>
-				<a id="2" href="addEmployeeAllowanceData.do">Add Allowance </a> 
-				<a id="3" href="addEmployeeDeductionData.do">Add Deduction</a> 
-				<a id="4" href="addEmployeeIncentiveData.do">Add Incentive Data</a>
-				<a id="5" href="ViewMonthlySalaryReport.do">Monthly Salary Report</a>
-				<a id="6" href="ViewFestivalBonusReport.do">Festival & Bangla New Year</a> 
-				<a id="7" href="ViewIncentiveReport.do">Incentive Report</a>
-				<a id="8" href="ViewSalaryCertificate.do"> Salary Certificate</a> 
-				
+			<div class="misdropdown">
+			<button onclick="MisFunction()" class="misDropbtn">Employee Loan Management System</button>
+			<div id="misDropdown" class="misdropdown-content">
+				<a id="1" href="viewAdvanceReport.do">Employee Loan Statements</a>
 			</div>
 		</div>
-		
-		<br /><br />
-		
-		<div class="dropdown">
-			<button onclick="myFunction()" class="dropbtn">Management Information System</button>
-			<div id="myDropdown" class="dropdown-content">
-				<a id="1" href="misLoanSanctionAndDisbursement.do">Loan Sanction & Disbursement</a>
-				<a id="2" href="misLoanRecovery.do">Loan Recovery [UC,CL]</a> 
-				<a id="3" href="misAuditObjectionDisposal.do">Disposal of Audit Objection</a> 
-				<a id="4" href="misKharidabariData.do">Kharidabari Data</a>
-				<a id="5" href="misCourtCaseSettlementData.do">Court Case Settlement </a>
-				<a id="6" href="misFaultyLoanCaseDeedReturn.do">Deed Return of Faulty Loan</a>
-				<a id="7" href="viewMISReport.do">MIS Report Module</a> 
-			</div>
-		</div>
+			
 			
 		</div>
 

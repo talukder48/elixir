@@ -183,4 +183,12 @@ public class MenuController {
 		return "MIS/viewMISReport";		
 	}
 	
+	@RequestMapping(value = "viewAdvanceReport.do")
+	public String viewAdvanceReport() {
+		return "ELMS/viewAdvanceReport";		
+	}
+	@RequestMapping(value = "viewSalaryDeductionReport.do")
+	public String viewSalaryDeductionReport() {
+		return "ELMS/viewSalaryDeductionReport";		
+	}
 }
