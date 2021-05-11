@@ -393,6 +393,15 @@ function IsValidDate(myDate) {
 						<input type="text" id="CurrentBasicPay" name="CurrentBasicPay" readonly>
 					</div>
 				</div>
+				
+				<div class="row">
+					<div class="col-15">
+						<label for="EntrySerial">Entry Serial</label>
+					</div>
+					<div class="col-20">
+						<input type="text" id="EntrySerial" name="EntrySerial" onkeypress="EntrySerialValidation(event)">
+					</div>					
+				</div>
 				</fieldset>
 				<br>
 				
@@ -400,7 +409,7 @@ function IsValidDate(myDate) {
 				
 				<div class="row">
 					<div class="col-25">
-						<label for="NewBranch">Office Code</label>
+						<label for="NewBranch">Office Code(New Office Code)</label>
 					</div>
 					<div class="col-15">		
 						<input id="NewBranch" type="text" name="NewBranch" maxlength="20" onkeypress="branchCodeValidation(event)" placeholder="Office Code">
@@ -418,10 +427,19 @@ function IsValidDate(myDate) {
 						<input  type="text" id="officeOrder" value="" onkeypress="officeOrderValidation(event)"  maxlength="45" >
 					</div>
 				</div>
+				
+				<div class="row">
+					<div class="col-25">
+						<label for="officeOrderDate">Office Order Date</label>
+					</div>
+					<div class="col-75">
+						<input  type="text" id="officeOrderDate" value="" onkeypress="officeOrderDateValidation(event)"  maxlength="45" >
+					</div>
+				</div>
 								
 				<div class="row">
 					<div class="col-25">
-						<label for="EffectiveDate">Effective Date</label>
+						<label for="EffectiveDate">Effective Date(Last Working Day)</label>
 					</div>
 					<div class="col-75">
 						<input  type="text" id="EffectiveDate" value="" onkeypress="EffectiveDateValidation(event)"  maxlength="45" >

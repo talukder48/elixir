@@ -135,7 +135,7 @@ float: left;
 		document.getElementById("CurrentBranch").value="";
 		document.getElementById("EmployeeDesig").value="";
 		document.getElementById("CurrentBasicPay").value="";
-		document.getElementById("NoOfDays").value="";
+		document.getElementById("OrganizationName").value="";
 		document.getElementById("NewBasicPay").value="";
 		document.getElementById("NewDesignation").value="";
 		document.getElementById("EffectiveDate").value="";
@@ -172,13 +172,13 @@ float: left;
 	function branchCodeValidation(event) {
 		if (event.keyCode == 13 || event.which == 13) {
 			
-				if (document.getElementById("LeaveType").value == "S" && (document.getElementById("NoOfDays").value=="" ||document.getElementById("NoOfDays").value==null)) {
+				if (document.getElementById("TrainingLocation").value == "S" && (document.getElementById("OrganizationName").value=="" ||document.getElementById("OrganizationName").value==null)) {
 					alert("Attached Branch Code should not be null!");
-					document.getElementById("NoOfDays").focus();
+					document.getElementById("OrganizationName").focus();
 				} else {
 					
 					clear();
-					SetValue("branch_code",document.getElementById("NoOfDays").value);
+					SetValue("branch_code",document.getElementById("OrganizationName").value);
 					SetValue("Class","PRMSValidator");
 					SetValue("Method","BranchKeyPress");
 					xmlFinal();
@@ -226,11 +226,11 @@ function IsValidDate(myDate) {
 	function PfActivationIMethod(event) {
 		 var c = confirm("Are you sure ?");
 		  if (c == true) {
-				if(document.getElementById("NoOfDays").value=="")document.getElementById("NoOfDays").value = "NA";
+				if(document.getElementById("OrganizationName").value=="")document.getElementById("OrganizationName").value = "NA";
 				clear();
 				SetValue("EmployeeId",document.getElementById("EmployeeId").value);
-				SetValue("LeaveType",document.getElementById("LeaveType").value);
-				SetValue("AttachedBranch",document.getElementById("NoOfDays").value);
+				SetValue("TrainingLocation",document.getElementById("TrainingLocation").value);
+				SetValue("AttachedBranch",document.getElementById("OrganizationName").value);
 				SetValue("effective_date",document.getElementById("EffectiveDate").value);
 				SetValue("Class","AdminOperation");
 				SetValue("Method","PfActivationIMethod");
@@ -316,6 +316,7 @@ function IsValidDate(myDate) {
 						<input type="text" id="EmployeeDesig" name="EmployeeDesig" readonly>
 					</div>
 				</div>	
+				
 				<div class="row">
 					<div class="col-15">
 						<label for="EntrySerial">Entry Serial</label>
@@ -323,31 +324,25 @@ function IsValidDate(myDate) {
 					<div class="col-20">
 						<input type="text" id="EntrySerial" name="EntrySerial" onkeypress="EntrySerialValidation(event)">
 					</div>					
-				</div>			
+				</div>
+				
+				
+							
 				</fieldset>
 								<br>								
 			<fieldset>	
-			<legend>Leave Details</legend>
+			<legend>Training Details</legend>
 						
 				<div class="row">
 					<div class="col-15">
-						<label for="LeaveType">Leave Type</label>
+						<label for="TrainingLocation">Training Location</label>
 					</div>
 					<div class="col-20">
-						<select id="LeaveType" name="LeaveType"   onkeypress="ActivationTypeValidator(event)" style="width: 350px;">
+						<select id="TrainingLocation" name="TrainingLocation"   onkeypress="ActivationTypeValidator(event)" style="width: 350px;">
 							 
-							<option value="1">Outstanding Leave</option>	
-							<option value="2">Special Handicap Related Leave</option>
-							<option value="3">Education Leave</option>
-							<option value="4">Post Retirement Leave</option>
-							<option value="5">Maternity Leave</option>
-							<option value="6">Full Average Payment Leave</option>	
-							<option value="7">Half Average Payment Leave</option>
-							<option value="8">Quarantine Leave</option>	
-							<option value="9">Medical Leave</option>
-							<option value="10">Casual Leave</option>
-								
-												
+							<option value="D">D-Domestic</option>	
+							<option value="A">A-Abroad</option>
+																				
 						</select>
 					</div>
 				</div>
@@ -355,18 +350,29 @@ function IsValidDate(myDate) {
 				<div class="row">
 					<div class="col-15">
 						  
-						 <label for="NoOfDays">No of Days</label>
+						 <label for="OrganizationName">Organization Name</label>
 					</div>
-					<div class="col-20">		
-						<input id="NoOfDays" type="text" name="NoOfDays"  onkeypress="NoOfDaysValidation(event)" >
+					<div class="col-75">		
+						<input id="OrganizationName" type="text" name="OrganizationName"  onkeypress="NoOfDaysValidation(event)" >
 				    </div>
 				    
 				</div>
 				
+				<div class="row">
+					<div class="col-15">
+						  
+						 <label for="TrainingSubject">Training Subject</label>
+					</div>
+					<div class="col-75">		
+						<input id="TrainingSubject" type="text" name="TrainingSubject"  onkeypress="TrainingSubjectValidation(event)" >
+				    </div>
+				    
+				</div>
+				<br>
 				
 				<div class="row">
 					<div class="col-15">
-						<label for="StartDate">Start Date</label>
+						<label for="StartDate"> Training Start Date</label>
 					</div>
 					<div class="col-20">
 						<input  type="text" id="StartDate" value="" onkeypress="StartDateValidation(event)"  maxlength="45" >
@@ -374,7 +380,7 @@ function IsValidDate(myDate) {
 					
 					
 					<div class="colr-15">
-						<label for="EndDate">End Date</label>
+						<label for="EndDate">Training End Date</label>
 					</div>
 					<div class="colr-20">
 						<input  type="text" id="EndDate" value="" onkeypress="EndDateValidation(event)"  maxlength="45" >
@@ -402,17 +408,18 @@ function IsValidDate(myDate) {
 				</div>
 				
 				
-				
-				
-				
 				<div class="row">
 					<div class="col-15">
-						<label for="EffectiveDate">Effective Date</label>
+						  
+						 <label for="TrainingRemarks">Remarks</label>
 					</div>
-					<div class="col-20">
-						<input  type="text" id="EffectiveDate" value="" onkeypress="EffectiveDateValidation(event)"  maxlength="45" >
-					</div>
-				</div>				
+					<div class="col-75">		
+						<input id="TrainingRemarks" type="text" name="TrainingRemarks"  onkeypress="TrainingRemarksValidation(event)" >
+				    </div>
+				    
+				</div>
+				
+							
 			</fieldset>
 			
 				<div class="col-75"></div>

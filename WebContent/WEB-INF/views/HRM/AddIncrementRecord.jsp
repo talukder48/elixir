@@ -393,6 +393,16 @@ function IsValidDate(myDate) {
 						<input type="text" id="CurrentBasicPay" name="CurrentBasicPay" readonly>
 					</div>
 				</div>
+				
+				<div class="row">
+					<div class="col-15">
+						<label for="EntrySerial">Entry Serial</label>
+					</div>
+					<div class="col-20">
+						<input type="text" id="EntrySerial" name="EntrySerial" onkeypress="EntrySerialValidation(event)">
+					</div>					
+				</div>
+				
 				</fieldset>
 				
 				<br>
@@ -412,6 +422,15 @@ function IsValidDate(myDate) {
 					</div>
 					<div class="col-75">
 						<input  type="text" id="officeOrder" value="" onkeypress="officeOrderValidation(event)"  maxlength="45" >
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-25">
+						<label for="officeOrderDate">Office Order Date</label>
+					</div>
+					<div class="col-75">
+						<input  type="text" id="officeOrderDate" value="" onkeypress="officeOrderDateValidation(event)"  maxlength="45" >
 					</div>
 				</div>
 				

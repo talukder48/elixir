@@ -30,9 +30,19 @@ public class MenuController {
 		return "HRM/AddTransferRecord";		
 	}
 	
+	@RequestMapping(value = "addEducationQualification.do")
+	public String addEducationQualification() {
+		return "HRM/addEducationQualification";		
+	}
 	
-	
-	
+	@RequestMapping(value = "addProfessionalData.do")
+	public String addProfessionalData() {
+		return "HRM/addProfessionalData";		
+	}
+	@RequestMapping(value = "addTraningData.do")
+	public String addTraningData() {
+		return "HRM/addTraningData";		
+	}
 	
 	@RequestMapping(value = "PensionNothiDataUpdate.do")
 	public String PensionNothiDataUpdate() {

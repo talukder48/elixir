@@ -342,8 +342,14 @@ function hrmReportFunction() {
 		<div class="hrmEntyDropDown">
 			<button onclick="hrmEntyFunction()" class="hrmEntryDropBtn">  HR Management [Entry Module] </button>
 			<div id="hrmEntyDropDown" class="hrmEntyDropDown-content">
-				<a id="1" href="addEmployeeRecord.do">Employee Record Entry</a>
-				<a id="3" href="addTransferRecord.do">Transfer Record Entry</a> 
+			
+				<a id="1" href="addEmployeeRecord.do">Employee Record Entry</a>				
+				<a id="2" href="addEducationQualification.do">Educational Qualification Entry</a>
+				<a id="3" href="addProfessionalData.do">Professional Data Entry</a>
+				<a id="4" href="addTraningData.do">Training Data Entry</a>
+				
+				
+				<a id="5" href="addTransferRecord.do">Transfer Record Entry</a> 
 				<a id="4" href="addIncrementRecord.do">Increment Record Entry</a> 
 				<a id="5" href="addPromotionRecord.do">Promotion Record Entry</a>
 				<a id="6" href="addSuspendRecord.do">Suspend Record Entry</a>
@@ -354,12 +360,12 @@ function hrmReportFunction() {
 			<div class="hrmReportDropDown">
 			<button onclick="hrmReportFunction()" class="hrmReportDropBtn">HR Management [Report Module]</button>
 			<div id="reportDropdown" class="hrmReportDropDown-content">
-				<a id="1" href="VouherViewReport.do"> Personal Data Register</a> 
-				<a id="2" href="CashBookViewReport.do">Advance Data Report </a> 
-				<a id="2" href="CashBookViewReport.do">Audit Objection Report </a>
-				<a id="2" href="CashBookViewReport.do">Leave Related Register </a>
-				<a id="2" href="CashBookViewReport.do">Transfer Related Report </a>
-				<a id="2" href="CashBookViewReport.do">All Employee Register </a>
+				<a id="1" href="viewPersonalDataRegister.do"> Personal Data Register</a> 
+				<a id="2" href="viewAdvanceStatement.do">Advances Data Report </a> 
+				<a id="2" href="viewAuditObjectionReport.do">Audit Objection Report </a>
+				<a id="2" href="viewLeaveRgister.do">Leave Related Register </a>
+				<a id="2" href="viewTransferData.do">Transfer Related Report </a>
+				<a id="2" href="viewEmployeeDataList.do"> Search Employee Data </a>
 			</div>
 			
 		  </div>
