@@ -53,7 +53,7 @@ input[type=submit]:hover {
 
 .container {
 	border-radius: 5px;
-	background-color: #ffffff;
+	background-color: #FAE5D3;
 	padding: 20px;
 }
 
@@ -268,12 +268,10 @@ function ViewAllReport()
 </head>
 <body onload="initValues()">
 		<center>
-		
 		<h1 style="color:white;">Bangladesh House Building Finance Corporation</h1>
-		<h3  style="color:white;"> Management Information System </h3>
-				
+		<h3 style="color:white;">Management Information System</h3>
+		
 		<div class="container">
-		<h2 style="color:#006600;"> Information Regarding 100 Days</h2>
 		<fieldset>	
 		
 				 <div class="row">
@@ -303,7 +301,17 @@ function ViewAllReport()
 					</div>
 				</div>
 						
-				
+				<div class="row">
+					<div class="col-25">
+							<label for="TargetCode">Target Code</label>
+					</div>
+					<div class="col-75">
+						<select id="TargetCode" name="TargetCode" >
+						    <option value="100DAYS">100 Days</option>
+																													
+						</select>
+					</div>
+				</div>
 												
 				<div class="row">
 					<div class="col-25">
@@ -311,8 +319,8 @@ function ViewAllReport()
 					</div>
 					<div class="col-75">
 						<select id="ReportType" name="ReportType" >
-							<option value="misLoanSaction">Loan Sanction</option>
-							<option value="misLoanDisbursement">Loan Disbursement</option>	
+						    <option value="misBranchSummary">Branch Wise Summary Report</option>
+							<option value="misLoanSactionDisburse">Loan Sanction and Disburse</option>
 							<option value="misLoanRecovery">Loan Recovery</option>								
 							<option value="misAuditObjection">Disposal of Audit Objection</option>
 							<option value="misKharidabari">Kharidabari</option>	
@@ -322,6 +330,7 @@ function ViewAllReport()
 						</select>
 					</div>
 				</div>
+				
 				</fieldset>
 				<div class="row">
 					<div class="col-25">

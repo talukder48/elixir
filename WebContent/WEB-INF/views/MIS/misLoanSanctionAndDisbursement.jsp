@@ -75,8 +75,15 @@ input[type=submit]:hover {
 .col-20 {
 	text-align:left;
 	float: left;
-	width: 16%;
+	width: 20%;
 }
+.col-25 {
+	text-align:left;
+	float: left;
+	width: 25%;
+}
+
+
 .colr-15 {
 	float: left;
 	width: 15%;
@@ -100,12 +107,12 @@ float: left;
 
 .col-75 {
 	float: left;
-	width: 50%;
+	width: 16%;
 	margin-top: 6px;
 }
 .col-80 {
 	float: left;
-	width: 52%;
+	width: 15%;
 	margin-top: 6px;
 }
 .collvl-40 {
@@ -245,6 +252,45 @@ function OthersDisburseValidation(event){
 	}
 }
 
+function fetchData(){
+	clear();
+	SetValue("BranchCode",document.getElementById("BranchCode").value);
+	SetValue("EntyDate",document.getElementById("EntyDate").value);	
+	SetValue("Class","MISDataValidation");
+	SetValue("Method","FetchSenctionAndDisburseData");
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			var obj = JSON.parse(this.responseText);
+				if (obj.ERROR_MSG != "") {
+					alert(obj.ERROR_MSG);
+					initValues();
+				} else {
+					if (obj.ZERO_EQ_SANCTION_AMT!=null) {
+						var r = confirm("Data already exists!\nDo you want to update?");
+						  if (r == true) {		
+							    document.getElementById("ZeroEquitySanction").value=parseFloat(obj.ZERO_EQ_SANCTION_AMT).toFixed(2);
+								document.getElementById("OthersSanction").value=parseFloat(obj.OTH_PRD_SANCTION_AMT).toFixed(2);
+								document.getElementById("ZeroEquityDisburse").value=parseFloat(obj.ZERO_EQ_DISBURSE_AMT).toFixed(2);
+								document.getElementById("OthersDisburse").value=parseFloat(obj.OTH_PRD_DISBURSE_AMT).toFixed(2);
+								document.getElementById("ZeroEquitySanction").focus();
+						  }
+					}
+					else{
+						document.getElementById("ZeroEquitySanction").value="0.00";
+						document.getElementById("OthersSanction").value="0.00";
+						document.getElementById("ZeroEquityDisburse").value="0.00";
+						document.getElementById("OthersDisburse").value="0.00";
+						document.getElementById("ZeroEquitySanction").focus();
+					}
+					
+				}
+		}	
+    };
+    xhttp.open("POST", "HTTPValidator?" + DataMap, true);
+	xhttp.send();	
+}
+
 function EntryDateValidation(event){
 	if (event.keyCode == 13 || event.which == 13) {
 		var txtTest = document.getElementById('EntyDate');
@@ -263,11 +309,23 @@ function EntryDateValidation(event){
 									alert(obj.ERROR_MSG);
 									initValues();
 								} else {
-									document.getElementById("ZeroEquitySanction").value=parseFloat(obj.ZERO_EQ_SANCTION_AMT).toFixed(2);
-									document.getElementById("OthersSanction").value=parseFloat(obj.OTH_PRD_SANCTION_AMT).toFixed(2);
-									document.getElementById("ZeroEquityDisburse").value=parseFloat(obj.ZERO_EQ_DISBURSE_AMT).toFixed(2);
-									document.getElementById("OthersDisburse").value=parseFloat(obj.OTH_PRD_DISBURSE_AMT).toFixed(2);
-									document.getElementById("ZeroEquitySanction").focus();
+									if (obj.ZERO_EQ_SANCTION_AMT!=null) {
+										var r = confirm("Data already exists!\nDo you want to update?");
+										  if (r == true) {		
+											    document.getElementById("ZeroEquitySanction").value=parseFloat(obj.ZERO_EQ_SANCTION_AMT).toFixed(2);
+												document.getElementById("OthersSanction").value=parseFloat(obj.OTH_PRD_SANCTION_AMT).toFixed(2);
+												document.getElementById("ZeroEquityDisburse").value=parseFloat(obj.ZERO_EQ_DISBURSE_AMT).toFixed(2);
+												document.getElementById("OthersDisburse").value=parseFloat(obj.OTH_PRD_DISBURSE_AMT).toFixed(2);
+												document.getElementById("ZeroEquitySanction").focus();
+										  }
+									}
+									else{
+										document.getElementById("ZeroEquitySanction").value="0.00";
+										document.getElementById("OthersSanction").value="0.00";
+										document.getElementById("ZeroEquityDisburse").value="0.00";
+										document.getElementById("OthersDisburse").value="0.00";
+										document.getElementById("ZeroEquitySanction").focus();
+									}
 								}
 						}	
 				    };
@@ -282,32 +340,35 @@ function EntryDateValidation(event){
 }
 
 function saveData(event)
-{			
-		clear();
-		SetValue("User_Id",userId);				
-		SetValue("BranchCode",document.getElementById("BranchCode").value);
-		SetValue("EntyDate",document.getElementById("EntyDate").value);		
-		SetValue("ZeroEquitySanction",document.getElementById("ZeroEquitySanction").value);
-		SetValue("OthersSanction",document.getElementById("OthersSanction").value);	
-		SetValue("ZeroEquityDisburse",document.getElementById("ZeroEquityDisburse").value);
-		SetValue("OthersDisburse",document.getElementById("OthersDisburse").value);	
-				
-		SetValue("Class","MISDataValidation");
-		SetValue("Method","AddSanctionDisburseData");		
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
-					if (obj.ERROR_MSG != "") {
-						alert(obj.ERROR_MSG);
-					} else {
-						alert(obj.SUCCESS);
-						initValues();
-					}									
-			}
-		};
-		xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-		xhttp.send();			
+{
+	 var c = confirm("Are you sure ?");
+	  if (c == true) {
+		  clear();
+			SetValue("User_Id",userId);				
+			SetValue("BranchCode",document.getElementById("BranchCode").value);
+			SetValue("EntyDate",document.getElementById("EntyDate").value);		
+			SetValue("ZeroEquitySanction",document.getElementById("ZeroEquitySanction").value);
+			SetValue("OthersSanction",document.getElementById("OthersSanction").value);	
+			SetValue("ZeroEquityDisburse",document.getElementById("ZeroEquityDisburse").value);
+			SetValue("OthersDisburse",document.getElementById("OthersDisburse").value);	
+					
+			SetValue("Class","MISDataValidation");
+			SetValue("Method","AddSanctionDisburseData");		
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var obj = JSON.parse(this.responseText);
+						if (obj.ERROR_MSG != "") {
+							alert(obj.ERROR_MSG);
+						} else {
+							alert(obj.SUCCESS);
+							initValues();
+						}									
+				}
+			};
+			xhttp.open("POST", "HTTPValidator?" + DataMap, true);
+			xhttp.send();	  
+	  }				
 }
 
 $(function() {
@@ -323,36 +384,32 @@ $(function() {
 <body onload="initValues()">
 	<center>
 	<h1 style="color:white;">Bangladesh House Building Finance Corporation</h1>
-		<h3  style="color:white;"> Management Information System </h3>
-		
+		<h3 style="color:white;">Management Information System</h3>
 		<div class="container">
 		   		
 		      <fieldset>
 		      <legend>Loan Related Identifier</legend> 
 		      
 		       <div class="row">
-					<div class="col-20">
+					<div class="col-15">
 						<label for="BranchCode">Office Code</label>
 					</div>
 					<div class="col-20">
 						<input type="text" id="BranchCode" name="BranchCode" read only>
 					</div>
-				</div>
-		      
-		       <div class="row">
-					<div class="col-20">
+					<div class="col-15">
 						<label for="EntyDate"> Entry Date</label>
 					</div>
 					<div class="col-20">
 						<input  type="text" id="EntyDate" value="" onkeypress="EntryDateValidation(event)" >
-					</div>
-					
-					<div class="collvl-40">
-						<label for="EntyDate">Entry Date Format [DD-MON-YYYY] ie. 01-JAN-2021 </label>
-					</div>
-															
-				</div>	
-				
+					</div>										
+			  </div>
+			  
+		      
+				<div class="col-80"></div>
+				<div class="row">
+					<input type="submit" id="fetchData" value="Fetch Data" onclick="fetchData(event)" >
+				</div>
 		            				
 				</fieldset>	
 				<br>

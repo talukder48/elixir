@@ -105,7 +105,7 @@ float: left;
 }
 .col-80 {
 	float: left;
-	width: 52%;
+	width: 15%;
 	margin-top: 6px;
 }
 .collvl-40 {
@@ -245,9 +245,20 @@ function EntryDateValidation(event){
 							alert(obj.ERROR_MSG);
 							initValues();
 						} else {
-							document.getElementById("CLAmount").value=parseFloat(obj.CL_RECOVERY_AMT).toFixed(2);
-							document.getElementById("UCAmount").value=parseFloat(obj.UC_RECOVERY_AMT).toFixed(2);							
-							document.getElementById("CLAmount").focus();
+							if (obj.CL_RECOVERY_AMT!=null) {
+								var r = confirm("Data already exists!\nDo you want to update?");
+								  if (r == true) {		
+									    document.getElementById("CLAmount").value=parseFloat(obj.CL_RECOVERY_AMT).toFixed(2);
+										document.getElementById("UCAmount").value=parseFloat(obj.UC_RECOVERY_AMT).toFixed(2);							
+										document.getElementById("CLAmount").focus();
+										
+								  }
+							}
+							else{
+								document.getElementById("CLAmount").value="0.00";
+								document.getElementById("UCAmount").value="0.00";	
+								document.getElementById("CLAmount").focus();
+							}			
 						}
 				}	
 		    };
@@ -260,31 +271,75 @@ function EntryDateValidation(event){
 	    }
 	}
 }
-
+function fetchData(){
+		var txtTest = document.getElementById('EntyDate');
+	    var isValid = IsValidDate(txtTest.value);
+	    if (isValid) {	    	
+	    	clear();
+			SetValue("BranchCode",document.getElementById("BranchCode").value);
+			SetValue("EntyDate",document.getElementById("EntyDate").value);	
+			SetValue("Class","MISDataValidation");
+			SetValue("Method","FetchLoanRecoveryData");
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var obj = JSON.parse(this.responseText);
+						if (obj.ERROR_MSG != "") {
+							alert(obj.ERROR_MSG);
+							initValues();
+						} else {														
+							if (obj.CL_RECOVERY_AMT!=null) {
+								var r = confirm("Data already exists!\nDo you want to update?");
+								  if (r == true) {		
+									    document.getElementById("CLAmount").value=parseFloat(obj.CL_RECOVERY_AMT).toFixed(2);
+										document.getElementById("UCAmount").value=parseFloat(obj.UC_RECOVERY_AMT).toFixed(2);							
+										document.getElementById("CLAmount").focus();
+										
+								  }
+							}
+							else{
+								document.getElementById("CLAmount").value="0.00";
+								document.getElementById("UCAmount").value="0.00";	
+								document.getElementById("CLAmount").focus();
+							}							
+						}
+				}	
+		    };
+		    xhttp.open("POST", "HTTPValidator?" + DataMap, true);
+			xhttp.send();	
+	    }
+	    else {
+	        alert('Incorrect format');
+	        document.getElementById("EntyDate").focus();
+	    }
+}
 function saveData(event)
-{			
-		clear();
-		SetValue("User_Id",userId);				
-		SetValue("BranchCode",document.getElementById("BranchCode").value);
-		SetValue("EntyDate",document.getElementById("EntyDate").value);		
-		SetValue("CLAmount",document.getElementById("CLAmount").value);
-		SetValue("UCAmount",document.getElementById("UCAmount").value);						
-		SetValue("Class","MISDataValidation");
-		SetValue("Method","AddLoanRecoveryData");		
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
-					if (obj.ERROR_MSG != "") {
-						alert(obj.ERROR_MSG);
-					} else {
-						alert(obj.SUCCESS);
-						initValues();
-					}									
-			}
-		};
-		xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-		xhttp.send();			
+{	
+	 var c = confirm("Are you sure ?");
+	  if (c == true) {
+		  clear();
+			SetValue("User_Id",userId);				
+			SetValue("BranchCode",document.getElementById("BranchCode").value);
+			SetValue("EntyDate",document.getElementById("EntyDate").value);		
+			SetValue("CLAmount",document.getElementById("CLAmount").value);
+			SetValue("UCAmount",document.getElementById("UCAmount").value);						
+			SetValue("Class","MISDataValidation");
+			SetValue("Method","AddLoanRecoveryData");		
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var obj = JSON.parse(this.responseText);
+						if (obj.ERROR_MSG != "") {
+							alert(obj.ERROR_MSG);
+						} else {
+							alert(obj.SUCCESS);
+							initValues();
+						}									
+				}
+			};
+			xhttp.open("POST", "HTTPValidator?" + DataMap, true);
+			xhttp.send();	
+	  }				
 }
 
 $(function() {
@@ -299,32 +354,32 @@ $(function() {
 <body onload="initValues()">
 	<center>
 	<h1 style="color:white;">Bangladesh House Building Finance Corporation</h1>
-		<h3  style="color:white;"> Management Information System </h3>
+		<h3 style="color:white;">Management Information System</h3>
 		<div class="container">
 		   		
 		      <fieldset>
 		      <legend>Loan Recovery Identifier</legend> 
 		      
-		       <div class="row">
-					<div class="col-20">
+		       	<div class="row">
+					<div class="col-15">
 						<label for="BranchCode">Office Code</label>
 					</div>
 					<div class="col-20">
 						<input type="text" id="BranchCode" name="BranchCode" read only>
 					</div>
-				</div>
-		      
-		       <div class="row">
-					<div class="col-20">
+					<div class="col-15">
 						<label for="EntyDate"> Entry Date</label>
 					</div>
 					<div class="col-20">
 						<input  type="text" id="EntyDate" value="" onkeypress="EntryDateValidation(event)" >
-					</div>
-					<div class="collvl-40">
-						<label for="EntyDate">Entry Date Format [DD-MON-YYYY] ie. 01-JAN-2021 </label>
 					</div>										
-				</div>	
+			  </div>
+			  
+		      
+				<div class="col-80"></div>
+				<div class="row">
+					<input type="submit" id="fetchData" value="Fetch Data" onclick="fetchData(event)" >
+				</div>
 				
 		            				
 				</fieldset>	
