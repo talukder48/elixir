@@ -173,15 +173,22 @@ float: left;
 <script type="text/javascript">
 
 var DataMap="";
-function SetValue(key,value){
-	var Node = "<cell> <key>"+key+"</key> <value>"+value+"</value> </cell>";
+
+
+function SetValue(key,value,itemsl){
+	if(itemsl=='L'){
+		var Node ='"'+ key+'"'+":"+'"'+value+'"';
+	}
+	else{
+		var Node ='"'+ key+'"'+":"+'"'+value+'"'+",";
+	}
 	DataMap=DataMap+Node;
 }
 function clear(){
 	DataMap="";
 }
 function xmlFinal(){
-	DataMap="data=<root>"+DataMap+"</root>";
+	DataMap="{"+DataMap+"}";
 }
 
 
@@ -291,7 +298,7 @@ function initValues(){
 	userId="<%= session.getAttribute("User_Id")%>";
 }
 
-function NothiValidation(event){
+/* function NothiValidation(event){
 	if (event.keyCode == 13 || event.which == 13) {
 	clear();
 	SetValue("NothiNo", document.getElementById("NothiNo").value);
@@ -346,6 +353,65 @@ function NothiValidation(event){
 	xhttp.send();					
 
 		}
+} */
+
+
+function NothiValidation(event){
+	if (event.keyCode == 13 || event.which == 13) {		
+		clear();
+		SetValue("NothiNo", document.getElementById("NothiNo").value,"N");
+		SetValue("Class", "elixir.validator.pps.PensionValidation","N");
+		SetValue("Method", "FetchPensionEmployeeData","L");	
+		xmlFinal();				
+		$.ajax({
+			  method: "POST",
+			  url: "CommomAjaxCallHandler",
+			  data: { DataString: DataMap }
+			})
+			  .done(function( responseMessage ) {
+				  
+				  var obj = JSON.parse(responseMessage);
+				  if (obj.ERROR_MSG != "") {
+						alert(obj.ERROR_MSG);
+					} else {
+						if (obj.EMP_NAME!=null) {
+							var r = confirm("Employee already exists!\nDo you want to update?");
+							  if (r == true) {		
+								    document.getElementById("PensionType").value= obj.PENSIONER_TYPE;
+								    document.getElementById("EmployeeName").value = obj.EMP_NAME;
+									document.getElementById("eNothiNo").value = obj.ENOTHI_NUM;
+									document.getElementById("EmployeeId").value = obj.EMP_ID;
+									document.getElementById("DOB").value = obj.DOB;
+									document.getElementById("Designation").value = obj.DESIGNATION_CODE;
+									document.getElementById("PRLDate").value = obj.PRL_DATE;
+									document.getElementById("contactNo").value = obj.CONTACT_NO;
+									document.getElementById("PrAddress").value = obj.PRADDRESS;							
+									document.getElementById("Address").value = obj.ADDRESS;
+									document.getElementById("email").value = obj.EMAIL;
+									document.getElementById("ReligionType").value = obj.RELIGION;							
+									document.getElementById("GenderType").value = obj.GENDER;
+									document.getElementById("homeDist").value = obj.HOME_DISTRICT;
+									document.getElementById("NID").value = obj.NID;							
+									document.getElementById("ActivationType").value = obj.ACTIVATION_TYPE;
+									document.getElementById("BankAccount").value = obj.ACCOUNT_NUM;
+									document.getElementById("BranchName").value = obj.BRANCH_NAME;
+									document.getElementById("bankName").value = obj.BANK_NAME;		
+									document.getElementById("BranchDistrict").value = obj.BRANCH_DISTRICT;
+									document.getElementById("eNothiNo").focus();
+									
+							  } else {
+								  initValues();							 
+							  }	
+						}
+						else{
+							initValues();	
+							document.getElementById("eNothiNo").focus();		
+						}
+				  
+					}
+	
+		});
+	}
 }
 
 function eNothiValidation(event) {
@@ -475,45 +541,47 @@ function BranchDistrictValidation(event) {
 function AddPensionEmployeeInfo(event)
 {			
 		clear();
-		SetValue("User_Id",userId);		
-		SetValue("NothiNo",document.getElementById("NothiNo").value);
-		SetValue("eNothiNo",document.getElementById("eNothiNo").value);		
-		SetValue("EmployeeId",document.getElementById("EmployeeId").value);
-		SetValue("PRLDate",document.getElementById("PRLDate").value);
-		SetValue("EmployeeName",document.getElementById("EmployeeName").value);
-		SetValue("Designation",document.getElementById("Designation").value);
-		SetValue("GenderType",document.getElementById("GenderType").value);
-		SetValue("DOB",document.getElementById("DOB").value);
-		SetValue("contactNo",document.getElementById("contactNo").value);
-		SetValue("email",document.getElementById("email").value);		
-		SetValue("homeDist",document.getElementById("homeDist").value);
-		SetValue("NID",document.getElementById("NID").value);				
-		SetValue("Address",document.getElementById("Address").value);
-		SetValue("ReligionType",document.getElementById("ReligionType").value);		
-		SetValue("ActivationType",document.getElementById("ActivationType").value);
-		SetValue("BankAccount",document.getElementById("BankAccount").value);				
-		SetValue("BranchName",document.getElementById("BranchName").value);
-		SetValue("bankName",document.getElementById("bankName").value);	
-		SetValue("PrAddress",document.getElementById("PrAddress").value);	
-		SetValue("BranchDistrict",document.getElementById("BranchDistrict").value);	
-		SetValue("PensionType",document.getElementById("PensionType").value);	
-		SetValue("Class","PensionValidation");
-		SetValue("Method","AddPensionEmployee");
+		SetValue("User_Id","1123","N");
+		SetValue("NothiNo",document.getElementById("NothiNo").value,"N");
+		SetValue("eNothiNo",document.getElementById("eNothiNo").value,"N");		
+		SetValue("EmployeeId",document.getElementById("EmployeeId").value,"N");
+		SetValue("PRLDate",document.getElementById("PRLDate").value,"N");
+		SetValue("EmployeeName",document.getElementById("EmployeeName").value,"N");
+		SetValue("Designation",document.getElementById("Designation").value,"N");
+		SetValue("GenderType",document.getElementById("GenderType").value,"N");
+		SetValue("DOB",document.getElementById("DOB").value,"N");
+		SetValue("contactNo",document.getElementById("contactNo").value,"N");
+		SetValue("email",document.getElementById("email").value,"N");		
+		SetValue("homeDist",document.getElementById("homeDist").value,"N");
+		SetValue("NID",document.getElementById("NID").value,"N");				
+		SetValue("Address",document.getElementById("Address").value,"N");
+		SetValue("ReligionType",document.getElementById("ReligionType").value,"N");		
+		SetValue("ActivationType",document.getElementById("ActivationType").value,"N");
+		SetValue("BankAccount",document.getElementById("BankAccount").value,"N");				
+		SetValue("BranchName",document.getElementById("BranchName").value,"N");
+		SetValue("bankName",document.getElementById("bankName").value,"N");	
+		SetValue("PrAddress",document.getElementById("PrAddress").value,"N");	
+		SetValue("BranchDistrict",document.getElementById("BranchDistrict").value,"N");	
+		SetValue("PensionType",document.getElementById("PensionType").value,"N");	
+		SetValue("Class","elixir.validator.pps.PensionValidation","N");
+		SetValue("Method","AddPensionEmployee","L");
 		xmlFinal();
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			var obj = JSON.parse(this.responseText);
-				if (obj.ERROR_MSG != "") {
+		
+		$.ajax({
+			  method: "POST",
+			  url: "CommomAjaxCallHandler",
+			  data: { DataString: DataMap }
+			})
+			  .done(function( responseMessage ) {
+			    var obj = JSON.parse(responseMessage);
+			    if (obj.ERROR_MSG != "") {
 					alert(obj.ERROR_MSG);
 				} else {
 					alert(obj.SUCCESS);
 					initValues();
-				}									
-		}
-	};
-	xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-	xhttp.send();			
+				}		
+		});
+			
 }
 
 </script>
