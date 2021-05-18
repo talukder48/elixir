@@ -8,6 +8,7 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -226,37 +227,7 @@ function initValues(){
 	
 	document.getElementById("Year").focus();
 }
-function BranchCodeValidation(event){
-	if (event.keyCode == 13 || event.which == 13) {		
-	if (document.getElementById("Branch_Code").value != "") {
-		clear();
-		SetValue("branch_code",document.getElementById("Branch_Code").value);
-		SetValue("Class","PRMSValidator");
-		SetValue("Method","BranchKeyPress");
-		xmlFinal();
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
-				if (obj.ERROR_MSG != "") {
-					alert(obj.ERROR_MSG);
-				} else {
-					if (obj.ERROR_MSG != "") {
-						alert(obj.ERROR_MSG);
-					} else {						
-						document.getElementById("Year").focus();
-					}					
-				}
-			}
-		};
-		xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
-		xhttp.send();
-	}
-	else{
-		document.getElementById("Year").focus();
-	}
- }
-}
+
 function YearValidation(event)
 {
 	if (event.keyCode == 13 || event.which == 13) {
@@ -271,29 +242,14 @@ function MonthCodeValidation(event)
 	}
 }
 
-var showFile = function (blob) {                 
-    const data = window.URL.createObjectURL(blob);
-    var link = document.createElement('a');
-    link.href = data;
-    link.download = options.name;
-    link.click();
-    setTimeout(function () {
-        window.URL.revokeObjectURL(data);
-    }, 100)
-}
+
 
 function GetPensionReport()
 {	    
 	
 
 	var usr_brn = "<%= session.getAttribute("BranchCode")%>";	
-	/*
-	var DataString="loggedBranch="+usr_brn+"&MonthCode="+document.getElementById("MonthCode").value
-	+"&Year="+document.getElementById("Year").value+"&ReportType="+document.getElementById("ReportType").value+
-	"&pensionDist="+document.getElementById("pensionDist").value+"&ActivationType="+document.getElementById("ActivationType").value;
-	
-	*/
-	
+		
 	clear();
 	SetValue("loggedBranch",usr_brn);
 	SetValue("MonthCode",document.getElementById("MonthCode").value);
@@ -301,8 +257,8 @@ function GetPensionReport()
 	SetValue("ReportType",document.getElementById("ReportType").value);
 	SetValue("pensionDist",document.getElementById("pensionDist").value);
 	SetValue("ActivationType",document.getElementById("ActivationType").value);
-	SetValue("Class","elixir.report.ics.PensionPaymentSystemReport" ,"N");
-	SetValue("Method","MonthlyPensionPaymentSystemReport","L");
+	SetValue("Class","elixir.report.ics.PensionPaymentSystemReport");
+	SetValue("Method","MonthlyPensionPaymentSystemReport");
 	
 	
 		var xhttp = new XMLHttpRequest();		
@@ -317,13 +273,11 @@ function GetPensionReport()
 		            var link = document.createElement('a');
 		            link.href = window.URL.createObjectURL(xhttp.response);		       
 		            window.open(link.href);		            
-		            //link.download = "PdfName-" + new Date().getTime() + ".pdf";
-		            //link.click();
+		        
 		        } else if (typeof window.navigator.msSaveBlob !== 'undefined') {
 		            // IE version
 		            var blob = new Blob([xhttp.response], { type: 'application/pdf' });
 		            window.navigator.msSaveBlob(blob, filename);
-		           // window.open(window.navigator.msSaveBlob(blob, filename));
 		        } else {
 		            // Firefox version
 		            var file = new File([xhttp.response], filename, { type: 'application/force-download' });

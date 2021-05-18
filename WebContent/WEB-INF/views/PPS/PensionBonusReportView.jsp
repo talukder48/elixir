@@ -233,13 +233,19 @@ function MonthCodeValidation(event)
 function GetPensionReport()
 {	    
 	   
-	var usr_brn = "<%= session.getAttribute("BranchCode")%>";	
-	var DataString="loggedBranch="+usr_brn+"&MonthCode="+document.getElementById("MonthCode").value
-	+"&Year="+document.getElementById("Year").value+"&ReportType="+document.getElementById("ReportType").value+
-	"&pensionDist="+document.getElementById("pensionDist").value+"&BonusType="+document.getElementById("BonusType").value+"&ActivationType=A";
+		var usr_brn = "<%= session.getAttribute("BranchCode")%>";			
+		clear();
+		SetValue("loggedBranch",usr_brn);
+		SetValue("MonthCode",document.getElementById("MonthCode").value);
+		SetValue("Year",document.getElementById("Year").value);
+		SetValue("ReportType",document.getElementById("ReportType").value);
+		SetValue("pensionDist",document.getElementById("pensionDist").value);
+		SetValue("BonusType",document.getElementById("BonusType").value);
+		SetValue("Class","elixir.report.ics.PensionPaymentSystemReport");
+		SetValue("Method","BonusPensionPaymentSystemReport");
 	
 		var xhttp = new XMLHttpRequest();		
-		xhttp.open("POST", "PenReportServlet?"+DataString, true);
+		xhttp.open("POST", "CommomReportHandler?"+DataMap, true);
 		
 		xhttp.responseType = "blob";
 		xhttp.onreadystatechange = function () {
@@ -250,13 +256,11 @@ function GetPensionReport()
 		            var link = document.createElement('a');
 		            link.href = window.URL.createObjectURL(xhttp.response);		       
 		            window.open(link.href);		            
-		            //link.download = "PdfName-" + new Date().getTime() + ".pdf";
 		            //link.click();
 		        } else if (typeof window.navigator.msSaveBlob !== 'undefined') {
 		            // IE version
 		            var blob = new Blob([xhttp.response], { type: 'application/pdf' });
 		            window.navigator.msSaveBlob(blob, filename);
-		           // window.open(window.navigator.msSaveBlob(blob, filename));
 		        } else {
 		            // Firefox version
 		            var file = new File([xhttp.response], filename, { type: 'application/force-download' });

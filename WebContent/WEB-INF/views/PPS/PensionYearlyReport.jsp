@@ -4,11 +4,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Income Tax Report </title>
+<title>Year </title>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.js"></script>  
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />  
-    <script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>  
+<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script> 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+
+
+     
     <script type="text/javascript">  
         $(function()  
         {  
@@ -222,16 +226,19 @@ float: left;
 </style> 
 
 <script type="text/javascript">
+
 var DataMap="";
 function SetValue(key,value){
-	var Node = "<cell> <key>"+key+"</key> <value>"+value+"</value> </cell>";
-	DataMap=DataMap+Node;
+	var Node = key+"*"+value;
+	if(DataMap!=""){
+		DataMap=DataMap+"$"+Node;
+	}
+	else{
+		DataMap="data="+Node;
+	}
 }
 function clear(){
 	DataMap="";
-}
-function xmlFinal(){
-	DataMap="data=<root>"+DataMap+"</root>";
 }
 
 function initValues(){
@@ -262,9 +269,18 @@ function GenerateReport(){
 		return;
 	}	
    var loggedBranch="<%=session.getAttribute("BranchCode")%>";
-	DataString=DataString+"&NothiNo="+NothiNo+"&financialYear="+document.getElementById("financialYear").value+"&loggedBranch="+loggedBranch;		
+   
+		
+	clear();
+	SetValue("loggedBranch",loggedBranch);
+	SetValue("NothiNo",NothiNo);
+	SetValue("financialYear",document.getElementById("financialYear").value);
+	SetValue("Class","elixir.report.ics.PensionPaymentSystemReport");
+	SetValue("Method","YearlyPensionPaymentSystemReport");
+	
+	
 		var xhttp = new XMLHttpRequest();		
-		xhttp.open("POST", "PenReportServlet?"+DataString, true);
+		xhttp.open("POST", "CommomReportHandler?"+DataMap, true);
 		xhttp.responseType = "blob";
 		xhttp.onreadystatechange = function () {
 		    if (xhttp.readyState === 4 && xhttp.status === 200) {
@@ -273,14 +289,11 @@ function GenerateReport(){
 		            // Chrome version
 		            var link = document.createElement('a');
 		            link.href = window.URL.createObjectURL(xhttp.response);		       
-		            window.open(link.href);		            
-		            //link.download = "PdfName-" + new Date().getTime() + ".pdf";
-		            //link.click();
+		            window.open(link.href);		            		         
 		        } else if (typeof window.navigator.msSaveBlob !== 'undefined') {
 		            // IE version
 		            var blob = new Blob([xhttp.response], { type: 'application/pdf' });
 		            window.navigator.msSaveBlob(blob, filename);
-		           // window.open(window.navigator.msSaveBlob(blob, filename));
 		        } else {
 		            // Firefox version
 		            var file = new File([xhttp.response], filename, { type: 'application/force-download' });
