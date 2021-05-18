@@ -23,13 +23,31 @@ public class CommonSessionFacade {
 		    MapObj = (Map) m.invoke(object, map);			
 			m.setAccessible(true);												       
 		} 
-		/*catch (InvocationTargetException e)
-		{
-			e.printStackTrace();
-		}*/catch (Exception e) {
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return MapObj;
 	}
+	
+	
+	public static byte[]  SessionFacadeReport(Map map) {
+		byte[] data=null;
+		String method = map.get("Method").toString();
+		String className = map.get("Class").toString();
+		try {						
+			Class classDefinition = Class.forName(className);
+	        Object  object = classDefinition.newInstance();	        
+		    Method m = object.getClass().getDeclaredMethod(method, Map.class);
+		    data = (byte[]) m.invoke(object, map);			
+			m.setAccessible(true);												       
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return data;
+	}
+	
+	
 }

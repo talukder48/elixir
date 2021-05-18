@@ -5,6 +5,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
 </head>
 <style> 
 body {
@@ -189,14 +198,16 @@ float: left;
 <script type="text/javascript">
 var DataMap="";
 function SetValue(key,value){
-	var Node = "<cell> <key>"+key+"</key> <value>"+value+"</value> </cell>";
-	DataMap=DataMap+Node;
+	var Node = key+"*"+value;
+	if(DataMap!=""){
+		DataMap=DataMap+"$"+Node;
+	}
+	else{
+		DataMap="data="+Node;
+	}
 }
 function clear(){
 	DataMap="";
-}
-function xmlFinal(){
-	DataMap="data=<root>"+DataMap+"</root>";
 }
 
 function initValues(){
@@ -260,16 +271,42 @@ function MonthCodeValidation(event)
 	}
 }
 
+var showFile = function (blob) {                 
+    const data = window.URL.createObjectURL(blob);
+    var link = document.createElement('a');
+    link.href = data;
+    link.download = options.name;
+    link.click();
+    setTimeout(function () {
+        window.URL.revokeObjectURL(data);
+    }, 100)
+}
+
 function GetPensionReport()
 {	    
-	   
+	
+
 	var usr_brn = "<%= session.getAttribute("BranchCode")%>";	
+	/*
 	var DataString="loggedBranch="+usr_brn+"&MonthCode="+document.getElementById("MonthCode").value
 	+"&Year="+document.getElementById("Year").value+"&ReportType="+document.getElementById("ReportType").value+
 	"&pensionDist="+document.getElementById("pensionDist").value+"&ActivationType="+document.getElementById("ActivationType").value;
 	
+	*/
+	
+	clear();
+	SetValue("loggedBranch",usr_brn);
+	SetValue("MonthCode",document.getElementById("MonthCode").value);
+	SetValue("Year",document.getElementById("Year").value);
+	SetValue("ReportType",document.getElementById("ReportType").value);
+	SetValue("pensionDist",document.getElementById("pensionDist").value);
+	SetValue("ActivationType",document.getElementById("ActivationType").value);
+	SetValue("Class","elixir.report.ics.PensionPaymentSystemReport" ,"N");
+	SetValue("Method","MonthlyPensionPaymentSystemReport","L");
+	
+	
 		var xhttp = new XMLHttpRequest();		
-		xhttp.open("POST", "PensionPaymentSystemReport?"+DataString, true);
+		xhttp.open("POST", "CommomReportHandler?"+DataMap, true);
 		
 		xhttp.responseType = "blob";
 		xhttp.onreadystatechange = function () {
@@ -375,8 +412,7 @@ function GetPensionReport()
 							<option value="PensionAdviceByBranch">Monthly Pension Advice Report By Branch Wise</option>
 							<option value="PensionDeduction">Monthly Report on HB,Computer,Motor Deduction</option>	
 							<option value="ArearReportDetails">Monthly Arrears Details Report</option>		
-							<option value="PenPaySlip">Monthly Pension slip Report</option>	
-																		
+							<option value="PenPaySlip">Monthly Pension slip Report</option>																			
 							<option value="PensionerDetails">List of Pensioner Details By Activation Type</option>
 							<option value="PensionerDetailsByType">List of Pensioner Details By Pension Type Wise</option>
 							<option value="InharitanceDetails">List of Inheritance Details By Relation Type</option>														
