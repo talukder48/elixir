@@ -50,7 +50,6 @@ public class AjaxCallController {
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}				
-
 		Gson gsonObj = new Gson();
 		ResponseMessage = gsonObj.toJson(OutputMap);
 		PrintWriter out = null;
