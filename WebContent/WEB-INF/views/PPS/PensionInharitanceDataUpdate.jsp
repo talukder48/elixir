@@ -170,15 +170,20 @@ float: left;
 
 <script type="text/javascript">
 var DataMap="";
-function SetValue(key,value){
-	var Node = "<cell> <key>"+key+"</key> <value>"+value+"</value> </cell>";
+function SetValue(key,value,itemsl){
+	if(itemsl=='L'){
+		var Node ='"'+ key+'"'+":"+'"'+value+'"';
+	}
+	else{
+		var Node ='"'+ key+'"'+":"+'"'+value+'"'+",";
+	}
 	DataMap=DataMap+Node;
 }
 function clear(){
 	DataMap="";
 }
 function xmlFinal(){
-	DataMap="data=<root>"+DataMap+"</root>";
+	DataMap="{"+DataMap+"}";
 }
 
 var BD_DistrictList = ["Bagerhat","Bandarban","Barguna","Barisal","Bhola","Bogra","Brahmanbaria","Chandpur","Chittagong","Chuadanga","Comilla","Cox's Bazar","Dhaka","Dinajpur","Faridpur","Feni","Gaibandha","Gazipur","Gopalganj","Habiganj","Jaipurhat","Jamalpur","Jessore","Jhalakati","Jhenaidah","Khagrachari","Khulna","Kishoreganj","Kurigram","Kustia","Lakshmipur","Lalmonirhat","Madaripur","Magura","Manikganj","Meherpur","Moulvibazar","Munshiganj","Mymensingh","Naogaon","Narail","Narayanganj","Narsingdi","Natore","Nawabganj","Netrakona","Nilphamari","Noakhali","Pabna","Panchagarh","Chattagram","Patuakhali","Pirojpur","Rajbari","Rajshahi","Rangpur","Satkhira","Shariatpur","Sherpur","Sirajganj","Sunamganj","Sylhet","Tangail","Thakurgaon"];
@@ -288,96 +293,95 @@ function autocomplete(inp, arr) {
 	function NothiValidation(event){
 		if (event.keyCode == 13 || event.which == 13) {
 		clear();
-		SetValue("NothiNo", document.getElementById("NothiNo").value);
-		SetValue("Class", "PensionValidation");
-		SetValue("Method", "FetchPensionEmployeeData");	
+		SetValue("NothiNo", document.getElementById("NothiNo").value,"N");
+		SetValue("Class", "elixir.validator.pps.PensionValidation","N");
+		SetValue("Method", "FetchPensionEmployeeData","L");	
 		xmlFinal();
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
-				if (obj.ERROR_MSG != "") {
-					alert(obj.ERROR_MSG);
-				} else {
-					if (obj.EMP_NAME!=null) {						
-						 document.getElementById("EmployeeName").value = obj.EMP_NAME;						
-						 document.getElementById("SerialNo").focus();					
-					}
-					else{
-						initValues();	
-						document.getElementById("BenificiaryName").focus();		
-					}
-				}															
-			}
-		};
 		
-		xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
-		xhttp.send();					
-
-		}
+		$.ajax({
+			  method: "POST",
+			  url: "CommomAjaxCallHandler",
+			  data: { DataString: DataMap }
+			})
+			  .done(function( responseMessage ) {
+				  
+				  var obj = JSON.parse(responseMessage);
+				  if (obj.ERROR_MSG != "") {
+						alert(obj.ERROR_MSG);
+					} else {
+						if (obj.EMP_NAME!=null) {						
+							 document.getElementById("EmployeeName").value = obj.EMP_NAME;						
+							 document.getElementById("SerialNo").focus();					
+						}
+						else{
+							initValues();	
+							document.getElementById("BenificiaryName").focus();		
+						}
+					}		
+		});					
 	}
+}
 	
 	function SerialNoValidation(event){
 		if (event.keyCode == 13 || event.which == 13) {
 		clear();
-		SetValue("NothiNo", document.getElementById("NothiNo").value);
-		SetValue("SerialNo", document.getElementById("SerialNo").value);
-		SetValue("Class", "PensionValidation");
-		SetValue("Method", "FetchPensionInharitance");	
+		SetValue("NothiNo", document.getElementById("NothiNo").value,"N");
+		SetValue("SerialNo", document.getElementById("SerialNo").value,"N");
+		SetValue("Class", "elixir.validator.pps.PensionValidation","N");
+		SetValue("Method", "FetchPensionInharitance","L");	
 		xmlFinal();
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
-				if (obj.ERROR_MSG != "") {
-					alert(obj.ERROR_MSG);
-				} else {
-					if (obj.RELATIONTYPE !=null) {	
-						
-						var r = confirm("Data already exists!\nDo you want to update?");
-				           if (r == true) {
-				        	   document.getElementById("BenificiaryName").value = obj.BENIFICIARYNAME;
-								document.getElementById("contactNo").value = obj.CONTACT_NO;
-								document.getElementById("Address").value = obj.ADDRESS;
-								document.getElementById("email").value = obj.EMAIL;
-								document.getElementById("HandicapType").value = obj.HANDICAP;						
-								document.getElementById("homeDist").value = obj.HOME_DISTRICT;
-								document.getElementById("NID").value = obj.NID;	
-								document.getElementById("DOB").value = obj.DOB;	
-								document.getElementById("ActivationType").value = obj.SUCC_ACC_ACTIVE;						
-								document.getElementById("BankAccount").value = obj.BANK_ACCOUNT;
-								document.getElementById("BranchName").value = obj.BRANCH_NAME;
-								document.getElementById("bankName").value =  obj.BANK_NAME;							
-								document.getElementById("pctPenAmt").value = obj.PENSION_PCT;
-								document.getElementById("PenAmt").value =  obj.PENSION_AMT;	
-								document.getElementById("homeDist").value =  obj.DISTRICT;	
-								document.getElementById("PensionType").value=obj.RELATIONTYPE;
-								document.getElementById("BranchDistrict").value = obj.BRANCH_DISTRICT;
-								document.getElementById("PrAddress").value = obj.PRADDRESS;		
-								document.getElementById("BenificiaryName").focus();		
-				           }
-				           else{
-				        	   document.getElementById("SerialNo").focus();	
-				           }																			
-					}
-					else{						
-					var r = confirm("Data Not Found\nDo you want to Add ?");
-				           if (r == true) {
-				        	   document.getElementById("BenificiaryName").focus();	
-				           }
-				           else{
-				        	   document.getElementById("SerialNo").focus();	
-				           }													
-						}
-				}															
-			}
-		};
 		
-		xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
-		xhttp.send();					
-
-		}
-	}	
+		$.ajax({
+			  method: "POST",
+			  url: "CommomAjaxCallHandler",
+			  data: { DataString: DataMap }
+			})
+			  .done(function( responseMessage ) {				  
+				  var obj = JSON.parse(responseMessage);
+				  if (obj.ERROR_MSG != "") {
+						alert(obj.ERROR_MSG);
+					} else {
+						if (obj.RELATIONTYPE !=null) {	
+							
+							var r = confirm("Data already exists!\nDo you want to update?");
+					           if (r == true) {
+					        	   document.getElementById("BenificiaryName").value = obj.BENIFICIARYNAME;
+									document.getElementById("contactNo").value = obj.CONTACT_NO;
+									document.getElementById("Address").value = obj.ADDRESS;
+									document.getElementById("email").value = obj.EMAIL;
+									document.getElementById("HandicapType").value = obj.HANDICAP;						
+									document.getElementById("homeDist").value = obj.HOME_DISTRICT;
+									document.getElementById("NID").value = obj.NID;	
+									document.getElementById("DOB").value = obj.DOB;	
+									document.getElementById("ActivationType").value = obj.SUCC_ACC_ACTIVE;						
+									document.getElementById("BankAccount").value = obj.BANK_ACCOUNT;
+									document.getElementById("BranchName").value = obj.BRANCH_NAME;
+									document.getElementById("bankName").value =  obj.BANK_NAME;							
+									document.getElementById("pctPenAmt").value = obj.PENSION_PCT;
+									document.getElementById("PenAmt").value =  obj.PENSION_AMT;	
+									document.getElementById("homeDist").value =  obj.DISTRICT;	
+									document.getElementById("PensionType").value=obj.RELATIONTYPE;
+									document.getElementById("BranchDistrict").value = obj.BRANCH_DISTRICT;
+									document.getElementById("PrAddress").value = obj.PRADDRESS;		
+									document.getElementById("BenificiaryName").focus();		
+					           }
+					           else{
+					        	   document.getElementById("SerialNo").focus();	
+					           }																			
+						}
+						else{						
+						var r = confirm("Data Not Found\nDo you want to Add ?");
+					           if (r == true) {
+					        	   document.getElementById("BenificiaryName").focus();	
+					           }
+					           else{
+					        	   document.getElementById("SerialNo").focus();	
+					           }													
+							}
+					}
+		});								
+	}
+}	
 
 function IsValidDate(myDate) {
     var filter = /^([012]?\d|3[01])-([Jj][Aa][Nn]|[Ff][Ee][bB]|[Mm][Aa][Rr]|[Aa][Pp][Rr]|[Mm][Aa][Yy]|[Jj][Uu][Nn]|[Jj][u]l|[aA][Uu][gG]|[Ss][eE][pP]|[oO][Cc]|[Nn][oO][Vv]|[Dd][Ee][Cc])-(19|20)\d\d$/
@@ -474,43 +478,43 @@ function BranchDistrictValidation(event) {
 function AddPensionInharitanceInfo(event)
 {			
 		clear();
-		SetValue("User_Id",userId);		
-		SetValue("NothiNo",document.getElementById("NothiNo").value);
-		SetValue("SerialNo",document.getElementById("SerialNo").value);	
-		SetValue("BenificiaryName",document.getElementById("BenificiaryName").value);
-		SetValue("PensionType",document.getElementById("PensionType").value);
-		SetValue("HandicapType",document.getElementById("HandicapType").value);		
-		SetValue("pctPenAmt",document.getElementById("pctPenAmt").value);
-		SetValue("PenAmt",document.getElementById("PenAmt").value);				
-		SetValue("DOB",document.getElementById("DOB").value);
-		SetValue("contactNo",document.getElementById("contactNo").value);
-		SetValue("homeDist",document.getElementById("homeDist").value);
-		SetValue("NID",document.getElementById("NID").value);
+		SetValue("User_Id",userId,"N");		
+		SetValue("NothiNo",document.getElementById("NothiNo").value,"N");
+		SetValue("SerialNo",document.getElementById("SerialNo").value,"N");	
+		SetValue("BenificiaryName",document.getElementById("BenificiaryName").value,"N");
+		SetValue("PensionType",document.getElementById("PensionType").value,"N");
+		SetValue("HandicapType",document.getElementById("HandicapType").value,"N");		
+		SetValue("pctPenAmt",document.getElementById("pctPenAmt").value,"N");
+		SetValue("PenAmt",document.getElementById("PenAmt").value,"N");				
+		SetValue("DOB",document.getElementById("DOB").value,"N");
+		SetValue("contactNo",document.getElementById("contactNo").value,"N");
+		SetValue("homeDist",document.getElementById("homeDist").value,"N");
+		SetValue("NID",document.getElementById("NID").value,"N");
 		SetValue("email",document.getElementById("email").value);		
-		SetValue("ActivationType",document.getElementById("ActivationType").value);						
-		SetValue("Address",document.getElementById("Address").value);
-		SetValue("bankName",document.getElementById("bankName").value);	
-		SetValue("BranchName",document.getElementById("BranchName").value);
-		SetValue("BankAccount",document.getElementById("BankAccount").value);
-		SetValue("PrAddress",document.getElementById("PrAddress").value);	
-		SetValue("BranchDistrict",document.getElementById("BranchDistrict").value);		
-		SetValue("Class","PensionValidation");
-		SetValue("Method","AddPensionInharitance");
+		SetValue("ActivationType",document.getElementById("ActivationType").value,"N");						
+		SetValue("Address",document.getElementById("Address").value,"N");
+		SetValue("bankName",document.getElementById("bankName").value,"N");	
+		SetValue("BranchName",document.getElementById("BranchName").value,"N");
+		SetValue("BankAccount",document.getElementById("BankAccount").value,"N");
+		SetValue("PrAddress",document.getElementById("PrAddress").value,"N");	
+		SetValue("BranchDistrict",document.getElementById("BranchDistrict").value,"N");		
+		SetValue("Class","elixir.validator.pps.PensionValidation","N");
+		SetValue("Method","AddPensionInharitance","L");
 		xmlFinal();
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			var obj = JSON.parse(this.responseText);
-				if (obj.ERROR_MSG != "") {
+		$.ajax({
+			  method: "POST",
+			  url: "CommomAjaxCallHandler",
+			  data: { DataString: DataMap }
+			})
+			  .done(function( responseMessage ) {
+			    var obj = JSON.parse(responseMessage);
+			    if (obj.ERROR_MSG != "") {
 					alert(obj.ERROR_MSG);
 				} else {
 					alert(obj.SUCCESS);
 					initValues();
-				}									
-		}
-	};
-	xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
-	xhttp.send();			
+				}		
+		});
 }	
 	
 	

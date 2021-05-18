@@ -173,8 +173,6 @@ float: left;
 <script type="text/javascript">
 
 var DataMap="";
-
-
 function SetValue(key,value,itemsl){
 	if(itemsl=='L'){
 		var Node ='"'+ key+'"'+":"+'"'+value+'"';
@@ -190,7 +188,6 @@ function clear(){
 function xmlFinal(){
 	DataMap="{"+DataMap+"}";
 }
-
 
 function autocomplete(inp, arr) {
 	  var currentFocus;

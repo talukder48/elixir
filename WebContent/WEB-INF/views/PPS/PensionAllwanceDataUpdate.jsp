@@ -119,17 +119,23 @@ float: left;
 </style>
 
 <script type="text/javascript">
-	var DataMap="";
-	function SetValue(key,value){
-		var Node = "<cell> <key>"+key+"</key> <value>"+value+"</value> </cell>";
-		DataMap=DataMap+Node;
+var DataMap="";
+function SetValue(key,value,itemsl){
+	if(itemsl=='L'){
+		var Node ='"'+ key+'"'+":"+'"'+value+'"';
 	}
+	else{
+		var Node ='"'+ key+'"'+":"+'"'+value+'"'+",";
+	}
+	DataMap=DataMap+Node;
+}
 	function clear(){
 		DataMap="";
 	}
 	function xmlFinal(){
-		DataMap="data=<root>"+DataMap+"</root>";
+		DataMap="{"+DataMap+"}";
 	}
+	
 	var userId="";
 	function initValues() {		
 		document.getElementById("NothiNo").value="";
@@ -152,15 +158,19 @@ float: left;
 	function NothiValidation(event){
 		if (event.keyCode == 13 || event.which == 13) {
 		clear();
-		SetValue("NothiNo", document.getElementById("NothiNo").value);
-		SetValue("Class", "PensionValidation");
-		SetValue("Method","FetchPensionCalculationData");	
+		SetValue("NothiNo", document.getElementById("NothiNo").value,"N");
+		SetValue("Class", "elixir.validator.pps.PensionValidation","N");
+		SetValue("Method","FetchPensionCalculationData","L");	
 		xmlFinal();
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
-				if (obj.ERROR_MSG != "") {
+		
+		$.ajax({
+			  method: "POST",
+			  url: "CommomAjaxCallHandler",
+			  data: { DataString: DataMap }
+			})
+			  .done(function( responseMessage ) {
+			    var obj = JSON.parse(responseMessage);
+			    if (obj.ERROR_MSG != "") {
 					alert(obj.ERROR_MSG);
 				} else {	
 					    document.getElementById("EmployeeName").value=obj.EMP_NAME;			
@@ -176,13 +186,8 @@ float: left;
 						document.getElementById("Dearness").value=obj.DEARNESS;	
 						document.getElementById("ArrDearness").value=obj.ARR_DEARNESS;													
 					    document.getElementById("PensionAmt").focus();					
-				}															
-			}
-		};
-		
-		xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
-		xhttp.send();					
-
+				}			
+		});
 		}
 	}
 	
@@ -228,39 +233,39 @@ float: left;
 		}						
     }
    function AddAllowanceData(event){
+	   
 	    clear();
-		SetValue("User_Id",userId);		
-		SetValue("NothiNo",document.getElementById("NothiNo").value);
-		SetValue("PensionAmt",document.getElementById("PensionAmt").value);
-		SetValue("ArearPensionAmt",document.getElementById("ArearPensionAmt").value);		
-		SetValue("MedicalAlw",document.getElementById("MedicalAlw").value);
-		SetValue("ArearMedicalAlw",document.getElementById("ArearMedicalAlw").value);		
-		SetValue("BonusAmt",document.getElementById("BonusAmt").value);
-		SetValue("ArearBonus",document.getElementById("ArearBonus").value);			
-		SetValue("OthersAlw",document.getElementById("OthersAlw").value);	
-		
-		SetValue("Noboborsho",document.getElementById("Noboborsho").value);
-		SetValue("Dearness",document.getElementById("Dearness").value);
-		SetValue("ArrDearness",document.getElementById("ArrDearness").value);
-		
-		SetValue("Remarks",document.getElementById("Remarks").value);			
-		SetValue("Class","PensionValidation" );
-		SetValue("Method","addPenAllowanceData");
+		SetValue("User_Id",userId,"N");		
+		SetValue("NothiNo",document.getElementById("NothiNo").value,"N");
+		SetValue("PensionAmt",document.getElementById("PensionAmt").value,"N");
+		SetValue("ArearPensionAmt",document.getElementById("ArearPensionAmt").value,"N");		
+		SetValue("MedicalAlw",document.getElementById("MedicalAlw").value,"N");
+		SetValue("ArearMedicalAlw",document.getElementById("ArearMedicalAlw").value,"N");		
+		SetValue("BonusAmt",document.getElementById("BonusAmt").value,"N");
+		SetValue("ArearBonus",document.getElementById("ArearBonus").value,"N");			
+		SetValue("OthersAlw",document.getElementById("OthersAlw").value,"N");			
+		SetValue("Noboborsho",document.getElementById("Noboborsho").value,"N");
+		SetValue("Dearness",document.getElementById("Dearness").value,"N");
+		SetValue("ArrDearness",document.getElementById("ArrDearness").value,"N");		
+		SetValue("Remarks",document.getElementById("Remarks").value,"N");			
+		SetValue("Class","elixir.validator.pps.PensionValidation" ,"N");
+		SetValue("Method","addPenAllowanceData","L");
 		xmlFinal();
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
-					if (obj.ERROR_MSG != "") {
-						alert(obj.ERROR_MSG);
-					} else {
-						alert(obj.SUCCESS);
-						initValues();
-					}									
-			}
-		};
-		xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-		xhttp.send();	
+				
+		$.ajax({
+			  method: "POST",
+			  url: "CommomAjaxCallHandler",
+			  data: { DataString: DataMap }
+			})
+			  .done(function( responseMessage ) {
+			    var obj = JSON.parse(responseMessage);
+			    if (obj.ERROR_MSG != "") {
+					alert(obj.ERROR_MSG);
+				} else {
+					alert(obj.SUCCESS);
+					initValues();
+				}		
+		});	
    }
 	
 </script>

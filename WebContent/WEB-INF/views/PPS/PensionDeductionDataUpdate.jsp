@@ -122,15 +122,20 @@ float: left;
 
 <script type="text/javascript">
 var DataMap="";
-function SetValue(key,value){
-	var Node = "<cell> <key>"+key+"</key> <value>"+value+"</value> </cell>";
+function SetValue(key,value,itemsl){
+	if(itemsl=='L'){
+		var Node ='"'+ key+'"'+":"+'"'+value+'"';
+	}
+	else{
+		var Node ='"'+ key+'"'+":"+'"'+value+'"'+",";
+	}
 	DataMap=DataMap+Node;
 }
 function clear(){
 	DataMap="";
 }
 function xmlFinal(){
-	DataMap="data=<root>"+DataMap+"</root>";
+	DataMap="{"+DataMap+"}";
 }
 	var userId="";
 	function initValues() {
@@ -149,15 +154,19 @@ function xmlFinal(){
 	function NothiValidation(event){
 		if (event.keyCode == 13 || event.which == 13) {
 		clear();
-		SetValue("NothiNo", document.getElementById("NothiNo").value);
-		SetValue("Class", "PensionValidation");
-		SetValue("Method","FetchPensionCalculationData");
+		SetValue("NothiNo", document.getElementById("NothiNo").value,"N");
+		SetValue("Class", "elixir.validator.pps.PensionValidation","N");
+		SetValue("Method","FetchPensionCalculationData","L");
 		xmlFinal();
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
-				if (obj.ERROR_MSG != "") {
+		
+		$.ajax({
+			  method: "POST",
+			  url: "CommomAjaxCallHandler",
+			  data: { DataString: DataMap }
+			})
+			  .done(function( responseMessage ) {
+			    var obj = JSON.parse(responseMessage);
+			    if (obj.ERROR_MSG != "") {
 					alert(obj.ERROR_MSG);
 				} else {	
 					    document.getElementById("EmployeeName").value=obj.EMP_NAME;			
@@ -168,14 +177,9 @@ function xmlFinal(){
 						document.getElementById("OthersDed").value=obj.OTHERS_DED;							
 						document.getElementById("Remarks").value=obj.REMRKS_OTHER_DED;		
 					    document.getElementById("HBDed").focus();					
-				}															
-			}
-		};
-		
-		xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
-		xhttp.send();					
-
-		}
+				}				
+		});		
+	 }
 	}
 
 	function HBValidation(event){
@@ -210,31 +214,32 @@ function xmlFinal(){
     }
 	function AddDeductionData(event){
 		    clear();
-			SetValue("User_Id",userId);		
-			SetValue("NothiNo",document.getElementById("NothiNo").value);
-			SetValue("ComputerDed",document.getElementById("ComputerDed").value);
-			SetValue("MotorDed",document.getElementById("MotorDed").value);				
-			SetValue("HBDed",document.getElementById("HBDed").value);
-			SetValue("Revenue",document.getElementById("Revenue").value);	
-			SetValue("OthersDed",document.getElementById("OthersDed").value);			
-			SetValue("Remarks",document.getElementById("Remarks").value);			
-			SetValue("Class","PensionValidation");
-			SetValue("Method","AddPenDeductionData");
+			SetValue("User_Id",userId,"N");		
+			SetValue("NothiNo",document.getElementById("NothiNo").value,"N");
+			SetValue("ComputerDed",document.getElementById("ComputerDed").value,"N");
+			SetValue("MotorDed",document.getElementById("MotorDed").value,"N");				
+			SetValue("HBDed",document.getElementById("HBDed").value,"N");
+			SetValue("Revenue",document.getElementById("Revenue").value,"N");	
+			SetValue("OthersDed",document.getElementById("OthersDed").value,"N");			
+			SetValue("Remarks",document.getElementById("Remarks").value,"N");			
+			SetValue("Class","elixir.validator.pps.PensionValidation","N");
+			SetValue("Method","AddPenDeductionData","L");
 			xmlFinal();
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
-					if (obj.ERROR_MSG != "") {
+						
+			$.ajax({
+				  method: "POST",
+				  url: "CommomAjaxCallHandler",
+				  data: { DataString: DataMap }
+				})
+				  .done(function( responseMessage ) {
+				    var obj = JSON.parse(responseMessage);
+				    if (obj.ERROR_MSG != "") {
 						alert(obj.ERROR_MSG);
 					} else {
 						alert(obj.SUCCESS);
 						initValues();
-					}									
-			}
-		};
-		xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
-		xhttp.send();	
+					}		
+			});	
 	}
 	
 </script>

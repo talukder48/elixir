@@ -269,7 +269,7 @@ function GetPensionReport()
 	"&pensionDist="+document.getElementById("pensionDist").value+"&ActivationType="+document.getElementById("ActivationType").value;
 	
 		var xhttp = new XMLHttpRequest();		
-		xhttp.open("POST", "PenReportServlet?"+DataString, true);
+		xhttp.open("POST", "PensionPaymentSystemReport?"+DataString, true);
 		
 		xhttp.responseType = "blob";
 		xhttp.onreadystatechange = function () {
