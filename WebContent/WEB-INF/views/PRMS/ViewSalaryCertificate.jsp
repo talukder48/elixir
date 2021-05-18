@@ -240,7 +240,6 @@ function clear(){
 function initValues(){
 	var dt = new Date();
 	document.getElementById("Branch_Code").value="<%= session.getAttribute("BranchCode")%>";	
-	//document.getElementById("financialYear").value=dt.getFullYear();
 	document.getElementById("empID").focus();
 	
 	if(document.getElementById("Branch_Code").value=="9999"){
@@ -250,77 +249,6 @@ function initValues(){
 		document.getElementById('Branch_Code').readOnly = false;
 	}
 	document.getElementById("empID").value = "";
-}
-function BranchCodeValidation(event){
-	if (event.keyCode == 13 || event.which == 13) {
-	if (document.getElementById("Branch_Code").value==""){
-		alert("Enter your branch code!");
-		document.getElementById("Branch_Code").focus();
-		return;
-	}
-	if (document.getElementById("Branch_Code").value != "") {
-		clear();
-		SetValue("branch_code",document.getElementById("Branch_Code").value);
-		SetValue("Class","PRMSValidator");
-		SetValue("Method","BranchKeyPress");
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
-				if (obj.ERROR_MSG != "") {
-					alert(obj.ERROR_MSG);
-				} else {
-					if (obj.ERROR_MSG != "") {
-						alert(obj.ERROR_MSG);
-					} else {						
-						document.getElementById("empID").focus();
-					}					
-				}
-			}
-		};
-		xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-		xhttp.send();
-	}
-	else{
-		document.getElementById("empID").focus();
-	}
- }
-}
-
-
-function EmployeeIDValidation(event)
-{
-if (event.keyCode == 13 || event.which == 13) {
-	
-		if(document.getElementById("empID").value == "" ){
-			document.getElementById("empID").value = "N/A"
-			document.getElementById("financialYear").focus();
-			return;
-		}		
-		var usr_brn = "<%= session.getAttribute("BranchCode")%>";
-		clear();
-		SetValue("UserBranchCode",usr_brn);
-		SetValue("EmployeeId", document.getElementById("empID").value);
-		SetValue("Class","PRMSValidator");
-		SetValue("Method","EmployeeIdValidation");
-		
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
-				if (obj.ERROR_MSG != "") {
-					alert(obj.ERROR_MSG);
-					document.getElementById("empID").focus();
-				} else {
-					//document.getElementById("empID").innerHTML = obj.EMP_NAME;
-					document.getElementById("financialYear").focus();					
-				}															
-			}
-		};
-		
-		xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-		xhttp.send();					
-	}
 }
 
 
@@ -332,27 +260,39 @@ function FinancialYearValidation(event)
 }
 
 function GenerateReport(){	
-	var usr_id = "<%= session.getAttribute("User_Id")%>";
-	var DataString = "ReportType="+document.getElementById("ReportType").value;	
-	var branchCode = branchCode=document.getElementById("Branch_Code").value;
-	var emp_id = document.getElementById("empID").value;
-	if (branchCode == ""){
-		alert("Enter your branch code!");
-		document.getElementById("Branch_Code").focus();
-		return;
-	}
+		var usr_id = "<%= session.getAttribute("User_Id")%>";
+		var emp_id = document.getElementById("empID").value;
+		var loggedBranch="<%=session.getAttribute("BranchCode")%>";
+		var empID;
+		if (document.getElementById("Branch_Code").value == ""){
+			alert("Enter your branch code!");
+			document.getElementById("Branch_Code").focus();
+			return;
+		}
+			
+		if(document.getElementById("empID").value==""){
+			empID="N/A";
+	    }
 		
-   if(document.getElementById("financialYear").value == ""){
-		alert("Please enter Finnancial Year");
-		document.getElementById("financialYear").focus();
-		return;
-	}
-	
-	DataString=DataString+"&Branch_Code="+branchCode+"&empID="+emp_id+"&financialYear="+document.getElementById("financialYear").value+"&User_Id="+usr_id;
-	
+		
+	   if(document.getElementById("financialYear").value == ""){
+			alert("Please enter Finnancial Year");
+			document.getElementById("financialYear").focus();
+			return;
+		}
+   
+
+		clear();
+		SetValue("loggedBranch",loggedBranch);
+		SetValue("Branch_Code",document.getElementById("Branch_Code").value);
+		SetValue("empID",empID);
+		SetValue("financialYear",document.getElementById("financialYear").value);
+		SetValue("ReportType",document.getElementById("ReportType").value);
+		SetValue("Class","elixir.report.ics.PayrollManagementSystemReport");
+		SetValue("Method","YearlyPRMSReport");
 	
 		var xhttp = new XMLHttpRequest();		
-		xhttp.open("POST", "ReportServlet?"+DataString, true);
+		xhttp.open("POST", "CommomReportHandler?"+DataMap, true);
 		xhttp.responseType = "blob";
 		xhttp.onreadystatechange = function () {
 		    if (xhttp.readyState === 4 && xhttp.status === 200) {
@@ -362,13 +302,10 @@ function GenerateReport(){
 		            var link = document.createElement('a');
 		            link.href = window.URL.createObjectURL(xhttp.response);		       
 		            window.open(link.href);		            
-		            //link.download = "PdfName-" + new Date().getTime() + ".pdf";
-		            //link.click();
 		        } else if (typeof window.navigator.msSaveBlob !== 'undefined') {
 		            // IE version
 		            var blob = new Blob([xhttp.response], { type: 'application/pdf' });
 		            window.navigator.msSaveBlob(blob, filename);
-		           // window.open(window.navigator.msSaveBlob(blob, filename));
 		        } else {
 		            // Firefox version
 		            var file = new File([xhttp.response], filename, { type: 'application/force-download' });
@@ -376,8 +313,7 @@ function GenerateReport(){
 		        }
 		    }
 		};
-		xhttp.send();
-		
+		xhttp.send();		
 		initValues();
 }
 
@@ -394,7 +330,7 @@ function GenerateReport(){
 						<label for="Branch_Code">Branch Code</label>
 					</div>
 					<div class="col-45">
-						<input type="text" id="Branch_Code" name="Branch_Code" onkeypress="BranchCodeValidation(event)" readonly>
+						<input type="text" id="Branch_Code" name="Branch_Code"  readonly>
 					</div>
 				</div>
 				
@@ -403,7 +339,7 @@ function GenerateReport(){
 						<label for="empID">Employee ID</label>
 					</div>
 					<div class="col-45">
-						<input type="text" id="empID" name="empID" onkeypress="EmployeeIDValidation(event)">
+						<input type="text" id="empID" name="empID" >
 					</div>
 				</div>
 				

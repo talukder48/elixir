@@ -235,36 +235,42 @@ function MonthCodeValidation(event)
 	}
 }
 function GenerateReport(){	
-	var DataString="ReportType="+document.getElementById("ReportType").value;	
-	var branchCode="";
-	if (document.getElementById("Branch_Code").value==""){
-		branchCode="NA";
-	}
-	else{
-		branchCode=document.getElementById("Branch_Code").value;
-	}
-	var user = "<%= session.getAttribute("User_Id")%>";
+		var DataString="ReportType="+document.getElementById("ReportType").value;	
+		var branchCode="";
+		if (document.getElementById("Branch_Code").value==""){
+			branchCode="NA";
+		}
+		else{
+			branchCode=document.getElementById("Branch_Code").value;
+		}
+		var user = "<%= session.getAttribute("User_Id")%>";
+				
+		clear();
+		SetValue("loggedBranch",branchCode);
+		SetValue("Branch_Code",document.getElementById("Branch_Code").value);
+		SetValue("User_Id",user);
+		SetValue("Year",document.getElementById("Year").value);
+		SetValue("MonthCode",document.getElementById("MonthCode").value);
+		SetValue("ReportType",document.getElementById("ReportType").value);
+		SetValue("Class","elixir.report.ics.PayrollManagementSystemReport");
+		SetValue("Method","MonthlyPRMSReport");
 	
-	DataString=DataString+"&Branch_Code="+branchCode+"&MonthCode="+document.getElementById("MonthCode").value
-	+"&Year="+document.getElementById("Year").value+"&User_Id="+user;
 		var xhttp = new XMLHttpRequest();		
-		xhttp.open("POST", "ReportServlet?"+DataString, true);
+		xhttp.open("POST", "CommomReportHandler?"+DataMap, true);
 		xhttp.responseType = "blob";
 		xhttp.onreadystatechange = function () {
 		    if (xhttp.readyState === 4 && xhttp.status === 200) {
-		        var filename = "Report_"+ document.getElementById("ReportType").value+"_"+document.getElementById("Branch_Code").value +".pdf";
+		        var filename = "Report_"+ document.getElementById("ReportType").value +".pdf";
 		        if (typeof window.chrome !== 'undefined') {
 		            // Chrome version
 		            var link = document.createElement('a');
 		            link.href = window.URL.createObjectURL(xhttp.response);		       
 		            window.open(link.href);		            
-		            //link.download = "PdfName-" + new Date().getTime() + ".pdf";
-		            //link.click();
+		           
 		        } else if (typeof window.navigator.msSaveBlob !== 'undefined') {
 		            // IE version
 		            var blob = new Blob([xhttp.response], { type: 'application/pdf' });
 		            window.navigator.msSaveBlob(blob, filename);
-		           // window.open(window.navigator.msSaveBlob(blob, filename));
 		        } else {
 		            // Firefox version
 		            var file = new File([xhttp.response], filename, { type: 'application/force-download' });
@@ -272,7 +278,7 @@ function GenerateReport(){
 		        }
 		    }
 		};
-		xhttp.send();			
+		xhttp.send();	
 }
 </script>
 </head>

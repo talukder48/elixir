@@ -256,27 +256,27 @@ function FinancialYearValidation(event)
 
 function GenerateReport(){	
 	
-	var DataString = "ReportType="+document.getElementById("ReportType").value;	
-	var NothiNo = document.getElementById("NothiNo").value;
-	
-    if(NothiNo==""){
-    	NothiNo="N/A";
-    }
-	
-   if(document.getElementById("financialYear").value == ""){
-		alert("Please enter Finnancial Year");
-		document.getElementById("financialYear").focus();
-		return;
-	}	
-   var loggedBranch="<%=session.getAttribute("BranchCode")%>";
-   
+		var DataString = "ReportType="+document.getElementById("ReportType").value;	
+		var NothiNo = document.getElementById("NothiNo").value;
 		
-	clear();
-	SetValue("loggedBranch",loggedBranch);
-	SetValue("NothiNo",NothiNo);
-	SetValue("financialYear",document.getElementById("financialYear").value);
-	SetValue("Class","elixir.report.ics.PensionPaymentSystemReport");
-	SetValue("Method","YearlyPensionPaymentSystemReport");
+	    if(NothiNo==""){
+	    	NothiNo="N/A";
+	    }
+		
+	   if(document.getElementById("financialYear").value == ""){
+			alert("Please enter Finnancial Year");
+			document.getElementById("financialYear").focus();
+			return;
+		}	
+	   var loggedBranch="<%=session.getAttribute("BranchCode")%>";
+	   
+			
+		clear();
+		SetValue("loggedBranch",loggedBranch);
+		SetValue("NothiNo",NothiNo);
+		SetValue("financialYear",document.getElementById("financialYear").value);
+		SetValue("Class","elixir.report.ics.PensionPaymentSystemReport");
+		SetValue("Method","YearlyPensionPaymentSystemReport");
 	
 	
 		var xhttp = new XMLHttpRequest();		

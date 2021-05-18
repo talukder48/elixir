@@ -245,41 +245,7 @@ function initValues(){
 	
 }
 
-function BranchCodeValidation(event){
-	if (event.keyCode == 13 || event.which == 13) {
-	if (document.getElementById("Branch_Code").value==""){
-		alert("Enter your branch code!");
-		document.getElementById("Branch_Code").focus();
-		return;
-	}
-	if (document.getElementById("Branch_Code").value != "") {
-		clear();
-		SetValue("branch_code",document.getElementById("Branch_Code").value);
-		SetValue("Class","PRMSValidator");
-		SetValue("Method","BranchKeyPress");
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
-				if (obj.ERROR_MSG != "") {
-					alert(obj.ERROR_MSG);
-				} else {
-					if (obj.ERROR_MSG != "") {
-						alert(obj.ERROR_MSG);
-					} else {						
-						document.getElementById("financialYear").focus();
-					}					
-				}
-			}
-		};
-		xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-		xhttp.send();
-	}
-	else{
-		document.getElementById("financialYear").focus();
-	}
- }
-}
+
 
 
 
@@ -314,30 +280,36 @@ function IncentiveProcessProcessRun(){
 
 function GenerateReport(){	
 	
-	if( document.getElementById("ReportType").value=="IncentiveDetails"){
-		IncentiveProcessProcessRun();
-	}
-	
-	var usr_id = "<%= session.getAttribute("User_Id")%>";
-	var DataString = "ReportType="+document.getElementById("ReportType").value;	
-	var branchCode = branchCode=document.getElementById("Branch_Code").value;
-	if (branchCode == ""){
-		alert("Enter your branch code!");
-		document.getElementById("Branch_Code").focus();
-		return;
-	}
+		if( document.getElementById("ReportType").value=="IncentiveDetails"){
+			//IncentiveProcessProcessRun();
+		}
 		
-   if(document.getElementById("financialYear").value == ""){
-		alert("Please enter Finnancial Year");
-		document.getElementById("financialYear").focus();
-		return;
-	}
-	
-	DataString=DataString+"&Branch_Code="+branchCode+"&financialYear="+document.getElementById("financialYear").value+"&User_Id="+usr_id;
-	
-	
+		var usr_id = "<%= session.getAttribute("User_Id")%>";
+		var DataString = "ReportType="+document.getElementById("ReportType").value;	
+		var branchCode =document.getElementById("Branch_Code").value;
+		if (branchCode == ""){
+			alert("Enter your branch code!");
+			document.getElementById("Branch_Code").focus();
+			return;
+		}
+			
+	   if(document.getElementById("financialYear").value == ""){
+			alert("Please enter Finnancial Year");
+			document.getElementById("financialYear").focus();
+			return;
+		}
+   
+		clear();
+		SetValue("loggedBranch",branchCode);
+		SetValue("Branch_Code",document.getElementById("Branch_Code").value);
+		SetValue("User_Id",usr_id);
+		SetValue("financialYear",document.getElementById("financialYear").value);
+		SetValue("ReportType",document.getElementById("ReportType").value);
+		SetValue("Class","elixir.report.ics.PayrollManagementSystemReport");
+		SetValue("Method","IncentivePRMSReport");
+		
 		var xhttp = new XMLHttpRequest();		
-		xhttp.open("POST", "ReportServlet?"+DataString, true);
+		xhttp.open("POST", "CommomReportHandler?"+DataMap, true);
 		xhttp.responseType = "blob";
 		xhttp.onreadystatechange = function () {
 		    if (xhttp.readyState === 4 && xhttp.status === 200) {
@@ -346,14 +318,11 @@ function GenerateReport(){
 		            // Chrome version
 		            var link = document.createElement('a');
 		            link.href = window.URL.createObjectURL(xhttp.response);		       
-		            window.open(link.href);		            
-		            //link.download = "PdfName-" + new Date().getTime() + ".pdf";
-		            //link.click();
+		            window.open(link.href);		            		      
 		        } else if (typeof window.navigator.msSaveBlob !== 'undefined') {
 		            // IE version
 		            var blob = new Blob([xhttp.response], { type: 'application/pdf' });
 		            window.navigator.msSaveBlob(blob, filename);
-		           // window.open(window.navigator.msSaveBlob(blob, filename));
 		        } else {
 		            // Firefox version
 		            var file = new File([xhttp.response], filename, { type: 'application/force-download' });
@@ -361,8 +330,7 @@ function GenerateReport(){
 		        }
 		    }
 		};
-		xhttp.send();
-		
+		xhttp.send();		
 		initValues();
 }
 
