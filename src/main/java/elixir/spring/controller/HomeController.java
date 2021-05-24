@@ -43,7 +43,7 @@ public class HomeController {
 		model.addAttribute("password", user.getPassword());	
 		HttpSession sessionParam = request.getSession();				
 		sessionParam.putValue("BranchCode", "0600");
-		
+		sessionParam.putValue("User_Id", user.getUserName());
 	  if(user.getUserName().equals("1000")) {
 			return "BranchOfficeUser";
 		}

@@ -5,7 +5,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
-
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style>
 .datepicker {
 	width: 10.5em;
@@ -113,19 +116,22 @@ input[type=submit]:hover {
 }
 </style>
 <script type="text/javascript">
-var DataMap="";
-function SetValue(key,value){
-	var Node = key+"*"+value;
-	if(DataMap!=""){
-		DataMap=DataMap+"$"+Node;
+	var DataMap="";
+	function SetValue(key,value,itemsl){
+		if(itemsl=='L'){
+			var Node ='"'+ key+'"'+":"+'"'+value+'"';
+		}
+		else{
+			var Node ='"'+ key+'"'+":"+'"'+value+'"'+",";
+		}
+		DataMap=DataMap+Node;
 	}
-	else{
-		DataMap="data="+Node;
+	function clear(){
+		DataMap="";
 	}
-}
-function clear(){
-	DataMap="";
-}
+	function xmlFinal(){
+		DataMap="{"+DataMap+"}";
+	}
 	function initValues() {
 		document.getElementById("EmployeeId").value = "";
 		document.getElementById("EmployeeName").value = "";
@@ -151,45 +157,47 @@ function clear(){
 			initValues();
 		}
 		if (event.keyCode == 13 || event.which == 13) {
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					var obj = JSON.parse(this.responseText);
-					if (obj.ERROR_MSG != "") {
-						alert(obj.ERROR_MSG);
-						initValues();
-					} else {
-						document.getElementById("EmployeeName").value = obj.EMP_NAME;
-						document.getElementById("carFare").value = obj.CAR_FARE;
-						document.getElementById("carUse").value = obj.CAR_USE;
-						document.getElementById("gasBill").value = obj.GAS_BILL;
-						document.getElementById("waterBill").value = obj.WATER_BILL;
-						document.getElementById("electricBill").value = obj.ELECT_BILL;
-						document.getElementById("newspaper").value = obj.NEWS_PAPER;
-						document.getElementById("computer").value = obj.COMP_DEDUC;
-						document.getElementById("motorcycle").value = obj.MCYCLE_DEDUC;
-						document.getElementById("telephoneExcess").value = obj.TEL_EXCESS_BILL;
-						document.getElementById("hbAdvPct").value = obj.HBADV_DEDUC_PERCENT;
-						document.getElementById("hbAdvManual").value = obj.HB_ADV_DEDUC;
-						document.getElementById("pfAdvance").value = obj.PFADV_DEDUC;
-						document.getElementById("others").value = obj.OTHER_DEDUC;
-						document.getElementById("arearHR").value= obj.HR_AREAR_DED;
-						if (obj.OTHER_DEDUC > 0) {
-							document.getElementById("remarksOthers").value = obj.REMARKS;
-						}
-						document.getElementById("carFare").focus();
-					}
-				}
-			};
-			
 			var usr_brn = "<%= session.getAttribute("BranchCode")%>";
 			clear();
-			SetValue("EmployeeId",document.getElementById("EmployeeId").value);
-			SetValue("UserBranchCode",usr_brn);
-			SetValue("Class","FinanceOperation");
-			SetValue("Method","FetchDeductionData");
-			xhttp.open("POST","HTTPValidator?" + DataMap, true);		
-			xhttp.send();
+			SetValue("EmployeeId",document.getElementById("EmployeeId").value,"N");
+			SetValue("UserBranchCode",usr_brn,"N");
+			SetValue("Class","elixir.validator.pps.FinanceOperation","N");
+			SetValue("Method","FetchDeductionData","L");
+			xmlFinal();			
+			
+			$.ajax({
+				  method: "POST",
+				  url: "CommomAjaxCallHandler",
+				  data: { DataString: DataMap }
+				})
+				  .done(function( responseMessage ) {
+					  
+					  var obj = JSON.parse(responseMessage);
+					  if (obj.ERROR_MSG != "") {
+							alert(obj.ERROR_MSG);
+							initValues();
+						} else {
+							document.getElementById("EmployeeName").value = obj.EMP_NAME;
+							document.getElementById("carFare").value = obj.CAR_FARE;
+							document.getElementById("carUse").value = obj.CAR_USE;
+							document.getElementById("gasBill").value = obj.GAS_BILL;
+							document.getElementById("waterBill").value = obj.WATER_BILL;
+							document.getElementById("electricBill").value = obj.ELECT_BILL;
+							document.getElementById("newspaper").value = obj.NEWS_PAPER;
+							document.getElementById("computer").value = obj.COMP_DEDUC;
+							document.getElementById("motorcycle").value = obj.MCYCLE_DEDUC;
+							document.getElementById("telephoneExcess").value = obj.TEL_EXCESS_BILL;
+							document.getElementById("hbAdvPct").value = obj.HBADV_DEDUC_PERCENT;
+							document.getElementById("hbAdvManual").value = obj.HB_ADV_DEDUC;
+							document.getElementById("pfAdvance").value = obj.PFADV_DEDUC;
+							document.getElementById("others").value = obj.OTHER_DEDUC;
+							document.getElementById("arearHR").value= obj.HR_AREAR_DED;
+							if (obj.OTHER_DEDUC > 0) {
+								document.getElementById("remarksOthers").value = obj.REMARKS;
+							}
+							document.getElementById("carFare").focus();
+						}
+			});						
 		}
 	}
 	
@@ -270,44 +278,47 @@ function clear(){
 	}
 	function UpdateEmployeeDeduction(event) {
 
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
-				if (obj.ERROR_MSG != "") {
-					alert(obj.ERROR_MSG);
-				} else {
-					alert(obj.SUCCESS);
-					initValues();
-				}
-			}
-		};
+		
 		if (document.getElementById("remarksOthers").value == "")
 			document.getElementById("remarksOthers").value = "NA";
 		
 		clear();
 		var User_Id="<%= session.getAttribute("User_Id")%>";
-		SetValue("User_Id",User_Id);
-		SetValue("EmployeeId",document.getElementById("EmployeeId").value);
+		SetValue("User_Id",User_Id,"N");
+		SetValue("EmployeeId",document.getElementById("EmployeeId").value,"N");
 		SetValue("hbAdvPct",document.getElementById("hbAdvPct").value);
-		SetValue("telephoneExcess",document.getElementById("telephoneExcess").value);
-		SetValue("computer",document.getElementById("computer").value);
-		SetValue("motorcycle",document.getElementById("motorcycle").value);		
+		SetValue("telephoneExcess",document.getElementById("telephoneExcess").value,"N");
+		SetValue("computer",document.getElementById("computer").value,"N");
+		SetValue("motorcycle",document.getElementById("motorcycle").value,"N");		
 		SetValue("newspaper",document.getElementById("newspaper").value);
-		SetValue("electricBill",document.getElementById("electricBill").value);
-		SetValue("waterBill",document.getElementById("waterBill").value);		
-		SetValue("gasBill",document.getElementById("gasBill").value);
-		SetValue("carUse",document.getElementById("carUse").value);
-		SetValue("carFare",document.getElementById("carFare").value);
-		SetValue("others",document.getElementById("others").value);
-		SetValue("hbAdvManual",document.getElementById("hbAdvManual").value);
-		SetValue("pfAdvance",document.getElementById("pfAdvance").value);		
-		SetValue("remarksOthers",document.getElementById("remarksOthers").value);		
-		SetValue("arearHR",document.getElementById("arearHR").value);
-		SetValue("Class","FinanceOperation");
-		SetValue("Method","UpdateDeduction");
-		xhttp.open("POST","HTTPValidator?" + DataMap, true);				
-		xhttp.send();
+		SetValue("electricBill",document.getElementById("electricBill").value,"N");
+		SetValue("waterBill",document.getElementById("waterBill").value,"N");		
+		SetValue("gasBill",document.getElementById("gasBill").value,"N");
+		SetValue("carUse",document.getElementById("carUse").value,"N");
+		SetValue("carFare",document.getElementById("carFare").value,"N");
+		SetValue("others",document.getElementById("others").value,"N");
+		SetValue("hbAdvManual",document.getElementById("hbAdvManual").value,"N");
+		SetValue("pfAdvance",document.getElementById("pfAdvance").value,"N");		
+		SetValue("remarksOthers",document.getElementById("remarksOthers").value,"N");		
+		SetValue("arearHR",document.getElementById("arearHR").value,"N");
+		SetValue("Class","elixir.validator.pps.FinanceOperation","N");
+		SetValue("Method","UpdateDeduction","L");
+		
+		xmlFinal();							
+		$.ajax({
+			  method: "POST",
+			  url: "CommomAjaxCallHandler",
+			  data: { DataString: DataMap }
+			})
+			  .done(function( responseMessage ) {
+			    var obj = JSON.parse(responseMessage);
+			    if (obj.ERROR_MSG != "") {
+					alert(obj.ERROR_MSG);
+				} else {
+					alert(obj.SUCCESS);
+					initValues();
+				}		
+		});	
 	}
 </script>
 </head>

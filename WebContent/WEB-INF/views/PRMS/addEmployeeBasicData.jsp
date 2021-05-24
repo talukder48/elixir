@@ -5,7 +5,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
-
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style>
 
 .datepicker
@@ -115,18 +118,22 @@ float: left;
 </style>
 <script type="text/javascript">
 var DataMap="";
-function SetValue(key,value){
-	var Node = key+"*"+value;
-	if(DataMap!=""){
-		DataMap=DataMap+"$"+Node;
+function SetValue(key,value,itemsl){
+	if(itemsl=='L'){
+		var Node ='"'+ key+'"'+":"+'"'+value+'"';
 	}
 	else{
-		DataMap="data="+Node;
+		var Node ='"'+ key+'"'+":"+'"'+value+'"'+",";
 	}
+	DataMap=DataMap+Node;
 }
 function clear(){
 	DataMap="";
 }
+function xmlFinal(){
+	DataMap="{"+DataMap+"}";
+}
+
 function initValues(){
 	document.getElementById("EmployeeId").value="";
 	document.getElementById("EmployeeName").value="";
@@ -144,15 +151,21 @@ function EmployeeIdValidation(event){
 	if (event.keyCode == 13 || event.which == 13) {	
 		var usr_brn = "<%= session.getAttribute("BranchCode")%>";
 		clear();
-		SetValue("EmployeeId",document.getElementById("EmployeeId").value);
-		SetValue("Class","FinanceOperation");
-		SetValue("Method","FetchEmpInitData");
-		SetValue("UserBranchCode",usr_brn);
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
-					if (obj.ERROR_MSG != "") {
+		SetValue("EmployeeId",document.getElementById("EmployeeId").value,"N");
+		SetValue("UserBranchCode",usr_brn,"N");
+		SetValue("Class","elixir.validator.pps.FinanceOperation","N");
+		SetValue("Method","FetchEmpInitData","L");
+		xmlFinal();		
+		
+		$.ajax({
+			  method: "POST",
+			  url: "CommomAjaxCallHandler",
+			  data: { DataString: DataMap }
+			})
+			  .done(function( responseMessage ) {
+				  
+				  var obj = JSON.parse(responseMessage);
+				  if (obj.ERROR_MSG != "") {
 						alert(obj.ERROR_MSG);
 						initValues();
 					} else {
@@ -175,11 +188,9 @@ function EmployeeIdValidation(event){
 							document.getElementById("bankACNo").value="";	
 							document.getElementById("basicPay").focus();							 
 						  }							 				
-					}									
-			}
-		};
-		xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-		xhttp.send();			
+					}					
+		});
+		
 	}
 }
 function BasicPayValidation(event){
@@ -222,28 +233,28 @@ function BankACNoValidation(event){
 
 function InitProfile(event){
 	clear();
-	SetValue("EmployeeId",document.getElementById("EmployeeId").value);
-	SetValue("basicPay",document.getElementById("basicPay").value);
-	SetValue("taxDeduct",document.getElementById("taxDeduct").value);
-	SetValue("PFDeduct",document.getElementById("PFDeduct").value);
-	SetValue("bankACNo",document.getElementById("bankACNo").value);
-	SetValue("Class","FinanceOperation");
-	SetValue("Method","UpdateInitProfile");
-	  var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
-				if (obj.ERROR_MSG != "") {
-					alert(obj.ERROR_MSG);
-					initValues();
-				} else {
-					alert(obj.SUCCESS);
-					initValues();
-				}
-			}
-		};		
-		xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-		xhttp.send();
+	SetValue("EmployeeId",document.getElementById("EmployeeId").value,"N");
+	SetValue("basicPay",document.getElementById("basicPay").value,"N");
+	SetValue("taxDeduct",document.getElementById("taxDeduct").value,"N");
+	SetValue("PFDeduct",document.getElementById("PFDeduct").value,"N");
+	SetValue("bankACNo",document.getElementById("bankACNo").value,"N");
+	SetValue("Class","elixir.validator.pps.FinanceOperation","N");
+	SetValue("Method","UpdateInitProfile","L");
+	xmlFinal();							
+	$.ajax({
+		  method: "POST",
+		  url: "CommomAjaxCallHandler",
+		  data: { DataString: DataMap }
+		})
+		  .done(function( responseMessage ) {
+		    var obj = JSON.parse(responseMessage);
+		    if (obj.ERROR_MSG != "") {
+				alert(obj.ERROR_MSG);
+			} else {
+				alert(obj.SUCCESS);
+				initValues();
+			}		
+	});	
 }
 </script>
 </head>

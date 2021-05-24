@@ -6,6 +6,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style>
 
 .datepicker
@@ -115,18 +119,22 @@ float: left;
 </style>
 <script type="text/javascript">
 var DataMap="";
-function SetValue(key,value){
-	var Node = key+"*"+value;
-	if(DataMap!=""){
-		DataMap=DataMap+"$"+Node;
+function SetValue(key,value,itemsl){
+	if(itemsl=='L'){
+		var Node ='"'+ key+'"'+":"+'"'+value+'"';
 	}
 	else{
-		DataMap="data="+Node;
+		var Node ='"'+ key+'"'+":"+'"'+value+'"'+",";
 	}
+	DataMap=DataMap+Node;
 }
 function clear(){
 	DataMap="";
 }
+function xmlFinal(){
+	DataMap="{"+DataMap+"}";
+}
+
 function initValues(){
 	document.getElementById("EmployeeId").value="";
 	document.getElementById("EmployeeName").value="";	
@@ -148,10 +156,22 @@ function EmployeeIdValidation(event){
 		initValues();
 	}
 	if (event.keyCode == 13 || event.which == 13) {
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
+		var usr_brn="<%=session.getAttribute("BranchCode")%>";
+		clear();
+		SetValue("EmployeeId",document.getElementById("EmployeeId").value,"N");
+		SetValue("UserBranchCode",usr_brn,"N");
+		SetValue("Class","elixir.validator.pps.FinanceOperation","N");
+		SetValue("Method","FetchAllowanceData","L");
+		xmlFinal();			
+		
+		$.ajax({
+			  method: "POST",
+			  url: "CommomAjaxCallHandler",
+			  data: { DataString: DataMap }
+			})
+			  .done(function( responseMessage ) {
+				  
+				  var obj = JSON.parse(responseMessage);
 					if (obj.ERROR_MSG != "") {
 						alert(obj.ERROR_MSG);
 						initValues();
@@ -172,18 +192,9 @@ function EmployeeIdValidation(event){
 							document.getElementById("remarksOthers").value=obj.REMARKS;
 						}
 						document.getElementById("telephone").focus();
-				}									
-			}
-		};
-		
-		var usr_brn = "<%= session.getAttribute("BranchCode")%>";
-		clear();
-		SetValue("EmployeeId",document.getElementById("EmployeeId").value);
-		SetValue("UserBranchCode",usr_brn);
-		SetValue("Class","FinanceOperation");
-		SetValue("Method","FetchAllowanceData");
-		xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-		xhttp.send();			
+				}			
+		});
+				
 	}
 }
 
@@ -255,39 +266,43 @@ function ArreararrearHRValidation(event){
 }
 
 function UpdateEmployeeAllowance(event){
-	  var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
-				if (obj.ERROR_MSG != "") {
-					alert(obj.ERROR_MSG);
-				} else {
-					alert(obj.SUCCESS);
-					initValues();
-				}
-			}
-		};		
-		if (document.getElementById("remarksOthers").value=="")document.getElementById("remarksOthers").value="NA";		
-		clear();
-		var User_Id="<%= session.getAttribute("User_Id")%>";
-		SetValue("User_Id",User_Id);
-		SetValue("EmployeeId",document.getElementById("EmployeeId").value);
-		SetValue("telephone",document.getElementById("telephone").value);
-		SetValue("transport",document.getElementById("transport").value);
-		SetValue("arrear",document.getElementById("arrear").value);
-		SetValue("education",document.getElementById("education").value);
-		SetValue("entertainment",document.getElementById("entertainment").value);
-		SetValue("domestic",document.getElementById("domestic").value);
-		SetValue("wash",document.getElementById("wash").value);		
-		SetValue("arrearBasic",document.getElementById("arrearBasic").value);
-		SetValue("others",document.getElementById("others").value);
-		SetValue("remarksOthers",document.getElementById("remarksOthers").value);
-		SetValue("hillAllwnc",document.getElementById("hillAllwnc").value);	
-		SetValue("arrearHR",document.getElementById("arrearHR").value);
-		SetValue("Class","FinanceOperation");
-		SetValue("Method","UpdateAllowance");
-		xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-		xhttp.send();
+	
+	if (document.getElementById("remarksOthers").value=="")document.getElementById("remarksOthers").value="NA";		
+			clear();
+			var User_Id="<%= session.getAttribute("User_Id")%>";
+			SetValue("User_Id",User_Id,"N");
+			SetValue("EmployeeId",document.getElementById("EmployeeId").value,"N");
+			SetValue("telephone",document.getElementById("telephone").value,"N");
+			SetValue("transport",document.getElementById("transport").value,"N");
+			SetValue("arrear",document.getElementById("arrear").value,"N");
+			SetValue("education",document.getElementById("education").value,"N");
+			SetValue("entertainment",document.getElementById("entertainment").value,"N");
+			SetValue("domestic",document.getElementById("domestic").value,"N");
+			SetValue("wash",document.getElementById("wash").value,"N");		
+			SetValue("arrearBasic",document.getElementById("arrearBasic").value,"N");
+			SetValue("others",document.getElementById("others").value,"N");
+			SetValue("remarksOthers",document.getElementById("remarksOthers").value,"N");
+			SetValue("hillAllwnc",document.getElementById("hillAllwnc").value,"N");	
+			SetValue("arrearHR",document.getElementById("arrearHR").value,"N");
+			SetValue("Class","elixir.validator.pps.FinanceOperation","N");
+			SetValue("Method","UpdateAllowance","L");
+			xmlFinal();							
+			$.ajax({
+				  method: "POST",
+				  url: "CommomAjaxCallHandler",
+				  data: { DataString: DataMap }
+				})
+				  .done(function( responseMessage ) {
+				    var obj = JSON.parse(responseMessage);
+				    if (obj.ERROR_MSG != "") {
+						alert(obj.ERROR_MSG);
+					} else {
+						alert(obj.SUCCESS);
+						initValues();
+					}		
+			});	
+
+		
 }
 </script>
 </head>

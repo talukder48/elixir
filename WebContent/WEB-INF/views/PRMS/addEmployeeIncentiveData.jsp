@@ -179,17 +179,20 @@ float: left;
 <script type="text/javascript">
 
 var DataMap="";
-function SetValue(key,value){
-	var Node = key+"*"+value;
-	if(DataMap!=""){
-		DataMap=DataMap+"$"+Node;
+function SetValue(key,value,itemsl){
+	if(itemsl=='L'){
+		var Node ='"'+ key+'"'+":"+'"'+value+'"';
 	}
 	else{
-		DataMap="data="+Node;
+		var Node ='"'+ key+'"'+":"+'"'+value+'"'+",";
 	}
+	DataMap=DataMap+Node;
 }
 function clear(){
 	DataMap="";
+}
+function xmlFinal(){
+	DataMap="{"+DataMap+"}";
 }
 /* cause google chrome cant assign fetched data in front end form */
 
@@ -212,27 +215,29 @@ function initValues(){
 function EmployeeIDValidation(event){
 		if (event.keyCode == 13 || event.which == 13) {			
 		clear();	
-		SetValue("EmployeeID", document.getElementById("EmployeeID").value);
-		SetValue("LocationCode", document.getElementById("LocationCode").value);
-		SetValue("FinanYear", document.getElementById("FinanYear").value);
-		SetValue("Class", "FinanceOperation");
-		SetValue("Method", "FetchIncentiveData");			
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
-				if (obj.ERROR_MSG != "") {
-					alert(obj.ERROR_MSG);
-				} else {					
-					document.getElementById("EmployeeName").value=obj.EMPLOYEE_NAME;
-					document.getElementById("IncentiveBasic").value=parseFloat(obj.INCENTIVE_BASIC).toFixed(2);	
-					document.getElementById("IncentivePct").value=parseFloat(obj.INCENTIVE_PCT).toFixed(2);	
-					document.getElementById("IncentiveBasic").focus();
-				}
-			}
-		};		
-		xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-		xhttp.send();					
+		SetValue("EmployeeID", document.getElementById("EmployeeID").value,"N");
+		SetValue("LocationCode", document.getElementById("LocationCode").value,"N");
+		SetValue("FinanYear", document.getElementById("FinanYear").value,"N");
+		SetValue("Class", "elixir.validator.pps.FinanceOperation","N");
+		SetValue("Method", "FetchIncentiveData","L");	
+		xmlFinal();					
+		$.ajax({
+			  method: "POST",
+			  url: "CommomAjaxCallHandler",
+			  data: { DataString: DataMap }
+			})
+			  .done(function( responseMessage ) {
+				  
+				  var obj = JSON.parse(responseMessage);
+				  if (obj.ERROR_MSG != "") {
+						alert(obj.ERROR_MSG);
+					} else {					
+						document.getElementById("EmployeeName").value=obj.EMPLOYEE_NAME;
+						document.getElementById("IncentiveBasic").value=parseFloat(obj.INCENTIVE_BASIC).toFixed(2);	
+						document.getElementById("IncentivePct").value=parseFloat(obj.INCENTIVE_PCT).toFixed(2);	
+						document.getElementById("IncentiveBasic").focus();
+					}
+			  });		
    }
 }
 
@@ -252,28 +257,29 @@ function IncentivePctValidation(){
 function UpdateIncentivceData(event)
 {	 
 	clear();	
-	SetValue("EmployeeID", document.getElementById("EmployeeID").value);
-	SetValue("LocationCode", document.getElementById("LocationCode").value);
-	SetValue("FinanYear", document.getElementById("FinanYear").value);
-	SetValue("IncentiveBasic", document.getElementById("IncentiveBasic").value);
-	SetValue("IncentivePct", document.getElementById("IncentivePct").value);
-	SetValue("Class","FinanceOperation");
-	SetValue("Method","UpdateIncentiveData");
+	SetValue("EmployeeID", document.getElementById("EmployeeID").value,"N");
+	SetValue("LocationCode", document.getElementById("LocationCode").value,"N");
+	SetValue("FinanYear", document.getElementById("FinanYear").value,"N");
+	SetValue("IncentiveBasic", document.getElementById("IncentiveBasic").value,"N");
+	SetValue("IncentivePct", document.getElementById("IncentivePct").value,"N");
+	SetValue("Class","elixir.validator.pps.FinanceOperation","N");
+	SetValue("Method","UpdateIncentiveData","L");
 		
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			var obj = JSON.parse(this.responseText);
-				if (obj.ERROR_MSG != "") {
-					alert(obj.ERROR_MSG);
-				} else {
-					alert(obj.SUCCESS);
-					initValues();
-				}									
-		}
-	};
-	xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-	xhttp.send();	
+	xmlFinal();							
+	$.ajax({
+		  method: "POST",
+		  url: "CommomAjaxCallHandler",
+		  data: { DataString: DataMap }
+		})
+		  .done(function( responseMessage ) {
+		    var obj = JSON.parse(responseMessage);
+		    if (obj.ERROR_MSG != "") {
+				alert(obj.ERROR_MSG);
+			} else {
+				alert(obj.SUCCESS);
+				initValues();
+			}		
+	});	
 								 				
 }
 
