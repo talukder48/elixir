@@ -142,33 +142,34 @@ var availableTags=[];
 var gl_srting="";
 var gl_code_search_list=["{}"];
 var glcodelist;
+
 function loadgllist(){
-	clear();	
 	var loggedBranch="<%=session.getAttribute("BranchCode")%>";
-	SetValue("loggedBranch", loggedBranch);
-	SetValue("Class", "AccontingParameterSetup");
-	SetValue("Method", "FetchGLData");	
-	xmlFinal()
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			var obj = JSON.parse(this.responseText);
-			if (obj.ERROR_MSG != "") {
-				alert(obj.ERROR_MSG);
-			} else {				 
-				gl_srting=obj.GL_LIST;					
-				 var gl_arrayList = gl_srting.split(',');
-				 for(var i = 0; i < gl_arrayList.length; i++) {
-					 gl_arrayList[i] = gl_arrayList[i].replace("/^\s*/", "").replace("/^\s*/", "");				
-				    var gl_keyValue = gl_arrayList[i].split(':');
-				    availableTags.push(gl_keyValue[1]+":"+gl_keyValue[0]);
-				 }
-				// alert(availableTags);
-			}
-		}
-	};
-	xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
-	xhttp.send();		
+	
+	clear();		
+	SetValue("loggedBranch", loggedBranch,"N");
+	SetValue("Class", "elixir.validator.pps.AccontingParameterSetup","N");
+	SetValue("Method", "FetchGLData","L");	
+	xmlFinal();
+	$.ajax({
+			  method: "POST",
+			  url: "CommomAjaxCallHandler",
+			  data: { DataString: DataMap }
+			})
+			  .done(function( responseMessage ) {
+			    var obj = JSON.parse(responseMessage);
+			    if (obj.ERROR_MSG != "") {
+					alert(obj.ERROR_MSG);
+				} else {				 
+					gl_srting=obj.GL_LIST;					
+					 var gl_arrayList = gl_srting.split(',');
+					 for(var i = 0; i < gl_arrayList.length; i++) {
+						 gl_arrayList[i] = gl_arrayList[i].replace("/^\s*/", "").replace("/^\s*/", "");				
+					    var gl_keyValue = gl_arrayList[i].split(':');
+					    availableTags.push(gl_keyValue[1]+":"+gl_keyValue[0]);
+					 }
+				}
+		});		
 }
 
 function reload(){
@@ -297,18 +298,22 @@ function initValues(){
     }
     
 
-      
     var DataMap="";
-	function SetValue(key,value){
-		var Node = "<cell> <key>"+key+"</key> <value>"+value+"</value> </cell>";
-		DataMap=DataMap+Node;
-	}
-	function clear(){
-		DataMap="";
-	}
-	function xmlFinal(){
-		DataMap="data=<root>"+DataMap+"</root>";
-	}
+    function SetValue(key,value,itemsl){
+    	if(itemsl=='L'){
+    		var Node ='"'+ key+'"'+":"+'"'+value+'"';
+    	}
+    	else{
+    		var Node ='"'+ key+'"'+":"+'"'+value+'"'+",";
+    	}
+    	DataMap=DataMap+Node;
+       }
+    	function clear(){
+    		DataMap="";
+    	}
+    	function xmlFinal(){
+    		DataMap="{"+DataMap+"}";
+    	}
 
     function refreshValues(){
     	document.getElementById("DrCrType").value="";
@@ -339,35 +344,30 @@ function initValues(){
         }, 1);
     }
     
-    function GLCodeValidation(event){
-    	clear();
+    function GLCodeValidation(event){   	
     	if (event.keyCode == 13 || event.which == 13) {   		
-    		if(document.getElementById("glcode").value!=""){   		
-    			SetValue("gldescription", document.getElementById("glcode").value);
-    			SetValue("Class", "AccontingParameterSetup");
-    			SetValue("Method", "GLCodeValidation");	
+    		if(document.getElementById("glcode").value!=""){   			   		
+    			clear();
+    			SetValue("gldescription", document.getElementById("glcode").value,"N");
+    			SetValue("Class", "elixir.validator.pps.AccontingParameterSetup","N");
+    			SetValue("Method", "GLCodeValidation","L");	
     			xmlFinal();
-    			var xhttp = new XMLHttpRequest();
-    			xhttp.onreadystatechange = function() {
-    				if (this.readyState == 4 && this.status == 200) {
-    					var obj = JSON.parse(this.responseText);
-    					if (obj.ERROR_MSG != "") {
+    			$.ajax({
+    				  method: "POST",
+    				  url: "CommomAjaxCallHandler",
+    				  data: { DataString: DataMap }
+    				})
+    				  .done(function( responseMessage ) {
+    				    var obj = JSON.parse(responseMessage);
+    				    if (obj.ERROR_MSG != "") {
     						alert(obj.ERROR_MSG);
     						document.getElementById("glcode").focus();
     					} else {				 
     						document.getElementById("DrCrType").focus();
-    						}   						
-    					}
-    				}
-    			
-    			xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
-    			xhttp.send();    			
-    			}
-    		else{
-    			    alert("GL Code Should not be blank");
-  			     document.getElementById("glcode").focus();
-    		}    					
-    	}    		 		    		    	
+    					}   						
+    			}); 
+    	  }
+       }    		 		    		    	
     }
     function DrCrTypeValidation(event){
     	if (event.keyCode == 13 || event.which == 13) {
@@ -608,39 +608,43 @@ function initValues(){
 	        	}
 	        	else
 	        		{
+	        		
 	        		clear();        	
-	            	SetValue("TransactionType",document.getElementById("TransactionType").value);        	
+	            	      	
 	            	if(document.getElementById("Remarks").value==""){
-	            		SetValue("Remarks", "N/A");
+	            		SetValue("Remarks", "N/A","N");
 	            	}
 	            	else{
-	            		SetValue("Remarks", document.getElementById("Remarks").value);
+	            		SetValue("Remarks", document.getElementById("Remarks").value,"N");
 	            	}
-	            	
-	            	SetValue("TransactionAmtDr", document.getElementById("TransactionAmtDr").value);
-	            	SetValue("TransactionAmtCR", document.getElementById("TransactionAmtCR").value);
-	            	SetValue("asonDate", document.getElementById("asonDate").value);
-	            	SetValue("User_Id", User_Id);
-	            	SetValue("gridData", dataGrid);  
-	            	SetValue("loggedBranch", loggedBranch);
+	            	SetValue("TransactionType",document.getElementById("TransactionType").value,"N");  	            	
+	            	SetValue("TransactionAmtDr", document.getElementById("TransactionAmtDr").value,"N");
+	            	SetValue("TransactionAmtCR", document.getElementById("TransactionAmtCR").value,"N");
+	            	SetValue("asonDate", document.getElementById("asonDate").value,"N");
+	            	SetValue("User_Id", User_Id,"N");
+	            	SetValue("gridData", dataGrid,"N");  
+	            	SetValue("loggedBranch", loggedBranch,"N");
+	            	SetValue("Class", "elixir.validator.pps.GeneralAccontingSystem","N");
+	    			SetValue("Method", "VoucherEntryMethod","L");	
 	            	xmlFinal();
-	            	var xhttp = new XMLHttpRequest();
-	            	xhttp.onreadystatechange = function() {
-	            		if (this.readyState == 4 && this.status == 200) {
-	            			var obj = JSON.parse(this.responseText);
-	            			if (obj.ERROR_MSG != "") {
-	            				alert(obj.ERROR_MSG);
-	            			} else {
-	            				alert(obj.BATCH_NO);             				
-	            				 reload();
-	            			}
-	            		}
-	            	};
-	            	xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
-	            	xhttp.send();
-	        		}    	    	
+	            	
+	            	$.ajax({
+	      			  method: "POST",
+	      			  url: "CommomAjaxCallHandler",
+	      			  data: { DataString: DataMap }
+	      			})
+	      			  .done(function( responseMessage ) {
+	      			    var obj = JSON.parse(responseMessage);
+	      			  if (obj.ERROR_MSG != "") {
+          				alert(obj.ERROR_MSG);
+          			} else {
+          				alert(obj.BATCH_NO);             				
+          				 reload();
+          			}		
+	      		});		       
+	         }    	    	
 	    	}  
-	  }    	    	  	    	
+	     }    	    	  	    	
     }
       
     $(function() {

@@ -180,18 +180,21 @@ float: left;
 <script type="text/javascript">
 
 var DataMap="";
-function SetValue(key,value){
-	var Node = key+"*"+value;
-	if(DataMap!=""){
-		DataMap=DataMap+"$"+Node;
+function SetValue(key,value,itemsl){
+	if(itemsl=='L'){
+		var Node ='"'+ key+'"'+":"+'"'+value+'"';
 	}
 	else{
-		DataMap="data="+Node;
+		var Node ='"'+ key+'"'+":"+'"'+value+'"'+",";
 	}
-}
-function clear(){
-	DataMap="";
-}
+	DataMap=DataMap+Node;
+   }
+	function clear(){
+		DataMap="";
+	}
+	function xmlFinal(){
+		DataMap="{"+DataMap+"}";
+	}
 /* cause google chrome cant assign fetched data in front end form */
 
 var userId="";
@@ -203,32 +206,33 @@ function IsValidDate(myDate) {
 
 var availableTags=[];
 
+
 function loadgllist(){
-	clear();	
 	var loggedBranch="<%=session.getAttribute("BranchCode")%>";
-	SetValue("loggedBranch", loggedBranch);
-	SetValue("Class", "AccontingParameterSetup");
-	SetValue("Method", "FetchGLData");	
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			var obj = JSON.parse(this.responseText);
-			if (obj.ERROR_MSG != "") {
-				alert(obj.ERROR_MSG);
-			} else {				 
-				gl_srting=obj.GL_LIST;					
-				 var gl_arrayList = gl_srting.split(',');
-				 for(var i = 0; i < gl_arrayList.length; i++) {
-					 gl_arrayList[i] = gl_arrayList[i].replace("/^\s*/", "").replace("/^\s*/", "");				
-				    var gl_keyValue = gl_arrayList[i].split(':');
-				    availableTags.push(gl_keyValue[1]+":"+gl_keyValue[0]);
-				 }
-				// alert(availableTags);
-			}
-		}
-	};
-	xhttp.open("POST", "TransactionServlet?" + DataMap, true);
-	xhttp.send();		
+	clear();		
+	SetValue("loggedBranch", loggedBranch,"N");
+	SetValue("Class", "elixir.validator.pps.AccontingParameterSetup","N");
+	SetValue("Method", "FetchGLData","L");	
+	xmlFinal();
+	$.ajax({
+			  method: "POST",
+			  url: "CommomAjaxCallHandler",
+			  data: { DataString: DataMap }
+			})
+			  .done(function( responseMessage ) {
+			    var obj = JSON.parse(responseMessage);
+			    if (obj.ERROR_MSG != "") {
+					alert(obj.ERROR_MSG);
+				} else {				 
+					gl_srting=obj.GL_LIST;					
+					 var gl_arrayList = gl_srting.split(',');
+					 for(var i = 0; i < gl_arrayList.length; i++) {
+						 gl_arrayList[i] = gl_arrayList[i].replace("/^\s*/", "").replace("/^\s*/", "");				
+					    var gl_keyValue = gl_arrayList[i].split(':');
+					    availableTags.push(gl_keyValue[1]+":"+gl_keyValue[0]);
+					 }
+				}
+		});		
 }
 
 
@@ -264,15 +268,20 @@ $(function() {
 function ItemCodeValidation(event){
 	if (event.keyCode == 13 || event.which == 13) {
 	clear();
-	SetValue("ItemCode", document.getElementById("ItemCode").value);
-	SetValue("BranchCode", document.getElementById("BranchCode").value);
-	SetValue("Class", "AccontingParameterSetup");
-	SetValue("Method", "FetchItemDetails");	
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			var obj = JSON.parse(this.responseText);
-			if (obj.ERROR_MSG != "") {
+	SetValue("ItemCode", document.getElementById("ItemCode").value,"N");
+	SetValue("BranchCode", document.getElementById("BranchCode").value,"N");
+	SetValue("Class", "elixir.validator.pps.AccontingParameterSetup","N");
+	SetValue("Method", "FetchItemDetails","L");	
+	xmlFinal();
+	
+	$.ajax({
+		  method: "POST",
+		  url: "CommomAjaxCallHandler",
+		  data: { DataString: DataMap }
+		})
+		  .done(function( responseMessage ) {
+		    var obj = JSON.parse(responseMessage);
+		    if (obj.ERROR_MSG != "") {
 				alert(obj.ERROR_MSG);
 			} else {
 				if (obj.ITEM_DESC!=null) {
@@ -295,12 +304,8 @@ function ItemCodeValidation(event){
 					document.getElementById("ItemName").focus();	
 				}
 				
-			}															
-		}
-	};
-	xhttp.open("POST", "TransactionServlet?" + DataMap, true);
-	xhttp.send();	
-		
+			} 						
+	}); 	
 	}
 }
 
@@ -345,31 +350,31 @@ if (event.keyCode == 13 || event.which == 13) {
 function ItemCreationFunction(event)
 {			
 		clear();
-		SetValue("User_Id",userId);				
-		SetValue("BranchCode",document.getElementById("BranchCode").value);
-		SetValue("ItemCode",document.getElementById("ItemCode").value);
-		SetValue("ItemName",document.getElementById("ItemName").value);
-		SetValue("DRglCode",document.getElementById("DRglCode").value);
-		SetValue("CRglCode",document.getElementById("CRglCode").value);
-		SetValue("ItemEntyDate",document.getElementById("ItemEntyDate").value);
-		SetValue("itemremarks",document.getElementById("itemremarks").value);						
-		SetValue("Class","AccontingParameterSetup");
-		SetValue("Method","AddItemDetailsParam");
-		
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			var obj = JSON.parse(this.responseText);
-				if (obj.ERROR_MSG != "") {
+		SetValue("User_Id",userId,"N");				
+		SetValue("BranchCode",document.getElementById("BranchCode").value,"N");
+		SetValue("ItemCode",document.getElementById("ItemCode").value,"N");
+		SetValue("ItemName",document.getElementById("ItemName").value,"N");
+		SetValue("DRglCode",document.getElementById("DRglCode").value,"N");
+		SetValue("CRglCode",document.getElementById("CRglCode").value,"N");
+		SetValue("ItemEntyDate",document.getElementById("ItemEntyDate").value,"N");
+		SetValue("itemremarks",document.getElementById("itemremarks").value,"N");						
+		SetValue("Class", "elixir.validator.pps.AccontingParameterSetup","N");
+		SetValue("Method","AddItemDetailsParam","L");		
+		xmlFinal();		
+		$.ajax({
+			  method: "POST",
+			  url: "CommomAjaxCallHandler",
+			  data: { DataString: DataMap }
+			})
+			  .done(function( responseMessage ) {
+			    var obj = JSON.parse(responseMessage);
+			    if (obj.ERROR_MSG != "") {
 					alert(obj.ERROR_MSG);
 				} else {
 					alert(obj.SUCCESS);
 					initValues();
-				}									
-		}
-	};
-	xhttp.open("POST", "TransactionServlet?" + DataMap, true);
-	xhttp.send();			
+				}		
+		});						
 }
 
 $(function() {

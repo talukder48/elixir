@@ -102,18 +102,36 @@ float: left;
 <script type="text/javascript">
 
 var DataMap="";
-function SetValue(key,value){
-	var Node = key+"*"+value;
-	if(DataMap!=""){
-		DataMap=DataMap+"$"+Node;
+	
+	function SetValue(key,value,itemsl){
+	if(itemsl=='L'){
+		var Node ='"'+ key+'"'+":"+'"'+value+'"';
 	}
 	else{
-		DataMap="data="+Node;
+		var Node ='"'+ key+'"'+":"+'"'+value+'"'+",";
 	}
-}
-function clear(){
-	DataMap="";
-}
+	DataMap=DataMap+Node;
+   }
+	function clear(){
+		DataMap="";
+	}
+	function xmlFinal(){
+		DataMap="{"+DataMap+"}";
+	}
+	
+	var DataMapReport="";
+	function SetValueReport(key,value){
+		var Node = key+"*"+value;
+		if(DataMapReport!=""){
+			DataMapReport=DataMapReport+"$"+Node;
+		}
+		else{
+			DataMapReport="data="+Node;
+		}
+	}
+	function clearReport(){
+		DataMapReport="";
+	}
 
 function initValues(){
 	loadgitem();
@@ -127,33 +145,33 @@ function initValues(){
 function loadgitem(){
 	clear();	
 	var usr_brn ="<%= session.getAttribute("BranchCode")%>";
-	SetValue("BranchCode",usr_brn);
-	SetValue("Class", "AccontingParameterSetup");
-	SetValue("Method", "FetchItemData");	
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			var obj = JSON.parse(this.responseText);
-			if (obj.ERROR_MSG != "") {
+	SetValue("BranchCode",usr_brn,"N");
+	SetValue("Class", "elixir.validator.pps.AccontingParameterSetup","N");
+	SetValue("Method", "FetchItemData","L");
+	xmlFinal();
+	$.ajax({
+		  method: "POST",
+		  url: "CommomAjaxCallHandler",
+		  data: { DataString: DataMap }
+		})
+		  .done(function( responseMessage ) {
+		    var obj = JSON.parse(responseMessage);
+		    if (obj.ERROR_MSG != "") {
 				alert(obj.ERROR_MSG);
 			} else {				 
 				var item_srting=obj.ITEM_LIST;					
 				var select = document.getElementById("itemCode");                  
 				 var item_arrayList = item_srting.split(',');
 				 for(var i = 0; i < item_arrayList.length; i++) {
-					 item_arrayList[i] = item_arrayList[i].replace("/^\s*/", "").replace("/^\s*/", "");		
-					 
+					 item_arrayList[i] = item_arrayList[i].replace("/^\s*/", "").replace("/^\s*/", "");							 
 				    var item_keyValue = item_arrayList[i].split(':');
 				    var option = document.createElement("option");
 				    option.value=item_keyValue[0] ;
 				    option.text=item_keyValue[1]+": "+item_keyValue[0];	
 				    select.add(option, null);				   				   
 				 }
-			}
-		}
-	};
-	xhttp.open("POST", "TransactionServlet?" + DataMap, true);
-	xhttp.send();		
+			}		    		
+	}); 				
 }
 
 function TransactionAmountValidation(event){
@@ -214,42 +232,41 @@ function CHQReferenceValidation(event){
 
 
 function ViewTransaction(event){
-	
 	var usr_brn = "<%= session.getAttribute("BranchCode")%>";	
-	var DataString="loggedBranch="+usr_brn+"&ReportType=ViewItemAutoVoucher"+
-	"&BranchCode="+document.getElementById("BranchCode").value+
-	"&itemCode="+document.getElementById("itemCode").value+
-	"&TransactionAmount="+document.getElementById("TransactionAmount").value+
-	"&Remarks="+document.getElementById("Remarks").value+
-	"&TransactionDate="+document.getElementById("TransactionDate").value;
-	
-		var xhttp = new XMLHttpRequest();		
-		xhttp.open("POST", "TranReportServlet?"+DataString, true);
-		
-		xhttp.responseType = "blob";
-		xhttp.onreadystatechange = function () {
-		    if (xhttp.readyState === 4 && xhttp.status === 200) {		    	
-		        var filename = "Report_ViewItemAutoVoucher"+".pdf";
-		        if (typeof window.chrome !== 'undefined') {
-		            // Chrome version
-		            var link = document.createElement('a');
-		            link.href = window.URL.createObjectURL(xhttp.response);		       
-		            window.open(link.href);		            
-		            //link.download = "PdfName-" + new Date().getTime() + ".pdf";
-		            //link.click();
-		        } else if (typeof window.navigator.msSaveBlob !== 'undefined') {
-		            // IE version
-		            var blob = new Blob([xhttp.response], { type: 'application/pdf' });
-		            window.navigator.msSaveBlob(blob, filename);
-		           // window.open(window.navigator.msSaveBlob(blob, filename));
-		        } else {
-		            // Firefox version
-		            var file = new File([xhttp.response], filename, { type: 'application/force-download' });
-		            window.open(URL.createObjectURL(file));		            
-		        }
-		    }
-		};
-		xhttp.send();			
+	clearReport();
+	SetValueReport("loggedBranch",usr_brn);
+	SetValueReport("BranchCode",document.getElementById("BranchCode").value);
+	SetValueReport("ReportType","ViewItemAutoVoucher");
+	SetValueReport("TransactionAmount",document.getElementById("TransactionAmount").value);
+	SetValueReport("TransactionDate",document.getElementById("TransactionDate").value);
+	SetValueReport("itemCode",document.getElementById("itemCode").value);
+	SetValueReport("Remarks",document.getElementById("Remarks").value);
+	SetValueReport("Class","elixir.report.ics.GeneralAccountingReport");
+	SetValueReport("Method","ItemWiseVoucherPrint");
+	var xhttp = new XMLHttpRequest();		
+	xhttp.open("POST", "CommomReportHandler?"+DataMapReport, true);
+	xhttp.responseType = "blob";
+	xhttp.onreadystatechange = function () {
+	    if (xhttp.readyState === 4 && xhttp.status === 200) {
+	        var filename = "Report_ViewItemAutoVoucher"+".pdf";
+	        if (typeof window.chrome !== 'undefined') {
+	            // Chrome version
+	            var link = document.createElement('a');
+	            link.href = window.URL.createObjectURL(xhttp.response);		       
+	            window.open(link.href);		            
+	        
+	        } else if (typeof window.navigator.msSaveBlob !== 'undefined') {
+	            // IE version
+	            var blob = new Blob([xhttp.response], { type: 'application/pdf' });
+	            window.navigator.msSaveBlob(blob, filename);
+	        } else {
+	            // Firefox version
+	            var file = new File([xhttp.response], filename, { type: 'application/force-download' });
+	            window.open(URL.createObjectURL(file));		            
+	        }
+	    }
+	};
+	xhttp.send();		
 }
 
 
@@ -258,36 +275,38 @@ function MakeTransaction(event)
 {
 	 var c = confirm("Are you sure ?");
 	  if (c == true) {
-		    clear();		    		    
+		    		    		    
 		    var User_Id ="<%= session.getAttribute("User_Id")%>";
-		    var usr_brn ="<%= session.getAttribute("BranchCode")%>";		    
-		    SetValue("loggedBranch",usr_brn);
-		    SetValue("User_Id",User_Id);
-		    SetValue("BranchCode",document.getElementById("BranchCode").value);
-		    SetValue("itemCode",document.getElementById("itemCode").value);
-		    SetValue("ChequeNo",document.getElementById("ChequeNo").value);
-		    SetValue("ChequeDate",document.getElementById("ChequeDate").value);
-		    SetValue("ChequeReference",document.getElementById("ChequeReference").value);
-		    SetValue("TransactionAmount",document.getElementById("TransactionAmount").value);
-		    SetValue("TransactionDate",document.getElementById("TransactionDate").value);
-		    SetValue("Remarks",document.getElementById("Remarks").value);		    
-			SetValue("Class","AccountingManagement");
-			SetValue("Method","ItemWiseVoucherPosting");
-			
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					var obj = JSON.parse(this.responseText);
-						if (obj.ERROR_MSG != "") {
-							alert(obj.ERROR_MSG);
-						} else {
-							alert(obj.SUCCESS);
-							initValues();
-						}	
-				}
-			};
-			xhttp.open("POST", "TransactionServlet?" + DataMap, true);
-			xhttp.send();		  
+		    var usr_brn ="<%= session.getAttribute("BranchCode")%>";
+		    
+		    clear();
+		    SetValue("loggedBranch",usr_brn,"N");
+		    SetValue("User_Id",User_Id,"N");
+		    SetValue("BranchCode",document.getElementById("BranchCode").value,"N");
+		    SetValue("itemCode",document.getElementById("itemCode").value,"N");
+		    SetValue("ChequeNo",document.getElementById("ChequeNo").value,"N");
+		    SetValue("ChequeDate",document.getElementById("ChequeDate").value,"N");
+		    SetValue("ChequeReference",document.getElementById("ChequeReference").value,"N");
+		    SetValue("TransactionAmount",document.getElementById("TransactionAmount").value,"N");
+		    SetValue("TransactionDate",document.getElementById("TransactionDate").value,"N");
+		    SetValue("Remarks",document.getElementById("Remarks").value,"N");		    
+			SetValue("Class","elixir.validator.pps.GeneralAccontingSystem","N");
+			SetValue("Method","ItemWiseVoucherPosting","L");
+			xmlFinal();
+			$.ajax({
+				  method: "POST",
+				  url: "CommomAjaxCallHandler",
+				  data: { DataString: DataMap }
+				})
+				  .done(function( responseMessage ) {
+				    var obj = JSON.parse(responseMessage);
+				    if (obj.ERROR_MSG != "") {
+						alert(obj.ERROR_MSG);
+					} else {
+						alert(obj.SUCCESS);
+						initValues();
+					}		
+			});				  
 	  } else {
 		  document.getElementById("eventViewTransaction").focus();
 	  }	

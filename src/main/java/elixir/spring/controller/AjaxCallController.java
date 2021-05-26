@@ -40,31 +40,10 @@ public class AjaxCallController {
 		out.println(ResponseMessage);
 	}	
 	
-	@RequestMapping(value = "/CommomAjaxCallHandler", method = RequestMethod.GET,produces = "application/json")
-	public  void AjaxCallHandlerGet(HttpServletRequest req,HttpServletResponse res) {	
-		Map<String, String> OutputMap = new HashMap<String, String>();		
-		Map<String, String> InputMap = new HashMap<String, String>();
-		try {
-			InputMap=ConversionUtility.JasonStringToHashMap(req.getParameter("DataString").toString());
-			OutputMap = CommonSessionFacade.SessionFacade(InputMap);						
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}				
-		Gson gsonObj = new Gson();
-		ResponseMessage = gsonObj.toJson(OutputMap);
-		PrintWriter out = null;
-		try {
-			out = res.getWriter();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		out.println(ResponseMessage);
-	}
-	
 	@RequestMapping(value = "/CommomReportHandler", method = RequestMethod.POST,produces = "application/json")
 	public  void CommomReportHandler(HttpServletRequest request,HttpServletResponse response) {	
 		Map<String, String> InputMap = new HashMap<String, String>();
-		System.out.println(request.getParameter("data").toString());
+		//System.out.println(request.getParameter("data").toString());
 		try {			
 				InputMap=ProjectUtils.DataTokenizer(request.getParameter("data").toString());						
 				byte[] DataByte = CommonSessionFacade.SessionFacadeReport(InputMap);							
@@ -78,5 +57,6 @@ public class AjaxCallController {
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}						
-	}	
+	}
+	
 }

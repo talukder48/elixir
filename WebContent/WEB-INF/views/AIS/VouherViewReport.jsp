@@ -195,76 +195,31 @@ float: left;
 </style> 
 
 <script type="text/javascript">
-var DataMap="";
-function SetValue(key,value){
-	var Node = "<cell> <key>"+key+"</key> <value>"+value+"</value> </cell>";
-	DataMap=DataMap+Node;
+var DataMapReport="";
+function SetValueReport(key,value){
+	var Node = key+"*"+value;
+	if(DataMapReport!=""){
+		DataMapReport=DataMapReport+"$"+Node;
+	}
+	else{
+		DataMapReport="data="+Node;
+	}
 }
-function clear(){
-	DataMap="";
+function clearReport(){
+	DataMapReport="";
 }
-function xmlFinal(){
-	DataMap="data=<root>"+DataMap+"</root>";
-}
+
+
 
 function initValues(){
 	var dt = new Date();
 	var user = "<%= session.getAttribute("User_Id")%>";
 	var usr_brn = "<%= session.getAttribute("BranchCode")%>";	
 	document.getElementById("BranchCode").value=usr_brn;
-	
-	const months = ["JAN", "FEB", "MAR","APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-	var current_datetime = new Date()
-	entdOn = current_datetime.getDate() + "-" + months[current_datetime.getMonth()] + "-" + current_datetime.getFullYear()
-	document.getElementById("MonthCode").value = dt.getMonth()+1; 
-	
-	
 	document.getElementById("BranchCode").focus();
 }
-function BranchCodeValidation(event){
-	if (event.keyCode == 13 || event.which == 13) {		
-	if (document.getElementById("Branch_Code").value != "") {
-		clear();
-		SetValue("branch_code",document.getElementById("Branch_Code").value);
-		SetValue("Class","PRMSValidator");
-		SetValue("Method","BranchKeyPress");
-		xmlFinal();
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
-				if (obj.ERROR_MSG != "") {
-					alert(obj.ERROR_MSG);
-				} else {
-					if (obj.ERROR_MSG != "") {
-						alert(obj.ERROR_MSG);
-					} else {						
-						document.getElementById("BranchCode").focus();
-					}					
-				}
-			}
-		};
-		xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-		xhttp.send();
-	}
-	else{
-		document.getElementById("BranchCode").focus();
-	}
- }
-}
-function YearValidation(event)
-{
-	if (event.keyCode == 13 || event.which == 13) {
-		document.getElementById("MonthCode").focus();
-	}
-}
 
-function MonthCodeValidation(event)
-{
-	if (event.keyCode == 13 || event.which == 13) {
-		document.getElementById("ReportType").focus();
-	}
-}
+
 $(function() {
 	$("#TransactionDate").datepicker({
 		dateFormat : 'dd-M-yy'
@@ -272,73 +227,43 @@ $(function() {
 });
 
 
-function AuthBatchNumber(event){
-	var user = "<%= session.getAttribute("User_Id")%>";
-	 var c = confirm("Are you sure ?");
-	  if (c == true) {
-		    clear();
-		    SetValue("BranchCode",document.getElementById("BranchCode").value);
-		    SetValue("User_Id",user);	
-		    SetValue("TransactionDate",document.getElementById("TransactionDate").value);
-		    SetValue("BatchNumber",document.getElementById("BatchNumber").value);		    
-			SetValue("Class","AccountingManagement");
-			SetValue("Method","AuthorizeTransaction");
-			xmlFinal();
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					var obj = JSON.parse(this.responseText);
-						if (obj.ERROR_MSG != "") {
-							alert(obj.ERROR_MSG);
-						} else {
-							alert(obj.SUCCESS);
-							initValues();
-						}	
-				}
-			};
-			xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
-			xhttp.send();		  
-	  } else {
-		  document.getElementById("authbatch").focus();
-	  }	
-}
-
 function ViewBatchNumber()
 {	    
-	   
 	var usr_brn = "<%= session.getAttribute("BranchCode")%>";	
-	var DataString="loggedBranch="+usr_brn+"&ReportType="+document.getElementById("ReportType").value+
-	"&BranchCode="+document.getElementById("BranchCode").value+
-	"&TransactionDate="+document.getElementById("TransactionDate").value+
-	"&BatchNumber="+document.getElementById("BatchNumber").value;
+	clearReport();
+	SetValueReport("loggedBranch",usr_brn);
+	SetValueReport("BranchCode",document.getElementById("BranchCode").value);
+	SetValueReport("ReportType",document.getElementById("ReportType").value);
+	SetValueReport("TransactionDate",document.getElementById("TransactionDate").value);
+	SetValueReport("BatchNumber",document.getElementById("BatchNumber").value);
+	SetValueReport("Class","elixir.report.ics.GeneralAccountingReport");
+	SetValueReport("Method","SingleVoucherPrint");
 	
-		var xhttp = new XMLHttpRequest();		
-		xhttp.open("POST", "TranReportServlet?"+DataString, true);
-		
-		xhttp.responseType = "blob";
-		xhttp.onreadystatechange = function () {
-		    if (xhttp.readyState === 4 && xhttp.status === 200) {
-		        var filename = "Report_"+ document.getElementById("ReportType").value +".pdf";
-		        if (typeof window.chrome !== 'undefined') {
-		            // Chrome version
-		            var link = document.createElement('a');
-		            link.href = window.URL.createObjectURL(xhttp.response);		       
-		            window.open(link.href);		            
-		            //link.download = "PdfName-" + new Date().getTime() + ".pdf";
-		            //link.click();
-		        } else if (typeof window.navigator.msSaveBlob !== 'undefined') {
-		            // IE version
-		            var blob = new Blob([xhttp.response], { type: 'application/pdf' });
-		            window.navigator.msSaveBlob(blob, filename);
-		           // window.open(window.navigator.msSaveBlob(blob, filename));
-		        } else {
-		            // Firefox version
-		            var file = new File([xhttp.response], filename, { type: 'application/force-download' });
-		            window.open(URL.createObjectURL(file));		            
-		        }
-		    }
-		};
-		xhttp.send();			
+	var xhttp = new XMLHttpRequest();		
+	xhttp.open("POST", "CommomReportHandler?"+DataMapReport, true);
+	xhttp.responseType = "blob";
+	xhttp.onreadystatechange = function () {
+	    if (xhttp.readyState === 4 && xhttp.status === 200) {
+	        var filename = "Report_"+ document.getElementById("ReportType").value +".pdf";
+	        if (typeof window.chrome !== 'undefined') {
+	            // Chrome version
+	            var link = document.createElement('a');
+	            link.href = window.URL.createObjectURL(xhttp.response);		       
+	            window.open(link.href);		            
+	        
+	        } else if (typeof window.navigator.msSaveBlob !== 'undefined') {
+	            // IE version
+	            var blob = new Blob([xhttp.response], { type: 'application/pdf' });
+	            window.navigator.msSaveBlob(blob, filename);
+	        } else {
+	            // Firefox version
+	            var file = new File([xhttp.response], filename, { type: 'application/force-download' });
+	            window.open(URL.createObjectURL(file));		            
+	        }
+	    }
+	};
+	xhttp.send();		
+	
 }
 </script>
 </head>
@@ -355,7 +280,7 @@ function ViewBatchNumber()
 						<label for="BranchCode">BranchCode</label>
 					</div>
 					<div class="col-45">
-						<input type="text" id="BranchCode" name="BranchCode" onkeypress="BranchCodeValidation(event)">
+						<input type="text" id="BranchCode" name="BranchCode" readonly>
 					</div>
 				</div>
 				
@@ -364,7 +289,7 @@ function ViewBatchNumber()
 						<label for="TransactionDate">Transaction Date</label>
 					</div>
 					<div class="col-45">
-						<input type="text" id="TransactionDate" name="TransactionDate" onkeypress="BranchCodeValidation(event)">
+						<input type="text" id="TransactionDate" name="TransactionDate" >
 					</div>
 				</div>
 				
@@ -373,7 +298,7 @@ function ViewBatchNumber()
 						<label for="BatchNumber">Batch Number</label>
 					</div>
 					<div class="col-45">
-						<input type="text" id="BatchNumber" name="BatchNumber" onkeypress="BranchCodeValidation(event)">
+						<input type="text" id="BatchNumber" name="BatchNumber" >
 					</div>
 				</div>
 								

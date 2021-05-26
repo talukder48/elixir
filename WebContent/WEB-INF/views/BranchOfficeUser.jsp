@@ -288,7 +288,7 @@ function AccReportFunction() {
 		<div class="AccEntyDropDown">
 			<button onclick="AccEntyFunction()" class="AccEntyDropBtn">  General Accounting [Entry Module] </button>
 			<div id="accDropDown" class="AccEntyDropDown-content">
-				<a id="1" href="AccountingVoucherEntryPages.do"> Voucher Entry [Search] </a>
+				<a id="1" href="VoucherEntryHeadWise.do"> Voucher Entry [Search] </a>
 				<a id="2" href="VoucherEntryItemWise.do"> Voucher Entry [Item Wise] </a>
 				<a id="3" href="TransactionEntryValidation.do">Voucher Validation </a> 				
 				<a id="4" href="NewGlOpeningPages.do"> New Account Open  </a>
@@ -301,10 +301,10 @@ function AccReportFunction() {
 			<button onclick="AccReportFunction()" class="AccReportDropBtn">General Accounting [Report Module]</button>
 			<div id="reportDropdown" class="AccReportDropDown-content">
 				<a id="4" href="VouherViewReport.do">Single Voucher Print </a> 
-				<a id="5" href="CashBookViewReport.do">Cash Book[Day Book] Report </a> 
-				<a id="6" href="GLStatementViewReport.do">General Ledger Statement </a> 
-				<a id="7" href="GLRegisterViewReport.do">General Ledger Register[Subsidiary] </a>
-				<a id="8" href="TrailBalanceViewReport.do">Financial Statements[TB,BS,PL]</a>
+				<a id="5" href="ViewCashBookReport.do">Cash Book[Day Book] Report </a> 
+				<a id="6" href="ViewGeneralLedgerStatementReport.do">General Ledger Statement </a> 
+				<a id="7" href="viewGLRegisterReport.do">General Ledger Register[Subsidiary] </a>
+				<a id="8" href="ViewFinancialReport.do">Financial Statements [TB,BS,PL]</a>
 			</div>
 			
 		  </div>

@@ -108,15 +108,21 @@ float: left;
 <script type="text/javascript">
 
 var DataMap="";
-function SetValue(key,value){
-	var Node = "<cell> <key>"+key+"</key> <value>"+value+"</value> </cell>";
-	DataMap=DataMap+Node;
+
+function SetValue(key,value,itemsl){
+if(itemsl=='L'){
+	var Node ='"'+ key+'"'+":"+'"'+value+'"';
+}
+else{
+	var Node ='"'+ key+'"'+":"+'"'+value+'"'+",";
+}
+DataMap=DataMap+Node;
 }
 function clear(){
 	DataMap="";
 }
 function xmlFinal(){
-	DataMap="data=<root>"+DataMap+"</root>";
+	DataMap="{"+DataMap+"}";
 }
 
 function initValues(){
@@ -129,14 +135,17 @@ function initValues(){
 
 function loadgitem(){
 	clear();	
-	SetValue("Class", "AccontingParameterSetup");
-	SetValue("Method", "FetchGLListBranch");	
+	SetValue("Class", "elixir.validator.pps.AccontingParameterSetup","N");
+	SetValue("Method", "FetchGLListBranch","L");	
 	xmlFinal();
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			var obj = JSON.parse(this.responseText);
-			if (obj.ERROR_MSG != "") {
+	$.ajax({
+		  method: "POST",
+		  url: "CommomAjaxCallHandler",
+		  data: { DataString: DataMap }
+		})
+		  .done(function( responseMessage ) {
+		    var obj = JSON.parse(responseMessage);
+		    if (obj.ERROR_MSG != "") {
 				alert(obj.ERROR_MSG);
 			} else {				 
 				var item_srting=obj.GL_LIST;					
@@ -151,11 +160,8 @@ function loadgitem(){
 				    option.text=item_keyValue[1]+":"+item_keyValue[0];	
 				    select.add(option, null);				   				   
 				 }
-			}
-		}
-	};
-	xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
-	xhttp.send();		
+			}				
+	}); 		
 }
 
 function GLnameValidation(event){
@@ -182,34 +188,34 @@ function BranchGLOpening(event)
 		    clear();		    
 		    if(document.getElementById("AccRemarks").value==""){
 		    	document.getElementById("AccRemarks").value="N/A";
-		    }
-		    
+		    }		    
 		    var User_Id ="<%= session.getAttribute("User_Id")%>";
-		    var usr_brn ="<%= session.getAttribute("BranchCode")%>";		    
-		    SetValue("loggedBranch",usr_brn);
-		    SetValue("User_Id",User_Id);
-		    SetValue("BranchCode",document.getElementById("BranchCode").value);
-		    SetValue("glcode",document.getElementById("glcode").value);
-		    SetValue("GLName",document.getElementById("GLName").value);
-		    SetValue("AccRemarks",document.getElementById("AccRemarks").value);
-		    SetValue("entryDate",document.getElementById("entryDate").value);
-			SetValue("Class","AccontingParameterSetup");
-			SetValue("Method","BranchGLOpening");
+		    var usr_brn ="<%= session.getAttribute("BranchCode")%>";			    
+		    
+		    SetValue("loggedBranch",usr_brn,"N");
+		    SetValue("User_Id",User_Id,"N");
+		    SetValue("BranchCode",document.getElementById("BranchCode").value,"N");
+		    SetValue("glcode",document.getElementById("glcode").value,"N");
+		    SetValue("GLName",document.getElementById("GLName").value,"N");
+		    SetValue("AccRemarks",document.getElementById("AccRemarks").value,"N");
+		    SetValue("entryDate",document.getElementById("entryDate").value,"N");
+			SetValue("Class", "elixir.validator.pps.AccontingParameterSetup","N");
+			SetValue("Method","BranchGLOpening","L");
 			xmlFinal();
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					var obj = JSON.parse(this.responseText);
-						if (obj.ERROR_MSG != "") {
-							alert(obj.ERROR_MSG);
-						} else {
-							alert(obj.SUCCESS);
-							initValues();
-						}	
-				}
-			};
-			xhttp.open("POST", "CommomAjaxCallHandler?" + DataMap, true);
-			xhttp.send();		  
+			$.ajax({
+				  method: "POST",
+				  url: "CommomAjaxCallHandler",
+				  data: { DataString: DataMap }
+				})
+				  .done(function( responseMessage ) {
+				    var obj = JSON.parse(responseMessage);
+				    if (obj.ERROR_MSG != "") {
+						alert(obj.ERROR_MSG);
+					} else {
+						alert(obj.SUCCESS);
+						initValues();
+					}		
+			});	
 	  } else {
 		  document.getElementById("AccountOpenId").focus();
 	  }	

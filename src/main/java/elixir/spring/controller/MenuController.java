@@ -74,9 +74,9 @@ public class MenuController {
 	}
 	
 	
-	@RequestMapping(value = "AccountingVoucherEntryPages.do")
-	public String AccountingVoucherEntryPages() {
-		return "AIS/AccountingVoucherEntry";		
+	@RequestMapping(value = "VoucherEntryHeadWise.do")
+	public String VoucherEntryHeadWise() {
+		return "AIS/VoucherEntryHeadWise";		
 	}
 	@RequestMapping(value = "VoucherEntryItemWise.do")
 	public String VoucherEntryItemWise() {
@@ -109,21 +109,21 @@ public class MenuController {
 	public String VouherViewReport() {
 		return "AIS/VouherViewReport";		
 	}
-	@RequestMapping(value = "CashBookViewReport.do")
-	public String CashBookViewReport() {
-		return "AIS/CashBookViewReport";		
+	@RequestMapping(value = "ViewCashBookReport.do")
+	public String ViewCashBookReport() {
+		return "AIS/ViewCashBookReport";		
 	}
-	@RequestMapping(value = "GLStatementViewReport.do")
-	public String GLStatementViewReport() {
-		return "AIS/GLStatementViewReport";		
+	@RequestMapping(value = "ViewGeneralLedgerStatementReport.do")
+	public String ViewGeneralLedgerStatementReport() {
+		return "AIS/ViewGeneralLedgerStatementReport";		
 	}
-	@RequestMapping(value = "GLRegisterViewReport.do")
-	public String GLRegisterViewReport() {
-		return "AIS/GLRegisterViewReport";		
+	@RequestMapping(value = "viewGLRegisterReport.do")
+	public String viewGLRegisterReport() {
+		return "AIS/viewGLRegisterReport";		
 	}
-	@RequestMapping(value = "TrailBalanceViewReport.do")
-	public String TrailBalanceViewReport() {
-		return "AIS/TrailBalanceViewReport";		
+	@RequestMapping(value = "ViewFinancialReport.do")
+	public String viewTrailBalanceReport() {
+		return "AIS/ViewFinancialReport";		
 	}
 	
 	
