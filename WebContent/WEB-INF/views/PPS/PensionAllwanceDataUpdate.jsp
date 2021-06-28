@@ -268,6 +268,12 @@ function SetValue(key,value,itemsl){
 		});	
    }
 	
+   
+   function messageDisplay(){
+	   alert();
+	   //alert(document.getElementById("message").innerHTML);
+   }
+   
 </script>
 
 </head>
@@ -276,12 +282,25 @@ function SetValue(key,value,itemsl){
 	<h1 style="color:white;">Bangladesh House Building Finance Corporation</h1>
 		<h3 style="color:white;">Pension Payment System</h3>
 		
-		<h1>${Message}</h1>
 		
-		<form action="addPensionData.Do" method ="post" onkeydown="return event.key != 'Enter';">
+		
+		
 		
 		<div class="container">
+		<fieldset> 
 		
+		          <div class="row">
+					<div class="col-15">
+						<h4>Response Message</h4>
+					</div>
+					<div class="col-20">
+						<h4 id="message">${Message}</h4>
+					</div>
+				
+		
+				</div>
+				</fieldset>
+		<form action="addPensionData.Do" method ="post" onkeydown="return event.key != 'Enter';">
              <fieldset> 
                  <legend>Identifier</legend> 
                  
@@ -436,9 +455,10 @@ function SetValue(key,value,itemsl){
 				
 				
 			 </div>
+			 </form>
 		</div>
 		
-		</form>
+		
 	</center>
 </body>
 </html>
