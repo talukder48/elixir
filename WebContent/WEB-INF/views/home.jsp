@@ -112,7 +112,7 @@ function ValidateLogIn(){
 		<input id="password" type="password" name="password" onkeydown="ValidatePasword()"><br> <br>
 		<input id="logIn"	 type="submit" value="Login" >
 	
-		</form>
+    </form>
 	</div>
 </body>
 </html>

@@ -275,6 +275,11 @@ function SetValue(key,value,itemsl){
 	<center>
 	<h1 style="color:white;">Bangladesh House Building Finance Corporation</h1>
 		<h3 style="color:white;">Pension Payment System</h3>
+		
+		<h1>${Message}</h1>
+		
+		<form action="addPensionData.Do" method ="post" onkeydown="return event.key != 'Enter';">
+		
 		<div class="container">
 		
              <fieldset> 
@@ -423,7 +428,7 @@ function SetValue(key,value,itemsl){
 						<input type="submit" id="submit" value="Back To" onclick="AddAllowanceData(event)" > 
 					</div>
 					<div class="col-15">
-						<input type="submit" id="submit" value="Submit" onclick="AddAllowanceData(event)" >
+						<input type="submit" id="submit" value="Submit"  >
 					</div>
 					
 				</div>
@@ -432,6 +437,8 @@ function SetValue(key,value,itemsl){
 				
 			 </div>
 		</div>
+		
+		</form>
 	</center>
 </body>
 </html>

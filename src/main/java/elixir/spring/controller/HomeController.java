@@ -30,8 +30,8 @@ public class HomeController {
 
 		String formattedDate = dateFormat.format(date);
 
-		model.addAttribute("serverTime", formattedDate);
-		model.addAttribute("Title", "Bangladesh House Building Finance Corporation");
+			model.addAttribute("serverTime", formattedDate);
+			model.addAttribute("Title", "Bangladesh House Building Finance Corporation");
 
 		return "home";
 	}
