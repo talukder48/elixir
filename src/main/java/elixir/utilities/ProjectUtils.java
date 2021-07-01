@@ -15,6 +15,25 @@ import java.util.StringTokenizer;
 
 public class ProjectUtils {	
 	
+public static LinkedList TransactionSplite(String TransactionStream) {
+	LinkedList<Map> transactionclause = new LinkedList<Map>();
+	String[] sentance = TransactionStream.split("<sentance>"); 
+    for (String clause : sentance) {
+    	String[] clauseString = clause.split("<clause>");     	
+    	Map<String, String> map = new HashMap<String, String>();   	
+    	for (String cell : clauseString) {
+    		String[] cellString = cell.split("<cell>");     		
+    		try {
+    			map.put(cellString[0], cellString[1]); 
+    		}    		 
+    		catch(Exception e) {
+    			map.put(cellString[0], ""); 
+    		}
+       }
+    	transactionclause.add(map);  	
+    }        
+    return transactionclause;
+}
 	
 	public static LinkedList TransactionTokenizer(String TransactionStream) {
 		LinkedList<Map> transactionclause = new LinkedList<Map>();

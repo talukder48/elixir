@@ -1,5 +1,4 @@
 package elixir.validator.pps;
-
 import java.io.Reader;
 import java.sql.CallableStatement;
 import java.sql.Clob;
@@ -73,7 +72,7 @@ public class AccontingParameterSetup {
 
 		ResultMap.put("ERROR_MSG", "");
 		DatabaseUtility ob = new DatabaseUtility();
-		String sql = "SELECT ENTITY, BRANCH_CODE,ITEM_CODE, ITEM_DESC, DEBIT_GL,CREDIT_GL,ENTY_BY,to_char(ENTY_DATE) ENTY_DATE ,REMARKS FROM as_itemlist i where i.entity=1 and BRANCH_CODE=? and i.item_code=?";
+		String sql = "SELECT ENTITY, BRANCH_CODE, ITEM_CODE,ITEM_DESC,(SELECT l.glname FROM as_glcodelist l where l.glcode=  DEBIT_GL)||':'||DEBIT_GL DEBIT_GL, (SELECT l.glname FROM as_glcodelist l where l.glcode=  CREDIT_GL)||':'||CREDIT_GL CREDIT_GL , ENTY_BY, TO_CHAR(ENTY_DATE, 'DD-MON-YYYY') ENTY_DATE, REMARKS  FROM as_itemlist i where i.entity=1 and BRANCH_CODE=? and i.item_code=?";
 		Connection con = ob.GetConnection();
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
@@ -245,6 +244,106 @@ public class AccontingParameterSetup {
 		}
 		return ResultMap;
 	}
+	
+	public Map<String, String> FetchGLStatementData(Map DataMap) throws Exception {
+
+		ResultMap.put("ERROR_MSG", "");
+		DatabaseUtility ob = new DatabaseUtility();
+		
+		String sql = "select rtrim(xmlagg(xmlelement(e, glcode || ':' || glname, ',').extract('//text()') order by glname)\r\n"
+				+ "             .getclobval(),\r\n" + "             ',') gl_list\r\n"
+				+ "  from (SELECT * FROM table(pkg_param.fn_get_glcode_statement(?))) ORDER BY glname ";
+		Connection con = ob.GetConnection();
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
+		try {
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1, DataMap.get("loggedBranch").toString());
+			rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				Clob clob = rs.getClob("gl_list");
+				
+				if(clob!=null) {
+					Reader r = clob.getCharacterStream();
+					StringBuffer buffer = new StringBuffer();
+					int ch;
+					while ((ch = r.read()) != -1) {
+						buffer.append("" + (char) ch);
+					}
+					ResultMap.put("GL_LIST", buffer.toString());
+				}
+				else {
+					ResultMap.put("GL_LIST", "Not Applicable:000000000");
+				}
+				
+			}
+
+		} catch (Exception e) {
+			ResultMap.put("ERROR_MSG", e.getMessage().toString());
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+				stmt.close();
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return ResultMap;
+	}
+	
+	public Map<String, String> FetchGLReconciliationData(Map DataMap) throws Exception {
+
+		ResultMap.put("ERROR_MSG", "");
+		DatabaseUtility ob = new DatabaseUtility();
+		
+		String sql = "select rtrim(xmlagg(xmlelement(e, glcode || ':' || glname, ',').extract('//text()') order by glname)\r\n"
+				+ "             .getclobval(),\r\n" + "             ',') gl_list\r\n"
+				+ "  from (SELECT * FROM table(pkg_param.fn_get_glcode_reconciliation(?))) ORDER BY glname ";
+		Connection con = ob.GetConnection();
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
+		try {
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1, DataMap.get("loggedBranch").toString());
+			rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				Clob clob = rs.getClob("gl_list");
+				
+				if(clob!=null) {
+					Reader r = clob.getCharacterStream();
+					StringBuffer buffer = new StringBuffer();
+					int ch;
+					while ((ch = r.read()) != -1) {
+						buffer.append("" + (char) ch);
+					}
+					ResultMap.put("GL_LIST", buffer.toString());
+				}
+				else {
+					ResultMap.put("GL_LIST", "Not Applicable:000000000");
+				}
+				
+			}
+
+		} catch (Exception e) {
+			ResultMap.put("ERROR_MSG", e.getMessage().toString());
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+				stmt.close();
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return ResultMap;
+	}
+	
+	
 	public Map<String, String> FetchGLDataforRegister(Map DataMap) throws Exception {
 
 		ResultMap.put("ERROR_MSG", "");
@@ -466,7 +565,8 @@ public class AccontingParameterSetup {
 			cstmt.setString(6, DataMap.get("expendituretype").toString());
 			cstmt.setString(7, DataMap.get("incometype").toString());
 			cstmt.setString(8, DataMap.get("entyDate").toString());
-			cstmt.setString(9, DataMap.get("glremarks").toString());			
+			cstmt.setString(9, DataMap.get("glremarks").toString());
+			
 			cstmt.setString(10, DataMap.get("User_Id").toString());
 			cstmt.registerOutParameter(11, java.sql.Types.VARCHAR);
 			cstmt.execute();

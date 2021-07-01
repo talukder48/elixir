@@ -76,31 +76,31 @@ public class MenuController {
 	
 	@RequestMapping(value = "VoucherEntryHeadWise.do")
 	public String VoucherEntryHeadWise() {
-		return "AIS/VoucherEntryHeadWise";		
+		return "AIS/evoucherentrysearch";		
 	}
 	@RequestMapping(value = "VoucherEntryItemWise.do")
 	public String VoucherEntryItemWise() {
-		return "AIS/VoucherEntryItemWise";		
+		return "AIS/evoucherentryitemwise";		
 	}
 	
 	@RequestMapping(value = "TransactionEntryValidation.do")
 	public String TransactionEntryValidation() {
-		return "AIS/TransactionEntryValidation";		
+		return "AIS/etransactionvalidation";		
 	}
 	
 	@RequestMapping(value = "BranchWiseItemsCreation.do")
 	public String BranchWiseItemsCreation() {
-		return "AIS/BranchWiseItemsCreation";		
+		return "AIS/ebranchwiseitemcreation";		
 	}	
 	
 	@RequestMapping(value = "NewGlOpeningPages.do")
 	public String NewGlOpeningPages() {
-		return "AIS/NewGlOpeningPages";		
+		return "AIS/ebranchaccountopen";		
 	}
 	
 	@RequestMapping(value = "GLOpeningBalance.do")
 	public String GLOpeningBalance() {
-		return "AIS/GLOpeningBalance";		
+		return "AIS/eglopeningbalance";		
 	}
 	
 	

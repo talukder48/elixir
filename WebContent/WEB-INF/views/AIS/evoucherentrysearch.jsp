@@ -388,30 +388,48 @@ function initValues(){
     	}
     }
     function TransactionAmountValidation(event){
-    	if (event.keyCode == 13 || event.which == 13) {    		   		
-    		if(document.getElementById("TransactionAmt").value!=""){
-    			if(isNaN(document.getElementById("TransactionAmt").value)){
-    				alert("Transaction Amount is not number");
-    				document.getElementById("TransactionAmt").focus();
-    			}
-    			else{
-    				if(parseFloat(document.getElementById("TransactionAmt").value)<=0.00){
-        				alert("Transaction Amount Should Zero");
-        				document.getElementById("TransactionAmt").focus();
-        			}
-        			else
-        				{
-        				document.getElementById("TransactionAmt").value=parseFloat(document.getElementById("TransactionAmt").value).toFixed(2);
-        				document.getElementById("chqNumber").focus();
-        			}
-    			}        			
+
+    	if (event.keyCode == 13 || event.which == 13) {
+    		
+    		if (document.getElementById("glcode").value==""||document.getElementById("DrCrType").value=="" ){
+    			
+    			if (document.getElementById("glcode").value==""){
+    				 alert("GL code should not be blank");       			 
+    				document.getElementById("glcode").focus();
+    			}    			
+    			else if (document.getElementById("DrCrType").value==""){
+   				    alert("DR/CR Should not Black");       			 
+   				  document.getElementById("DrCrType").focus();
+   			   }		
+    			
     		}
-    		else
-    			{
-    			  alert("Should not blank");
-    			  document.getElementById("TransactionAmt").focus();
-    		}   
+    		else{   			
+	    			if(document.getElementById("TransactionAmt").value!=""){
+	        			if(isNaN(document.getElementById("TransactionAmt").value)){
+	        				alert("Transaction Amount is not number");
+	        				document.getElementById("TransactionAmt").focus();
+	        			}
+	        			else{
+	        				if(parseFloat(document.getElementById("TransactionAmt").value)<=0.00){
+	            				alert("Transaction Amount Should be Greater then Zero");
+	            				document.getElementById("TransactionAmt").focus();
+	            			}
+	            			else
+	            				{
+	            				document.getElementById("TransactionAmt").value=parseFloat(document.getElementById("TransactionAmt").value).toFixed(2);
+	            				document.getElementById("chqNumber").focus();
+	            			}
+	        			}        			
+	        		}
+	        		else
+	        			{
+	        			  alert("Should not blank");
+	        			  document.getElementById("TransactionAmt").focus();
+	        		}  
+        		
+    		}   		
     	}
+    
     }
 
     function TransationTypeValidation(event){
@@ -527,30 +545,53 @@ function initValues(){
     
     
     function SingleNaration(event){
-    	if (event.keyCode == 13 || event.which == 13) {  
 
+    	if (event.keyCode == 13 || event.which == 13) {  
+    		if(document.getElementById("Narration").value==""){
+    			document.getElementById("Narration").value="N/A";
+    		}
     		if (parseFloat(document.getElementById("TransactionAmt").value)>0){
     			
-    			if(document.getElementById("DrCrType").value==""){
-    				alert("Transaction DR/CR Type Must be Selected");
-    				document.getElementById("DrCrType").focus();
-    				
-    			}
-    			else{
-    				if(document.getElementById("Narration").value==""){
-            			document.getElementById("Narration").value="N/A";
-            		}
-        			addTransaction();    		
-            		if(document.getElementById("DrCrType").value=="D"){
-            			document.getElementById("TransactionAmtDr").value=parseFloat(parseFloat(document.getElementById("TransactionAmtDr").value)
-        				+parseFloat(document.getElementById("TransactionAmt").value)).toFixed(2);
-            		}
-            		else{
-            			document.getElementById("TransactionAmtCR").value=parseFloat(parseFloat(document.getElementById("TransactionAmtCR").value)
-        				+parseFloat(document.getElementById("TransactionAmt").value)).toFixed(2);
-            		}    		    		
-            		refreshValues(); 
-    			}
+    			if(document.getElementById("glcode").value!=""){   			   		
+        			clear();
+        			SetValue("gldescription", document.getElementById("glcode").value,"N");
+        			SetValue("Class", "elixir.validator.pps.GeneralAccontingSystem","N");
+        			SetValue("Method", "GLCodeValidation","L");	
+        			xmlFinal();
+        			$.ajax({
+        				  method: "POST",
+        				  url: "TransactionServlet",
+        				  data: { DataString: DataMap }
+        				})
+        				  .done(function( responseMessage ) {
+        				    var obj = JSON.parse(responseMessage);
+        				    if (obj.ERROR_MSG != "") {
+        						alert(obj.ERROR_MSG);
+        						document.getElementById("glcode").focus();
+        					} else {
+        						       						
+        						if(document.getElementById("DrCrType").value==""){
+        		    				alert("Transaction DR/CR Type Must be Selected");
+        		    				document.getElementById("DrCrType").focus();
+        		    				
+        		    			}
+        		    			else{
+        		    				
+        		        			addTransaction();    		
+        		            		if(document.getElementById("DrCrType").value=="D"){
+        		            			document.getElementById("TransactionAmtDr").value=parseFloat(parseFloat(document.getElementById("TransactionAmtDr").value)
+        		        				+parseFloat(document.getElementById("TransactionAmt").value)).toFixed(2);
+        		            		}
+        		            		else{
+        		            			document.getElementById("TransactionAmtCR").value=parseFloat(parseFloat(document.getElementById("TransactionAmtCR").value)
+        		        				+parseFloat(document.getElementById("TransactionAmt").value)).toFixed(2);
+        		            		}    		    		
+        		            		refreshValues(); 
+        		    			}       		
+        						
+        					}   						
+        			}); 
+        	    }
 
     		}
     		else{
@@ -559,6 +600,7 @@ function initValues(){
     		}
     		
     	}
+    
     }
 
     function submitTransaction() {
@@ -580,24 +622,27 @@ function initValues(){
 	        	var loggedBranch= "<%=session.getAttribute("BranchCode")%>";
 	        	// loop through each row of the table.
 	        	for (row = 1; row < myTab.rows.length - 1; row++) {
+
 	        		// loop through each cell in a row.			
-	        		dataclause="loggedBranch ="+loggedBranch+"*"+"BranchCode="+document.getElementById("officecode").value+"*";
+	        		dataclause="loggedBranch<cell>"+loggedBranch+"<clause>"+"BranchCode<cell>"+document.getElementById("officecode").value+"<clause>";
+	        		
 	        		for (c = 0; c < myTab.rows[row].cells.length; c++) {
 	        			var arrValuesv = new Array();
 	        			var element = myTab.rows.item(row).cells[c];								
 	        			if (element.childNodes[0].getAttribute('type') == 'text') {    				
-	        				dataclause=dataclause+"id"+c+"="+element.childNodes[0].value;
+	        				dataclause=dataclause+"id"+c+"<cell>"+element.childNodes[0].value;
 	        				if(c==5 && row != myTab.rows.length - 1) {						
-	        					dataclause+="@";											
+	        					dataclause+="<sentance>";											
 	        				}
 	        				if(c>=1 && c<=4){
-	        					dataclause+="*";
+	        					dataclause+="<clause>";
 	        				}
 	        				
 	        			}
 	        		}
 	        		dataGrid=dataGrid+dataclause;
 	        		dataclause="";
+	        	
 	        	}   	
 	        	
 	        	
@@ -682,7 +727,14 @@ function initValues(){
 				<div class="col-20">
 					<input type="text" id="officecode" value=""
 						onkeypress="OfficeCodeValidation(event)" readonly>
-				</div>					
+				</div>	
+				
+				<div class="col-15">
+					<label for="asonDate">Transaction Date</label>
+				</div>
+				<div class="col-20">
+					<input type="text" id="asonDate" name="asonDate" >
+				</div>				
 			</div>
 			
 			

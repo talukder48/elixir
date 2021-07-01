@@ -25,12 +25,14 @@ public class GeneralAccontingSystem {
 	public Map<String, String> VoucherEntryMethod( Map DataMap) {
 		ResultMap.put("ERROR_MSG", "");
 		LinkedList<Map> GridMap = new LinkedList<Map>();		
-		GridMap = ProjectUtils.TransactionTokenizer(DataMap.get("gridData").toString());
+		GridMap = ProjectUtils.TransactionSplite(DataMap.get("gridData").toString());
+		
 		DatabaseUtility ob = new DatabaseUtility();
 		int batch_no = 0;
 		Double BatchDr=(double) 0.00f;
 		Double BatchCr=(double) 0.00f;
-		
+		Double TransactionDebit=(double) 0.00f;
+		Double TransactionCredit=(double) 0.00f;
 		PreparedStatement _stmt = null;
 		
 		if (DataMap.get("loggedBranch").toString().equals("")||DataMap.get("loggedBranch").toString()==null||DataMap.get("loggedBranch").toString()=="") {
@@ -47,7 +49,10 @@ public class GeneralAccontingSystem {
 			ResultMap.put("ERROR_MSG", "Total Debit & Credit Amount Must be same");
 		}
 		else
-		{
+		{			
+			TransactionDebit=new BigDecimal(Double.parseDouble(DataMap.get("TransactionAmtDr").toString())).setScale(2, RoundingMode.HALF_UP).doubleValue();
+			TransactionCredit=new BigDecimal(Double.parseDouble(DataMap.get("TransactionAmtCR").toString())).setScale(2, RoundingMode.HALF_UP).doubleValue();
+			
 			ResultSet resultset = null;
 			Connection con = ob.GetConnection();
 			
@@ -109,30 +114,40 @@ public class GeneralAccontingSystem {
 			        double BatchDebit = batch_debit.doubleValue();
 			        double Batchcredit = batch_credit.doubleValue();
 					
-					if (TransactionSl>1 && Double.compare(BatchDebit, Batchcredit)==0) {
-						_stmt = con.prepareStatement(
-								"insert into as_transaction_list (entity_num, orginated_branch, tran_date, batch_no, transaction_type, remarks,dr_amount,cr_amount ,enty_by, enty_on)\r\n"
-										+ "values(1,?,?,?,?,?,?,?,?,trunc(sysdate))");
-	
-						_stmt.setString(1, DataMap.get("loggedBranch").toString());
-						_stmt.setString(2, DataMap.get("asonDate").toString());
-						_stmt.setInt(3, batch_no);						
-						_stmt.setString(4, DataMap.get("TransactionType").toString());
-						_stmt.setString(5, DataMap.get("Remarks").toString());
-						_stmt.setString(6, DataMap.get("TransactionAmtDr").toString());
-						_stmt.setString(7, DataMap.get("TransactionAmtCR").toString());
-						_stmt.setString(8, DataMap.get("User_Id").toString());
-						_stmt.executeUpdate();						
-						_stmt.close();
-																								
-						_stmt = con.prepareStatement("update as_batch_sl s set s.batch_sl=? " + " where s.branch_code= ? "
-								+ " and s.tran_date=?");
-						_stmt.setInt(1, batch_no);
-						_stmt.setString(2, DataMap.get("loggedBranch").toString());
-						_stmt.setString(3, DataMap.get("asonDate").toString());
-						_stmt.executeUpdate();
-						con.commit();
-						ResultMap.put("BATCH_NO", "Transaction Batch Number: " + batch_no);
+			        
+			        
+			        
+					if (TransactionSl>1 && Double.compare(BatchDebit, Batchcredit)==0){
+						
+						if(Double.compare(BatchDebit, TransactionDebit)==0   &&  Double.compare(Batchcredit, TransactionCredit)==0) {
+							_stmt = con.prepareStatement(
+									"insert into as_transaction_list (entity_num, orginated_branch, tran_date, batch_no, transaction_type, remarks,dr_amount,cr_amount ,enty_by, enty_on)\r\n"
+											+ "values(1,?,?,?,?,?,?,?,?,trunc(sysdate))");
+		
+							_stmt.setString(1, DataMap.get("loggedBranch").toString());
+							_stmt.setString(2, DataMap.get("asonDate").toString());
+							_stmt.setInt(3, batch_no);						
+							_stmt.setString(4, DataMap.get("TransactionType").toString());
+							_stmt.setString(5, DataMap.get("Remarks").toString());
+							_stmt.setString(6, DataMap.get("TransactionAmtDr").toString());
+							_stmt.setString(7, DataMap.get("TransactionAmtCR").toString());
+							_stmt.setString(8, DataMap.get("User_Id").toString());
+							_stmt.executeUpdate();						
+							_stmt.close();
+																									
+							_stmt = con.prepareStatement("update as_batch_sl s set s.batch_sl=? " + " where s.branch_code= ? "
+									+ " and s.tran_date=?");
+							_stmt.setInt(1, batch_no);
+							_stmt.setString(2, DataMap.get("loggedBranch").toString());
+							_stmt.setString(3, DataMap.get("asonDate").toString());
+							_stmt.executeUpdate();
+							con.commit();
+							ResultMap.put("BATCH_NO", "Transaction Batch Number: " + batch_no);
+				        }
+						else {
+							ResultMap.put("ERROR_MSG", "sum of Debit & and sum Credit in  Grid is not equal with Actual transaction Total Debit & Credit Amount !!");
+							con.rollback();
+						}						
 					}
 					else
 					{
@@ -141,7 +156,7 @@ public class GeneralAccontingSystem {
 					}
 				}
 				
-			} catch (Exception e) {
+			} catch (SQLException e) {
 				e.printStackTrace();
 				try {
 					con.rollback();
