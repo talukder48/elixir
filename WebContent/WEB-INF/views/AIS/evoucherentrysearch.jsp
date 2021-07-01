@@ -560,7 +560,7 @@ function initValues(){
         			xmlFinal();
         			$.ajax({
         				  method: "POST",
-        				  url: "TransactionServlet",
+        				  url: "CommomAjaxCallHandler",
         				  data: { DataString: DataMap }
         				})
         				  .done(function( responseMessage ) {
