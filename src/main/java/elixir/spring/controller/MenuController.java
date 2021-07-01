@@ -117,6 +117,13 @@ public class MenuController {
 	public String ViewGeneralLedgerStatementReport() {
 		return "AIS/ViewGeneralLedgerStatementReport";		
 	}
+	
+	
+		@RequestMapping(value = "viewBranchReconciliation.do")
+	public String viewBranchReconciliation() {
+		return "AIS/viewBranchReconciliation";		
+	}
+	
 	@RequestMapping(value = "viewGLRegisterReport.do")
 	public String viewGLRegisterReport() {
 		return "AIS/viewGLRegisterReport";		
@@ -138,6 +145,11 @@ public class MenuController {
 	@RequestMapping(value = "addEmployeeDeductionData.do")
 	public String addEmployeeDeductionData() {
 		return "PRMS/addEmployeeDeductionData";		
+	}
+	
+	@RequestMapping(value = "addAnnualIncrementData.do")
+	public String addAnnualIncrementData() {
+		return "PRMS/addAnnualIncrement";		
 	}
 	@RequestMapping(value = "addEmployeeIncentiveData.do")
 	public String addEmployeeIncentiveData() {

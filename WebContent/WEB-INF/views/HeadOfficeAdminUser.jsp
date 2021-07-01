@@ -333,7 +333,6 @@ function hrmReportFunction() {
 
 	<f:view>
 
-
 		<div align="center">
 			<h1>Bangladesh House Building Finance Corporation</h1>			
 			<h5>22, Purana Paltan</h5>

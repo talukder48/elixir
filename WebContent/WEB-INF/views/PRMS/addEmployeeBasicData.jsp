@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Bangladesh House Building Finance Corporation</title>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -95,7 +95,7 @@ float: left;
 
 .col-75 {
 	float: left;
-	width: 50%;
+	width: 35%;
 	margin-top: 6px;
 }
 
@@ -254,7 +254,9 @@ function InitProfile(event){
 				alert(obj.SUCCESS);
 				initValues();
 			}		
-	});	
+	});
+	
+		
 }
 </script>
 </head>
@@ -312,11 +314,18 @@ function InitProfile(event){
 					<input type="text" id="bankACNo" name="bankACNo"  onkeypress="BankACNoValidation(event)">
 				</div>										
 			 </div>	
- 						</fieldset>					
+ 				</fieldset>					
 			<div class="col-75"></div>
-			<div class="row">
-				<input type="submit" id="submit" value="Update" onclick="InitProfile(event)" >
-			</div>
+
+				<div class="row">
+					<div class="col-15">
+						<input type="submit" id="submit" value="Home" onclick="home(event)" > 
+					</div>
+					<div class="col-15">
+						<input type="submit" id="submit" value="Submit"  onclick="InitProfile(event)" >
+					</div>
+					
+				</div>
 		</div>
 	</center>
 </body>

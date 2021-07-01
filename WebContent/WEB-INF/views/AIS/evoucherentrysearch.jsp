@@ -860,16 +860,7 @@ function initValues(){
 				<option value="B">B-Budget</option>
 			</select>
 		</div>
-		
-	<div class="row">
-		<div class="col-15">
-			<label for="asonDate">Transaction Date</label>
 		</div>
-		<div class="col-20">
-			<input type="text" id="asonDate" name="asonDate" >
-		</div>
-	</div>	
-	</div>
 	
 	
 	<div class="row">
@@ -882,8 +873,8 @@ function initValues(){
 		</div>
 
 	</div>
-	<br>
-			
+	
+		<br>	
 </div>
 
 </fieldset>
