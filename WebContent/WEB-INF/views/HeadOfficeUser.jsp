@@ -632,7 +632,8 @@ function init()
               <div class="AccReportDropDown">
 			<button onclick="AccReportFunction()" class="AccReportDropBtn">General Accounting Software </button>
 			<div id="reportDropdown" class="AccReportDropDown-content">
-				<a id="4" href="VouherViewReport.do">Single Voucher Print </a> 
+				<a id="4" href="VouherViewReport.do"> Voucher Print(Single) </a> 
+				<a id="4" href="BulkVouherViewReport.do"> Voucher Print (Bulk) </a> 
 				<a id="5" href="ViewCashBookReport.do">Cash Book[Day Book] Report </a> 
 				<a id="6" href="ViewGeneralLedgerStatementReport.do">General Ledger Statement </a> 
 				<a id="7" href="viewGLRegisterReport.do">General Ledger Register[Subsidiary] </a>

@@ -552,9 +552,8 @@ function AccReportFunction() {
 		<div class="misdropdown">
 			<button onclick="misFunction()" class="misDropbtn">Management Information System </button>
 			<div id="misDropdown" class="misdropdown-content">
-				<a id="1" href="misLoanSanctionAndDisbursement.do">Disbursement</a>
-				<a id="2" href="misLoanRecovery.do">Loan Recovery [UC,CL]</a> 
-				<a id="3" href="misAuditObjectionDisposal.do">Disposal of Audit Objection</a> 
+				<a id="1" href="misLoanDisbursement.do">Disbursement</a>
+				<a id="2" href="misLoanRecovery.do">Loan Recovery </a> 
 				<a id="4" href="misKharidabariData.do">Kharidabari Data</a>
 				<a id="5" href="misCourtCaseSettlementData.do">Court Case Settlement </a>
 				<a id="6" href="misFaultyLoanCaseDeedReturn.do">Deed Return of Faulty Loan</a>
@@ -573,7 +572,8 @@ function AccReportFunction() {
               <div class="AccReportDropDown">
 			<button onclick="AccReportFunction()" class="AccReportDropBtn">General Accounting Software </button>
 			<div id="reportDropdown" class="AccReportDropDown-content">
-				<a id="4" href="VouherViewReport.do">Single Voucher Print </a> 
+				<a id="4" href="VouherViewReport.do"> Voucher Print(Single) </a> 
+				<a id="4" href="BulkVouherViewReport.do"> Voucher Print (Bulk) </a> 
 				<a id="5" href="ViewCashBookReport.do">Cash Book[Day Book] Report </a> 
 				<a id="6" href="ViewGeneralLedgerStatementReport.do">General Ledger Statement </a> 
 				<a id="7" href="viewGLRegisterReport.do">General Ledger Register[Subsidiary] </a>
