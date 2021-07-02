@@ -54,7 +54,7 @@ public class HomeController {
 		} else if (user.getUserName().equals("1453")) {
 			return "HeadOfficeAdminUser";
 		} else
-			return "PensionUserHomePage";
+			return "HeadOfficeMISUser";
 
 	}
 

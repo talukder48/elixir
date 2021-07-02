@@ -139,6 +139,45 @@
 }
 
 
+.misDropbtn {
+	background-color: #0e802c;
+	color: white;
+	font-size: 15px;
+	height: 30px;
+	width: 300px;
+	border: none;
+	cursor: pointer;
+}
+
+.misDropbtn:hover, .misDropbtn:focus {
+	background-color: #2980B9;
+}
+
+.misdropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.misdropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #f1f1f1;
+	min-width: 190px;
+	overflow: auto;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+.misdropdown-content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+
+.misdropdown a:hover {
+	background-color: #ddd;
+}
 
 .prmsreportbtn {
 	background-color: #0e802c;
@@ -179,9 +218,7 @@
 .prmsreportdropdown a:hover {
 	background-color: #ddd;
 }
-
-
-.pensiondropbtn {
+.misbutton {
 	background-color: #0e802c;
 	color: white;
 	font-size: 15px;
@@ -191,56 +228,16 @@
 	cursor: pointer;
 }
 
-.pensiondropbtn:hover, .pensiondropbtn:focus {
+.misbutton:hover, .misbutton:focus {
 	background-color: #2980B9;
 }
 
-.dropdown {
+.misreportdown {
 	position: relative;
 	display: inline-block;
 }
 
-.dropdown-content {
-	display: none;
-	position: absolute;
-	background-color: #f1f1f1;
-	min-width: 190px;
-	overflow: auto;
-	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-	z-index: 1;
-}
-
-.dropdown-content a {
-	color: black;
-	padding: 12px 16px;
-	text-decoration: none;
-	display: block;
-}
-
-.dropdown a:hover {
-	background-color: #ddd;
-}
-
-.pensionreportdropbtn {
-	background-color: #0e802c;
-	color: white;
-	font-size: 15px;
-	height: 30px;
-	width: 300px;
-	border: none;
-	cursor: pointer;
-}
-
-.pensionreportdropbtn:hover, .pensionreportdropbtn:focus {
-	background-color: #2980B9;
-}
-
-.pensionreportDropdown {
-	position: relative;
-	display: inline-block;
-}
-
-.pensionreportDropdown-content {
+.misreportdown-content {
 	display: none;
 	position: absolute;
 	background-color: #f1f1f1;
@@ -250,56 +247,17 @@
 	z-index: 1;
 }
 
-.pensionreportDropdown-content a {
+.misreportdown-content a {
 	color: black;
 	padding: 12px 16px;
 	text-decoration: none;
 	display: block;
 }
 
-.pensionreportDropdown a:hover {
+.misreportdown a:hover {
 	background-color: #ddd;
 }
-
-.misDropbtn {
-	background-color: #0e802c;
-	color: white;
-	font-size: 15px;
-	height: 30px;
-	width: 300px;
-	border: none;
-	cursor: pointer;
-}
-
-.misDropbtn:hover, .misDropbtn:focus {
-	background-color: #2980B9;
-}
-
-.misdropdown {
-	position: relative;
-	display: inline-block;
-}
-
-.misdropdown-content {
-	display: none;
-	position: absolute;
-	background-color: #f1f1f1;
-	min-width: 190px;
-	overflow: auto;
-	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-	z-index: 1;
-}
-
-.misdropdown-content a {
-	color: black;
-	padding: 12px 16px;
-	text-decoration: none;
-	display: block;
-}
-
-.misdropdown a:hover {
-	background-color: #ddd;
-}.profiledropbutton {
+.profiledropbutton {
 	background-color: #0e802c;
 	color: white;
 	font-size: 15px;
@@ -406,12 +364,12 @@ footer {
     height: auto;
   }
 }
+
 .vl {
   border-left: 1px solid green;
   padding: 10px;
   height: 500px;
 }
-
 </style>
 <script type="text/javascript">
 
@@ -422,137 +380,70 @@ function init()
 	
 }
 
-	function AccEntyFunction() {
-		document.getElementById("accDropDown").classList.toggle("show");
+
+function AccEntyFunction() {
+  document.getElementById("accDropDown").classList.toggle("show");
+}
+
+window.onclick = function(event) {
+  if (!event.target.matches('.AccEntyDropBtn')) {
+    var dropdowns = document.getElementsByClassName("AccEntyDropDown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
+
+function AccReportFunction() {
+	  document.getElementById("reportDropdown").classList.toggle("show");
 	}
 
 	window.onclick = function(event) {
-		if (!event.target.matches('.AccEntyDropBtn')) {
-			var dropdowns = document
-					.getElementsByClassName("AccEntyDropDown-content");
-			var i;
-			for (i = 0; i < dropdowns.length; i++) {
-				var openDropdown = dropdowns[i];
-				if (openDropdown.classList.contains('show')) {
-					openDropdown.classList.remove('show');
-				}
-			}
-		}
-	}
-
-	function AccReportFunction() {
-		document.getElementById("reportDropdown").classList.toggle("show");
-	}
-
-	window.onclick = function(event) {
-		if (!event.target.matches('.AccReportDropBtn')) {
-			var dropdowns = document
-					.getElementsByClassName("AccReportDropDown-content");
-			var i;
-			for (i = 0; i < dropdowns.length; i++) {
-				var openDropdown = dropdowns[i];
-				if (openDropdown.classList.contains('show')) {
-					openDropdown.classList.remove('show');
-				}
-			}
-		}
-	}
-
-	function PayrollmyFunction() {
-		document.getElementById("PayDropdown").classList.toggle("show");
-	}
-
-	window.onclick = function(event) {
-		if (!event.target.matches('.payrolldropbtn')) {
-			var dropdowns = document
-					.getElementsByClassName("payRolldropdown-content");
-			var i;
-			for (i = 0; i < dropdowns.length; i++) {
-				var openDropdown = dropdowns[i];
-				if (openDropdown.classList.contains('show')) {
-					openDropdown.classList.remove('show');
-				}
-			}
-		}
-	}
-
-	function prmsFunction() {
-		document.getElementById("prmsdropdown").classList.toggle("show");
-	}
-
-	window.onclick = function(event) {
-		if (!event.target.matches('.prmsreportbtn')) {
-			var dropdowns = document
-					.getElementsByClassName("prmsreportdropdown-content");
-			var i;
-			for (i = 0; i < dropdowns.length; i++) {
-				var openDropdown = dropdowns[i];
-				if (openDropdown.classList.contains('show')) {
-					openDropdown.classList.remove('show');
-				}
-			}
-		}
-	}
-
-	function pensionFunction() {
-		document.getElementById("penDropdown").classList.toggle("show");
-	}
-
-	window.onclick = function(event) {
-		if (!event.target.matches('.pensiondropbtn')) {
-			var dropdowns = document.getElementsByClassName("dropdown-content");
-			var i;
-			for (i = 0; i < dropdowns.length; i++) {
-				var openDropdown = dropdowns[i];
-				if (openDropdown.classList.contains('show')) {
-					openDropdown.classList.remove('show');
-				}
-			}
-		}
-	}
-
-	function ppsrptFunction() {
-		document.getElementById("ppsrptdropdown").classList.toggle("show");
-	}
-
-	window.onclick = function(event) {
-		if (!event.target.matches('.pensionreportdropbtn')) {
-			var dropdowns = document
-					.getElementsByClassName("pensionreportDropdown-content");
-			var i;
-			for (i = 0; i < dropdowns.length; i++) {
-				var openDropdown = dropdowns[i];
-				if (openDropdown.classList.contains('show')) {
-					openDropdown.classList.remove('show');
-				}
-			}
-		}
-	}
-	function MisFunction() {
-		document.getElementById("misDropdown").classList.toggle("show");
-	}
-
-	window.onclick = function(event) {
-		if (!event.target.matches('.misDropbtn')) {
-			var dropdowns = document
-					.getElementsByClassName("misdropdown-content");
-			var i;
-			for (i = 0; i < dropdowns.length; i++) {
-				var openDropdown = dropdowns[i];
-				if (openDropdown.classList.contains('show')) {
-					openDropdown.classList.remove('show');
-				}
-			}
-		}
+	  if (!event.target.matches('.AccReportDropBtn')) {
+	    var dropdowns = document.getElementsByClassName("AccReportDropDown-content");
+	    var i;
+	    for (i = 0; i < dropdowns.length; i++) {
+	      var openDropdown = dropdowns[i];
+	      if (openDropdown.classList.contains('show')) {
+	        openDropdown.classList.remove('show');
+	      }
+	    }
+	  }
 	}
 	
-	function myProfileFunction() {
-		  document.getElementById("myprofiledropdown").classList.toggle("show");
+	
+	
+
+	function PayrollmyFunction() {
+	  document.getElementById("PayDropdown").classList.toggle("show");
+	}
+
+	window.onclick = function(event) {
+	  if (!event.target.matches('.payrolldropbtn')) {
+	    var dropdowns = document.getElementsByClassName("payRolldropdown-content");
+	    var i;
+	    for (i = 0; i < dropdowns.length; i++) {
+	      var openDropdown = dropdowns[i];
+	      if (openDropdown.classList.contains('show')) {
+	        openDropdown.classList.remove('show');
+	      }
+	    }
+	  }
+	}	
+	
+	
+	function misFunction() {
+		  document.getElementById("misDropdown").classList.toggle("show");
 		}
 
 		window.onclick = function(event) {
-		  if (!event.target.matches('.profiledropbutton')) {
-		    var dropdowns = document.getElementsByClassName("profiledropdown-content");
+		  if (!event.target.matches('.misDropbtn')) {
+		    var dropdowns = document.getElementsByClassName("misdropdown-content");
 		    var i;
 		    for (i = 0; i < dropdowns.length; i++) {
 		      var openDropdown = dropdowns[i];
@@ -561,7 +452,56 @@ function init()
 		      }
 		    }
 		  }
-		}	
+		}
+		function prmsFunction() {
+			  document.getElementById("prmsdropdown").classList.toggle("show");
+			}
+
+			window.onclick = function(event) {
+			  if (!event.target.matches('.prmsreportbtn')) {
+			    var dropdowns = document.getElementsByClassName("prmsreportdropdown-content");
+			    var i;
+			    for (i = 0; i < dropdowns.length; i++) {
+			      var openDropdown = dropdowns[i];
+			      if (openDropdown.classList.contains('show')) {
+			        openDropdown.classList.remove('show');
+			      }
+			    }
+			  }
+			}
+			
+			function misreportfunction() {
+				  document.getElementById("misreportDropdown").classList.toggle("show");
+				}
+
+				window.onclick = function(event) {
+				  if (!event.target.matches('.misbutton')) {
+				    var dropdowns = document.getElementsByClassName("misreportdown-content");
+				    var i;
+				    for (i = 0; i < dropdowns.length; i++) {
+				      var openDropdown = dropdowns[i];
+				      if (openDropdown.classList.contains('show')) {
+				        openDropdown.classList.remove('show');
+				      }
+				    }
+				  }
+				}
+				function myProfileFunction() {
+					  document.getElementById("myprofiledropdown").classList.toggle("show");
+					}
+
+					window.onclick = function(event) {
+					  if (!event.target.matches('.profiledropbutton')) {
+					    var dropdowns = document.getElementsByClassName("profiledropdown-content");
+					    var i;
+					    for (i = 0; i < dropdowns.length; i++) {
+					      var openDropdown = dropdowns[i];
+					      if (openDropdown.classList.contains('show')) {
+					        openDropdown.classList.remove('show');
+					      }
+					    }
+					  }
+					}	
 </script>
 </head>
 <body onload="init()">
@@ -572,8 +512,8 @@ function init()
   <div align="center">
 			<h1 style="color: green;">Bangladesh House Building Finance Corporation</h1>			
 			<h5>22, Purana Paltan</h5>
-</div>
-<hr style="width:100%;text-align:left;margin-left:0">	
+		</div>
+	<hr style="width:100%;text-align:left;margin-left:0">	
 </header>
 
 <section>
@@ -582,100 +522,45 @@ function init()
    <f:view>
    
    <fieldset>
-   <legend>Entry Module</legend>
-   
-		<div class="AccEntyDropDown">
-			<button onclick="AccEntyFunction()" class="AccEntyDropBtn">  General Accounting Software  </button>
-			<div id="accDropDown" class="AccEntyDropDown-content">
-				<a id="1" href="VoucherEntryHeadWise.do"> Voucher Entry [Search] </a>
-				<a id="2" href="VoucherEntryItemWise.do"> Voucher Entry [Item Wise] </a>
-				<a id="3" href="TransactionEntryValidation.do">Voucher Validation </a> 				
-				<a id="4" href="NewGlOpeningPages.do"> New Account Open  </a>
-				<a id="5" href="BranchWiseItemsCreation.do">Branch Wise Item Creation  </a> 
-				<a id="6" href="GLOpeningBalance.do">Opening Balance </a>																
-			</div>
-			<br /><br />			
+   <legend>Entry Module</legend>		
 		  
 		  <div class="payRolldropdown">
-			<button onclick="PayrollmyFunction()" class="payrolldropbtn">Payroll Management System </button>
+			<button onclick="PayrollmyFunction()" class="payrolldropbtn">Parameter Setup  </button>
 			<div id="PayDropdown" class="payRolldropdown-content">
-				<a id="1" href="addEmployeeBasicData.do">Basic Profile</a>
-				<a id="2" href="addEmployeeAllowanceData.do">Add Allowance </a> 
-				<a id="3" href="addEmployeeDeductionData.do">Add Deduction</a> 
-				<a id="4" href="addEmployeeIncentiveData.do">Add Incentive Data</a>
-				<a id="5" href="addAnnualIncrementData.do">Annual Increment</a>
-				
+				<a id="1" href="TargetCreationMaster.do">Target Master Creation</a>
+				<a id="2" href="BranchWiseTargetSetup.do">Branch Wise Target Setup </a> 				
 			</div>
 		</div>
 		<br></br>
 		
-		
-		<div class="dropdown">
-			<button onclick="pensionFunction()" class="pensiondropbtn">Pension Payment System </button>
-			<div id="penDropdown" class="dropdown-content">
-				<a id="1" href="PensionNothiDataUpdate.do"> Pension Employee Record Entry</a>
-				<a id="2" href="PensionInharitanceDataUpdate.do">Inheritance Record Entry </a> 
-				<a id="3" href="PensionAllwanceDataUpdate.do">Allowance Record Enty</a> 
-				<a id="4" href="PensionDeductionDataUpdate.do">Deduction Record Entry</a> 
-				
+		<div class="misdropdown">
+			<button onclick="misFunction()" class="misDropbtn"> Information Entry</button>
+			<div id="misDropdown" class="misdropdown-content">
+				<a id="1" href="misLoanSanction.do">Loan Sanction</a>
+				<a id="2" href="misAuditObjectionDisposal.do">Disposal of Audit Objection</a> 
 			</div>
 		</div>
 		
-			
-		</div>
+		
 		</fieldset>
 		
-		<br /><br />	
+		<br /><br />
 		 <fieldset>
               <legend>Report Module</legend>
               
-              <div class="AccReportDropDown">
-			<button onclick="AccReportFunction()" class="AccReportDropBtn">General Accounting Software </button>
-			<div id="reportDropdown" class="AccReportDropDown-content">
-				<a id="4" href="VouherViewReport.do">Single Voucher Print </a> 
-				<a id="5" href="ViewCashBookReport.do">Cash Book[Day Book] Report </a> 
-				<a id="6" href="ViewGeneralLedgerStatementReport.do">General Ledger Statement </a> 
-				<a id="7" href="viewGLRegisterReport.do">General Ledger Register[Subsidiary] </a>
-				<a id="8" href="viewBranchReconciliation.do">Reconciliation Report </a>
-				<a id="9" href="ViewFinancialReport.do">Financial Statements [TB,BS,PL]</a>
-			</div>
-			
-		  </div>
-		  <br /><br />
-           <div class="prmsreportdropdown">
-			<button onclick="prmsFunction()" class="prmsreportbtn">Payroll Management System </button>
-			<div id="prmsdropdown" class="prmsreportdropdown-content">
-				<a id="5" href="ViewMonthlySalaryReport.do">Monthly Salary Report</a>
-				<a id="6" href="ViewFestivalBonusReport.do">Festival & Bangla New Year</a> 
-				<a id="7" href="ViewIncentiveReport.do">Incentive Report</a>
-				<a id="8" href="ViewSalaryCertificate.do"> Salary Certificate</a> 
-			</div>
-		</div>
-		
-		<br /><br />   
-		
-		<div class="pensionreportDropdown">
-			<button onclick="ppsrptFunction()" class="pensionreportdropbtn">Pension Payment System </button>
-			<div id="ppsrptdropdown" class="pensionreportDropdown-content">
-				<a id="5" href="PensionMonthlyReportView.do">Monthly Report</a> 
-				<a id="6" href="PensionYearlyReportview.do">Yearly Report</a>
-				<a id="7" href="PensionBonusReportView.do">Bonus Report</a>
-			</div>
-		</div>
-		
-		
-		<br /><br />
-			<div class="misdropdown">
-			<button onclick="MisFunction()" class="misDropbtn">Employee Loan Management System</button>
-			<div id="misDropdown" class="misdropdown-content">
-			    <a id="1" href="viewSalaryDeductionReport.do">Salary Deduction Report</a>
-				<a id="1" href="viewAdvanceReport.do">Employee Loan Statements</a>
+             
+		<div class="misreportdown">
+			<button onclick="misreportfunction()" class="misbutton">Management Information System  </button>			
+			<div id="misreportDropdown" class="misreportdown-content">
+			    <a id="1" href="viewMISReport.do">Branch Wise Report</a>
+			    <a id="2" href="viewMISReport.do">Zone Wise Report</a>				
+				<a id="3" href="viewMISSummaryReport.do">Summary Report</a>
+				<a id="4" href="viewMISPerformanceReport.do">Performance Report</a>
 			</div>
 		</div>
               
         </fieldset>
-        
-        <br /><br />   
+		<br /><br />   
 		<fieldset>
               <legend>Personal Profile</legend>
              <div class="profiledropdown">
@@ -688,17 +573,18 @@ function init()
 			</div>
 		</div>
               
-        </fieldset>    
+        </fieldset>      
 		
 		
 	</f:view>
 	
   </nav>
   
-  <article >
-  <div class="vl">
+  <article>
   
-  <p>ESTABLISHMENT:House Building Finance Corporation was established in 1952 to provide financial assistance in housing sector. After independence, the corporation was reconstituted as House Building Finance Corporation (BHBFC) by the President’s Order no 7 of 1973.</p>
+   <div class="vl">
+  
+    <p>ESTABLISHMENT:House Building Finance Corporation was established in 1952 to provide financial assistance in housing sector. After independence, the corporation was reconstituted as House Building Finance Corporation (BHBFC) by the President’s Order no 7 of 1973.</p>
     <p>OBJECTIVES: Shelter is one of the five basic needs of human being to alleviate the acute housing problem.
      The primary objective is to alleviate the acute housing problem in the country. 
      It is the only financial institution in the housing sector that has been financing for the last 6 decades. 
@@ -710,11 +596,8 @@ function init()
     <p>OURCES OF FUND : The primary source of the Corporation’s fund is the paid-up capital contributed by the Government. The authorised capital is Taka 110 Crore and during 2010-11 the total paid-up capital stood at taka 110 crore. Other than this the corporation raised its fund by selling Govt. guaranteed debentures with the assistance of the Ministry of Finance to Bangladesh Bank and to other Commercial Banks.</p>
     <p>OFFICES: Head Office of the Corporation is located in Dhaka. There are 15 departments at Head Office. Other than head office it has 10 Zonal offices. Out of these 10 offices 2 offices are in Dhaka City and the rest 8 Zonal offices are situated in Chittagong, Sylhet, Rajshahi, Khulna, Barisal, Rangpur, Faridpur and Mymensing. The corporation has 14 Regional offices located at Cumilla, Noakhali, Jessore, Kushtia, Pabna, Bagura, Dinajpur, Tangail, Jamalpur, Rangamati, Gopalganj and Narayanganj. There are 61 branch offices all over the country under the control of 10 Zonal and 14 Regional Offices.</p>
     <p>MANAGEMENT: Board of BHBFC is designated by the Government. The Board consists of 6 (six) members -a Chairman and a Managing Director and 4 other directors. Managing Director is the chief executive and a member of the Board by post. The Board of Directors formulates overall policy and directs on the Corporation’s activities. To manage the Corporation the Board acts on commercial consideration guided by the Government directives. Managing Director, on behalf of the board, directs and controls the whole affairs of the Corporation. Board meeting is held regularly at the Head Office or at any other office of the Corporation where the Chairman officiate the meeting.  Managing Director manages all activities of the Corporation as chief executive officer and General Managers help the Managing Director to manage the tasks.</p>
-  
-  
   </div>
-  
-      </article>
+  </article>
 </section>
 
 <footer>
@@ -724,7 +607,11 @@ function init()
               <strong>Design & Developed By ICT Operation, <a href="http://www.bhbfc.gov.bd/" target="_blank">BHBFC.</a></strong>
               All Rights Reserved.</p>              
         </div>
-</footer>	
+</footer>
+	
+	
+	
+	
 	
 </body>
 </html>
