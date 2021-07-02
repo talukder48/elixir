@@ -257,10 +257,57 @@
 .misreportdown a:hover {
 	background-color: #ddd;
 }
-.show {
+.profiledropbutton {
+	background-color: #0e802c;
+	color: white;
+	font-size: 15px;
+	height: 30px;
+	width: 300px;
+	border: none;
+	cursor: pointer;
+}
+
+.profiledropbutton:hover, .profiledropbutton:focus {
+	background-color: #2980B9;
+}
+
+.profiledropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.profiledropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #f1f1f1;
+	min-width: 190px;
+	overflow: auto;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+.profiledropdown-content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
 	display: block;
 }
 
+.profiledropdown a:hover {
+	background-color: #ddd;
+}
+.show {
+	display: block;
+}
+input[type=submit] {
+	background-color: #0e802c;
+	color: white;
+	font-size: 15px;
+	height: 30px;
+	width: 300px;
+	border: none;
+	cursor: pointer;
+}
 
 header {
   background-color: white;
@@ -439,6 +486,22 @@ function AccReportFunction() {
 				    }
 				  }
 				}
+				function myProfileFunction() {
+					  document.getElementById("myprofiledropdown").classList.toggle("show");
+					}
+
+					window.onclick = function(event) {
+					  if (!event.target.matches('.profiledropbutton')) {
+					    var dropdowns = document.getElementsByClassName("profiledropdown-content");
+					    var i;
+					    for (i = 0; i < dropdowns.length; i++) {
+					      var openDropdown = dropdowns[i];
+					      if (openDropdown.classList.contains('show')) {
+					        openDropdown.classList.remove('show');
+					      }
+					    }
+					  }
+					}	
 </script>
 </head>
 <body onload="init()">
@@ -503,7 +566,7 @@ function AccReportFunction() {
 		</div>
 		</fieldset>
 		
-		<br /><br /><br /><br />
+		<br /><br />
 		 <fieldset>
               <legend>Report Module</legend>
               
@@ -540,6 +603,20 @@ function AccReportFunction() {
 		</div>
               
         </fieldset>
+		<br /><br />   
+		<fieldset>
+              <legend>Personal Profile</legend>
+             <div class="profiledropdown">
+			<button onclick="myProfileFunction()" class="profiledropbutton">Personal Profile Menu</button>
+			<div id="myprofiledropdown" class="profiledropdown-content">
+				<a id="1" href="ResetPassword.do">Password Reset</a>												
+				<form action="elixir.do" method="post">
+				    <input type="submit" id="submit" value="logout"> </input>
+				</form>									
+			</div>
+		</div>
+              
+        </fieldset>      
 		
 		
 	</f:view>

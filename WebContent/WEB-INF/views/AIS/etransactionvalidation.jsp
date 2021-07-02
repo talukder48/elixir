@@ -81,7 +81,7 @@ float: left;
 
 .col-customize {
 	float: left;
-	width: 25%;
+	width: 20%;
 	margin-top: 6px;
 }
 
@@ -470,6 +470,12 @@ function ViewBatchNumber()
 				</div>
 				</fieldset>
 				<div class="row">
+				 
+				   <div class="col-customize">
+						<form action="currentUserHomePage.do" method="post">
+						<input type="submit" id="submit" value="Home"  > 
+						</form>
+					</div>
 					
 					<div class="col-customize">
 						<input type="submit" id="viewId" value="Print Batch" onclick="ViewBatchNumber()" > <br>

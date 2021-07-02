@@ -734,8 +734,11 @@ $(function() {
 				<div class="row">
 				
 				
-				    <div class="col-15">
-						<input type="submit" id="submit" value="Back To" onclick="AddPensionInharitanceInfo(event)" > 
+				    <div class="col-15">					
+						<form action="currentUserHomePage.do" method="post">
+						<input type="submit" id="submit" value="Home"  > 
+						</form>
+						
 					</div>
 					<div class="col-15">
 					     <input type="submit" id="submit" value="Submit" onclick="AddPensionInharitanceInfo(event)" >

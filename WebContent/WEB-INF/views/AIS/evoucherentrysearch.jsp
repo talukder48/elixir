@@ -883,8 +883,16 @@ function initValues(){
 	<p id='output'></p>
 	<div class="col-75"></div>
 	<div class="row">
+	
+	 <div class="col-15">
+	 <form action="currentUserHomePage.do" method="post">
+						<input type="submit" id="submit" value="Home"  > 
+						</form>
+	 </div>
+	   <div class="col-15">
 		<input type="submit" id="submit" value="Save Transaction"
 			onclick="submitTransaction()">
+			</div>
 	</div>
 
 </body>

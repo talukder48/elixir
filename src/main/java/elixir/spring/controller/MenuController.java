@@ -213,4 +213,11 @@ public class MenuController {
 	public String viewSalaryDeductionReport() {
 		return "ELMS/viewSalaryDeductionReport";		
 	}
+	
+	@RequestMapping(value = "ResetPassword.do")
+	public String ResetPassword() {
+		return "Profile/ResetPassword";		
+	}
+	
+	
 }

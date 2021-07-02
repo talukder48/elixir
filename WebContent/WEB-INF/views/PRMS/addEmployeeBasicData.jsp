@@ -258,6 +258,39 @@ function InitProfile(event){
 	
 		
 }
+
+function exit(){
+	
+	var User_Id="<%= session.getAttribute("User_Id")%>";
+	var branch_code="<%= session.getAttribute("BranchCode")%>";
+	clear();
+	SetValue("User_Id",User_Id,"N");
+	SetValue("branch_code",branch_code,"L");
+	xmlFinal();							
+	$.ajax({
+		  method: "POST",
+		  url: "RedirrectHandaler",
+		  data: { DataString: DataMap }
+		})
+		  .done(function( responseMessage ) {
+		    var obj = JSON.parse(responseMessage);
+		    if (obj.ERROR_MSG != "") {
+				alert(obj.ERROR_MSG);
+			} else {
+				
+				if(obj.USER_TYPE=="BR"){
+					alert(window.location.href)
+					top.location = self.location.href = "/";
+				}
+				
+			}		
+	});
+	
+	
+	
+	
+}
+
 </script>
 </head>
 <body onload="initValues()">
@@ -318,8 +351,11 @@ function InitProfile(event){
 			<div class="col-75"></div>
 
 				<div class="row">
-					<div class="col-15">
-						<input type="submit" id="submit" value="Home" onclick="home(event)" > 
+					<div class="col-15">					
+						<form action="currentUserHomePage.do" method="post">
+						<input type="submit" id="submit" value="Home"  > 
+						</form>
+						
 					</div>
 					<div class="col-15">
 						<input type="submit" id="submit" value="Submit"  onclick="InitProfile(event)" >

@@ -328,13 +328,19 @@ $(function() {
 				<br>
 				
 				<div class="row">
-				<div class="col-75"></div>
-				<div class="col-15">
-				</div>
-				<div class="col-15">
-					<input type="submit" id="eventTransaction" value="Submit" onclick="DataUpdate(event)" > 
-				</div>									
-				</div>
+				
+					<div class="col-15">					
+						<form action="currentUserHomePage.do" method="post">
+						<input type="submit" id="submit" value="Home"  > 
+						</form>
+						
+					</div>
+					<div class="col-75">
+						<input type="submit" id="AccountOpenId" value="Submit" onclick="DataUpdate(event)" > 
+					</div>									
+			   </div>
+				
+				
 				
 																	
 	</div>

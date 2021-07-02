@@ -104,7 +104,7 @@ function ValidateLogIn(){
 </head>
 <body>
 <div align="center">
-	<h1>${Title}</h1>
+	<h1 style="color:green;">${Title}</h1>
 	<h2>Please Login Here !!</h2>
 	<P>The time on the server is ${serverTime}.</p>
 	<form action="UserHomePage.Do" method ="post" onkeydown="return event.key != 'Enter';">

@@ -427,9 +427,19 @@ function UpdateEmployeeAllowance(event){
 			  </div>	
 			  </fieldset>			  			  			  															
 			<div class="col-75"></div>
+			
 			<div class="row">
-				<input type="submit" id="submit" value="Update" onclick="UpdateEmployeeAllowance(event)" >
+				<div class="col-15">					
+					<form action="currentUserHomePage.do" method="post">
+					<input type="submit" id="submit" value="Home"  > 
+					</form>
+					
+				</div>
+				<div class="col-15">
+					<input type="submit" id="submit" value="Submit"  onclick="UpdateEmployeeAllowance(event)" >
+				</div>					
 			</div>
+						
 		</div>
 	</center>
 </body>

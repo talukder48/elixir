@@ -470,14 +470,20 @@ $(function() {
 														
 				</div>
 				</fieldset>	
-																	
-				<div>				
-				<br>				
-				<div class="col-75"></div>
-				<div class="row">
-					<input type="submit" id="submit" value="Submit" onclick="ItemCreationFunction(event)" >
-				</div>
-			 </div>
+			<div class="row">
+				
+					<div class="col-15">					
+						<form action="currentUserHomePage.do" method="post">
+						<input type="submit" id="submit" value="Home"  > 
+						</form>
+						
+					</div>
+					<div class="col-75">
+						<input type="submit" id="AccountOpenId" value="Submit" onclick="ItemCreationFunction(event)" > 
+					</div>									
+			   </div>			
+					
+																						
 			</div>
 	</center>
 </body>

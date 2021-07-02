@@ -315,7 +315,9 @@ function ViewBatchNumber()
 				</fieldset>
 				<div class="row">
 					<div class="col-25">
-						<label for="report_download"></label>
+						<form action="currentUserHomePage.do" method="post">
+						<input type="submit" id="submit" value="Home"  > 
+						</form>
 					</div>
 					<div class="col-75">
 						<input type="submit" id="report_download" value="Print Batch" onclick="ViewBatchNumber()" > <br>
