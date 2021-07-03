@@ -296,6 +296,47 @@
 .profiledropdown a:hover {
 	background-color: #ddd;
 }
+
+.lmsdropbtn {
+	background-color: #0e802c;
+	color: white;
+	font-size: 15px;
+	height: 30px;
+	width: 300px;
+	border: none;
+	cursor: pointer;
+}
+
+.lmsdropbtn:hover, .lmsdropbtn:focus {
+	background-color: #2980B9;
+}
+
+.lmsdropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.lmsdropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #f1f1f1;
+	min-width: 190px;
+	overflow: auto;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+.lmsdropdown-content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+
+.lmsdropdown a:hover {
+	background-color: #ddd;
+}
+
 .show {
 	display: block;
 }
@@ -381,127 +422,148 @@ function init()
 }
 
 
-function AccEntyFunction() {
-  document.getElementById("accDropDown").classList.toggle("show");
-}
 
-window.onclick = function(event) {
-  if (!event.target.matches('.AccEntyDropBtn')) {
-    var dropdowns = document.getElementsByClassName("AccEntyDropDown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
-
-
-function AccReportFunction() {
-	  document.getElementById("reportDropdown").classList.toggle("show");
+	function AccEntyFunction() {
+		document.getElementById("accDropDown").classList.toggle("show");
 	}
 
 	window.onclick = function(event) {
-	  if (!event.target.matches('.AccReportDropBtn')) {
-	    var dropdowns = document.getElementsByClassName("AccReportDropDown-content");
-	    var i;
-	    for (i = 0; i < dropdowns.length; i++) {
-	      var openDropdown = dropdowns[i];
-	      if (openDropdown.classList.contains('show')) {
-	        openDropdown.classList.remove('show');
-	      }
-	    }
-	  }
+		if (!event.target.matches('.AccEntyDropBtn')) {
+			var dropdowns = document
+					.getElementsByClassName("AccEntyDropDown-content");
+			var i;
+			for (i = 0; i < dropdowns.length; i++) {
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains('show')) {
+					openDropdown.classList.remove('show');
+				}
+			}
+		}
 	}
-	
-	
-	
+
+	function AccReportFunction() {
+		document.getElementById("reportDropdown").classList.toggle("show");
+	}
+
+	window.onclick = function(event) {
+		if (!event.target.matches('.AccReportDropBtn')) {
+			var dropdowns = document
+					.getElementsByClassName("AccReportDropDown-content");
+			var i;
+			for (i = 0; i < dropdowns.length; i++) {
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains('show')) {
+					openDropdown.classList.remove('show');
+				}
+			}
+		}
+	}
 
 	function PayrollmyFunction() {
-	  document.getElementById("PayDropdown").classList.toggle("show");
+		document.getElementById("PayDropdown").classList.toggle("show");
 	}
 
 	window.onclick = function(event) {
-	  if (!event.target.matches('.payrolldropbtn')) {
-	    var dropdowns = document.getElementsByClassName("payRolldropdown-content");
-	    var i;
-	    for (i = 0; i < dropdowns.length; i++) {
-	      var openDropdown = dropdowns[i];
-	      if (openDropdown.classList.contains('show')) {
-	        openDropdown.classList.remove('show');
-	      }
-	    }
-	  }
-	}	
-	
-	
+		if (!event.target.matches('.payrolldropbtn')) {
+			var dropdowns = document
+					.getElementsByClassName("payRolldropdown-content");
+			var i;
+			for (i = 0; i < dropdowns.length; i++) {
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains('show')) {
+					openDropdown.classList.remove('show');
+				}
+			}
+		}
+	}
+
 	function misFunction() {
-		  document.getElementById("misDropdown").classList.toggle("show");
-		}
+		document.getElementById("misDropdown").classList.toggle("show");
+	}
 
-		window.onclick = function(event) {
-		  if (!event.target.matches('.misDropbtn')) {
-		    var dropdowns = document.getElementsByClassName("misdropdown-content");
-		    var i;
-		    for (i = 0; i < dropdowns.length; i++) {
-		      var openDropdown = dropdowns[i];
-		      if (openDropdown.classList.contains('show')) {
-		        openDropdown.classList.remove('show');
-		      }
-		    }
-		  }
-		}
-		function prmsFunction() {
-			  document.getElementById("prmsdropdown").classList.toggle("show");
-			}
-
-			window.onclick = function(event) {
-			  if (!event.target.matches('.prmsreportbtn')) {
-			    var dropdowns = document.getElementsByClassName("prmsreportdropdown-content");
-			    var i;
-			    for (i = 0; i < dropdowns.length; i++) {
-			      var openDropdown = dropdowns[i];
-			      if (openDropdown.classList.contains('show')) {
-			        openDropdown.classList.remove('show');
-			      }
-			    }
-			  }
-			}
-			
-			function misreportfunction() {
-				  document.getElementById("misreportDropdown").classList.toggle("show");
+	window.onclick = function(event) {
+		if (!event.target.matches('.misDropbtn')) {
+			var dropdowns = document
+					.getElementsByClassName("misdropdown-content");
+			var i;
+			for (i = 0; i < dropdowns.length; i++) {
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains('show')) {
+					openDropdown.classList.remove('show');
 				}
+			}
+		}
+	}
+	function prmsFunction() {
+		document.getElementById("prmsdropdown").classList.toggle("show");
+	}
 
-				window.onclick = function(event) {
-				  if (!event.target.matches('.misbutton')) {
-				    var dropdowns = document.getElementsByClassName("misreportdown-content");
-				    var i;
-				    for (i = 0; i < dropdowns.length; i++) {
-				      var openDropdown = dropdowns[i];
-				      if (openDropdown.classList.contains('show')) {
-				        openDropdown.classList.remove('show');
-				      }
-				    }
-				  }
+	window.onclick = function(event) {
+		if (!event.target.matches('.prmsreportbtn')) {
+			var dropdowns = document
+					.getElementsByClassName("prmsreportdropdown-content");
+			var i;
+			for (i = 0; i < dropdowns.length; i++) {
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains('show')) {
+					openDropdown.classList.remove('show');
 				}
-				function myProfileFunction() {
-					  document.getElementById("myprofiledropdown").classList.toggle("show");
-					}
+			}
+		}
+	}
 
-					window.onclick = function(event) {
-					  if (!event.target.matches('.profiledropbutton')) {
-					    var dropdowns = document.getElementsByClassName("profiledropdown-content");
-					    var i;
-					    for (i = 0; i < dropdowns.length; i++) {
-					      var openDropdown = dropdowns[i];
-					      if (openDropdown.classList.contains('show')) {
-					        openDropdown.classList.remove('show');
-					      }
-					    }
-					  }
-					}	
+	function misreportfunction() {
+		document.getElementById("misreportDropdown").classList.toggle("show");
+	}
+
+	window.onclick = function(event) {
+		if (!event.target.matches('.misbutton')) {
+			var dropdowns = document
+					.getElementsByClassName("misreportdown-content");
+			var i;
+			for (i = 0; i < dropdowns.length; i++) {
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains('show')) {
+					openDropdown.classList.remove('show');
+				}
+			}
+		}
+	}
+	function myProfileFunction() {
+		document.getElementById("myprofiledropdown").classList.toggle("show");
+	}
+
+	window.onclick = function(event) {
+		if (!event.target.matches('.profiledropbutton')) {
+			var dropdowns = document
+					.getElementsByClassName("profiledropdown-content");
+			var i;
+			for (i = 0; i < dropdowns.length; i++) {
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains('show')) {
+					openDropdown.classList.remove('show');
+				}
+			}
+		}
+	}
+
+	function lmsFunction() {
+		document.getElementById("myDropdown").classList.toggle("show");
+	}
+
+	window.onclick = function(event) {
+		if (!event.target.matches('.lmsdropbtn')) {
+			var dropdowns = document
+					.getElementsByClassName("lmsdropdown-content");
+			var i;
+			for (i = 0; i < dropdowns.length; i++) {
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains('show')) {
+					openDropdown.classList.remove('show');
+				}
+			}
+		}
+	}
 </script>
 </head>
 <body onload="init()">
@@ -560,12 +622,19 @@ function AccReportFunction() {
 
 			</div>
 		</div>
-		
+			<br></br>
 			
 		</div>
+		<div class="lmsdropdown">
+			<button onclick="lmsFunction()" class="lmsdropbtn">Service Simplification (lms)</button>
+			<div id="myDropdown" class="lmsdropdown-content">
+				<a id="1" href="BorrowerEmailAddress.do">Borrower Email Address</a>
+				
+			</div>
+		</div>
 		</fieldset>
+		<br></br>
 		
-		<br /><br />
 		 <fieldset>
               <legend>Report Module</legend>
               

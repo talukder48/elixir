@@ -219,5 +219,9 @@ public class MenuController {
 		return "Profile/ResetPassword";		
 	}
 	
+	@RequestMapping(value = "BorrowerEmailAddress.do")
+	public String BorrowerEmailAddress() {
+		return "LMS/BorrowerEmailAddress";		
+	}
 	
 }
