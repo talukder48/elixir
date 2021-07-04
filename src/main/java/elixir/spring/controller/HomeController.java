@@ -49,15 +49,20 @@ public class HomeController {
 			sessionParam.putValue("BranchCode", "0600");
 			return "BranchOfficeUser";
 		} else if (user.getUserName().equals("1001")) {
-			sessionParam.putValue("BranchCode", "9999");
+			sessionParam.putValue("BranchCode", "9998");
 			return "HeadOfficeUser";
-		} else if (user.getUserName().equals("1002")) {
+		}else if (user.getUserName().equals("1005")) {
+			sessionParam.putValue("BranchCode", "9999");
+			return "HeadOfficeICTUser";
+		} 
+		else if (user.getUserName().equals("1002")) {
 			sessionParam.putValue("BranchCode", "0100");
 			return "HeadOfficeMISUser";
 		}else if (user.getUserName().equals("1003")) {
 			sessionParam.putValue("BranchCode", "0100Z");
 			return "ZonalOfficeUser";
 		}
+		
 		else {
 			sessionParam.putValue("BranchCode", "0101R");
 			return "RigionalOfficeUser";
@@ -72,7 +77,7 @@ public class HomeController {
 			String Branch_code = sessionParam.getValue("BranchCode").toString();
 			if (Branch_code != null) {
 				if (Branch_code.equals("9999")) {
-					return "HeadOfficeUser";
+					return "HeadOfficeICTUser";
 				}
 				else if(Branch_code.equals("0600")) {
 					return "BranchOfficeUser";
@@ -82,7 +87,10 @@ public class HomeController {
 				}
 				else if(Branch_code.equals("0100Z")) {
 					return "ZonalOfficeUser";
-				}				
+				}
+				else if(Branch_code.equals("9998")) {
+					return "HeadOfficeUser";
+				}
 				else {
 					return "RigionalOfficeUser";
 				}
