@@ -48,32 +48,57 @@ public class HomeController {
 		if (user.getUserName().equals("1000")) {
 			sessionParam.putValue("BranchCode", "0600");
 			return "BranchOfficeUser";
-		} else if (user.getUserName().equals("1457")) {
+		} else if (user.getUserName().equals("1001")) {
 			sessionParam.putValue("BranchCode", "9999");
 			return "HeadOfficeUser";
-		} else if (user.getUserName().equals("1453")) {
-			return "HeadOfficeAdminUser";
-		} else
+		} else if (user.getUserName().equals("1002")) {
+			sessionParam.putValue("BranchCode", "0100");
 			return "HeadOfficeMISUser";
-
+		}else if (user.getUserName().equals("1003")) {
+			sessionParam.putValue("BranchCode", "0100Z");
+			return "ZonalOfficeUser";
+		}
+		else {
+			sessionParam.putValue("BranchCode", "0101R");
+			return "RigionalOfficeUser";
+		}
+			
 	}
 
 	@RequestMapping(value = "currentUserHomePage.do", method = RequestMethod.POST)
 	public String currentUserHomePage(HttpSession sessionParam, Locale locale, Model model) {
 
 		try {
-			String UserName = sessionParam.getValue("BranchCode").toString();
-			if (UserName != null) {
-				if (UserName.equals("9999")) {
+			String Branch_code = sessionParam.getValue("BranchCode").toString();
+			if (Branch_code != null) {
+				if (Branch_code.equals("9999")) {
 					return "HeadOfficeUser";
-				} else {
+				}
+				else if(Branch_code.equals("0600")) {
 					return "BranchOfficeUser";
 				}
+				else if(Branch_code.equals("0100")) {
+					return "HeadOfficeMISUser";				
+				}
+				else if(Branch_code.equals("0100Z")) {
+					return "ZonalOfficeUser";
+				}				
+				else {
+					return "RigionalOfficeUser";
+				}
 			} else {
+				
+				Date date = new Date();
+				sessionParam.invalidate();
+				DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+				String formattedDate = dateFormat.format(date);
+				model.addAttribute("serverTime", formattedDate);
+				model.addAttribute("Title", "Bangladesh House Building Finance Corporation");
 				return "home";
 			}
 		} catch (Exception e) {
 			Date date = new Date();
+			sessionParam.invalidate();
 			DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 			String formattedDate = dateFormat.format(date);
 			model.addAttribute("serverTime", formattedDate);

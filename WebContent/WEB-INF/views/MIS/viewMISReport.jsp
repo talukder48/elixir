@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Bangladesh House Building Finance Corporation</title>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
@@ -14,7 +14,7 @@
 </head>
 <style> 
 body {
-  background-color: #ffffff;
+  background-color: #FFFFFF;
  /*  background-image: url('../../Media/bg6.jpg') ;
   background-repeat: repeat;
   background-size: /* 300px 100px   auto ; */
@@ -48,12 +48,12 @@ input[type=submit] {
 }
 
 input[type=submit]:hover {
-	background-color: #45a049;
+	background-color: #4CAF50;
 }
 
 .container {
 	border-radius: 5px;
-	background-color: #ffffff;
+	background-color: #FFFFFF;
 	padding: 20px;
 }
 
@@ -195,18 +195,18 @@ float: left;
 </style> 
 
 <script type="text/javascript">
-var DataMap="";
-function SetValue(key,value){
+var DataMapReport="";
+function SetValueReport(key,value){
 	var Node = key+"*"+value;
-	if(DataMap!=""){
-		DataMap=DataMap+"$"+Node;
+	if(DataMapReport!=""){
+		DataMapReport=DataMapReport+"$"+Node;
 	}
 	else{
-		DataMap="data="+Node;
+		DataMapReport="data="+Node;
 	}
 }
-function clear(){
-	DataMap="";
+function clearReport(){
+	DataMapReport="";
 }
 
 function initValues(){
@@ -229,46 +229,45 @@ $(function() {
 
 function ViewAllReport()
 {	    
-	   
-	var usr_brn = "<%= session.getAttribute("BranchCode")%>";	
-	var DataString="loggedBranch="+usr_brn+"&ReportType="+document.getElementById("ReportType").value+
-	"&BranchCode="+document.getElementById("BranchCode").value+
-	"&FromDate="+document.getElementById("FromDate").value+
-	"&ToDate="+document.getElementById("ToDate").value;
-	
-		var xhttp = new XMLHttpRequest();		
-		xhttp.open("POST", "MISReportServlet?"+DataString, true);
-		
-		xhttp.responseType = "blob";
-		xhttp.onreadystatechange = function () {
-		    if (xhttp.readyState === 4 && xhttp.status === 200) {
-		        var filename = "Report_"+ document.getElementById("ReportType").value +".pdf";
-		        if (typeof window.chrome !== 'undefined') {
-		            // Chrome version
-		            var link = document.createElement('a');
-		            link.href = window.URL.createObjectURL(xhttp.response);		       
-		            window.open(link.href);		            
-		            //link.download = "PdfName-" + new Date().getTime() + ".pdf";
-		            //link.click();
-		        } else if (typeof window.navigator.msSaveBlob !== 'undefined') {
-		            // IE version
-		            var blob = new Blob([xhttp.response], { type: 'application/pdf' });
-		            window.navigator.msSaveBlob(blob, filename);
-		           // window.open(window.navigator.msSaveBlob(blob, filename));
-		        } else {
-		            // Firefox version
-		            var file = new File([xhttp.response], filename, { type: 'application/force-download' });
-		            window.open(URL.createObjectURL(file));		            
-		        }
-		    }
-		};
-		xhttp.send();			
+	 var usr_brn = "<%= session.getAttribute("BranchCode")%>";	
+	clearReport();
+	SetValueReport("loggedBranch",usr_brn);
+	SetValueReport("BranchCode",document.getElementById("BranchCode").value);
+	SetValueReport("ReportType",document.getElementById("ReportType").value);
+	SetValueReport("FromDate",document.getElementById("FromDate").value);
+	SetValueReport("ToDate",document.getElementById("ToDate").value);
+	SetValueReport("Class","elixir.report.ics.MISReport");
+	SetValueReport("Method","viewMISBranchWiseSummaryReport");
+	var xhttp = new XMLHttpRequest();		
+	xhttp.open("POST", "CommomReportHandler?"+DataMapReport, true);
+	xhttp.responseType = "blob";
+	xhttp.onreadystatechange = function () {
+	    if (xhttp.readyState === 4 && xhttp.status === 200) {
+	        var filename = "Report_"+ document.getElementById("ReportType").value +".pdf";
+	        if (typeof window.chrome !== 'undefined') {
+	            // Chrome version
+	            var link = document.createElement('a');
+	            link.href = window.URL.createObjectURL(xhttp.response);		       
+	            window.open(link.href);		            
+	        
+	        } else if (typeof window.navigator.msSaveBlob !== 'undefined') {
+	            // IE version
+	            var blob = new Blob([xhttp.response], { type: 'application/pdf' });
+	            window.navigator.msSaveBlob(blob, filename);
+	        } else {
+	            // Firefox version
+	            var file = new File([xhttp.response], filename, { type: 'application/force-download' });
+	            window.open(URL.createObjectURL(file));		            
+	        }
+	    }
+	};
+	xhttp.send();		
 }
 </script>
 </head>
 <body onload="initValues()">
 		<center>
-			<h1 style="color:green;">Bangladesh House Building Finance Corporation</h1>
+		<h1 style="color:green;">Bangladesh House Building Finance Corporation</h1>
 		         <h3  style="color:green;"> Management Information System </h3>
 		
 		<div class="container">
@@ -279,7 +278,7 @@ function ViewAllReport()
 						<label for="BranchCode">Office Code</label>
 					</div>
 					<div class="col-25">
-						<input type="text" id="BranchCode" name="BranchCode" read only>
+						<input type="text" id="BranchCode" name="BranchCode" >
 					</div>
 				</div>
 				<div class="row">
@@ -300,19 +299,7 @@ function ViewAllReport()
 						<input type="text" id="ToDate" name="ToDate" onkeypress="ToDateValidation(event)">
 					</div>
 				</div>
-						
-				<div class="row">
-					<div class="col-25">
-							<label for="TargetCode">Target Code</label>
-					</div>
-					<div class="col-75">
-						<select id="TargetCode" name="TargetCode" >
-						    <option value="100DAYS">100 Days</option>
-																													
-						</select>
-					</div>
-				</div>
-												
+																						
 				<div class="row">
 					<div class="col-25">
 							<label for="ReportType">Report Type</label>
@@ -320,12 +307,13 @@ function ViewAllReport()
 					<div class="col-75">
 						<select id="ReportType" name="ReportType" >
 						    <option value="misBranchSummary">Branch Wise Summary Report</option>
-							<option value="misLoanSactionDisburse">Loan Sanction and Disburse</option>
+							<option value="misLoanSaction">Loan Sanction </option>
+							<option value="misLoanDisburse">Loan  Disburse</option>							
 							<option value="misLoanRecovery">Loan Recovery</option>								
 							<option value="misAuditObjection">Disposal of Audit Objection</option>
 							<option value="misKharidabari">Kharidabari</option>	
 							<option value="misCaseSettlement">Court Case Settlement</option>
-							<option value="misDeedReturn">Deed Returned From Faulty Loan Cases</option>	
+							<option value="misDeedReturn">Deed Returned From Faulty Loan Cases</option>
 																						
 						</select>
 					</div>
@@ -334,7 +322,9 @@ function ViewAllReport()
 				</fieldset>
 				<div class="row">
 					<div class="col-25">
-						<label for="report_download"></label>
+						<form action="currentUserHomePage.do" method="post">
+						<input type="submit" id="submit" value="Home"  > 
+						</form>
 					</div>
 					<div class="col-75">
 						<input type="submit" id="report_download" value="Print Report" onclick="ViewAllReport()" > <br>

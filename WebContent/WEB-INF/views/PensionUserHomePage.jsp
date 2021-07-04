@@ -10,7 +10,7 @@
 
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Insert title here</title>
+<title>Bangladesh House Building Finance Corporation</title>
 <script src="http://domain.tld/path/to/external.js"
 	type="text/javascript"></script>
 <style>

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />  
     <script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>  
 </head>
+<title>Bangladesh House Building Finance Corporation</title>
 <style> 
 body {
   background-color: #006666; 

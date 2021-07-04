@@ -1,6 +1,8 @@
 package elixir.validator.pps;
 
+import java.io.Reader;
 import java.sql.CallableStatement;
+import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +22,48 @@ public class MISDataValidation {
 	public MISDataValidation() {
 		ResultMap.clear();
 	}
+	public Map<String, String> FetchTargetList(Map DataMap) throws Exception {
+
+		ResultMap.put("ERROR_MSG", "");
+		DatabaseUtility ob = new DatabaseUtility();
+		
+		String sql = "select rtrim(xmlagg(xmlelement(e, target_code || ':' || target_description||'('||target_code||')', ',').extract('//text()') order by target_code)\r\n" + 
+				"                    .getclobval(), +            ',') target_list\r\n" + 
+				"     from (SELECT m.target_code,m.target_description FROM target_master m where m.active_flag='Y') ORDER BY target_code ";
+		Connection con = ob.GetConnection();
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
+		try {
+			stmt = con.prepareStatement(sql);
+			rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				Clob clob = rs.getClob("target_list");
+				Reader r = clob.getCharacterStream();
+				StringBuffer buffer = new StringBuffer();
+				int ch;
+				while ((ch = r.read()) != -1) {
+					buffer.append("" + (char) ch);
+				}
+				ResultMap.put("TARGET_LIST", buffer.toString());
+			}
+
+		} catch (SQLException e) {
+			ResultMap.put("ERROR_MSG", e.getMessage().toString());
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+				stmt.close();
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return ResultMap;
+	}
+	
+	
 	public Map<String, String> FetchTargetMaster(Map DataMap) throws Exception {
 
 		ResultMap.put("ERROR_MSG", "");

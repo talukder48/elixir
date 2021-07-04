@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Bangladesh House Building Finance Corporation</title>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
@@ -211,6 +211,20 @@ function SetValue(key,value,itemsl){
 	function xmlFinal(){
 		DataMap="{"+DataMap+"}";
   }
+		
+	var DataMapReport="";
+	function SetValueReport(key,value){
+		var Node = key+"*"+value;
+		if(DataMapReport!=""){
+			DataMapReport=DataMapReport+"$"+Node;
+		}
+		else{
+			DataMapReport="data="+Node;
+		}
+	}
+	function clearReport(){
+		DataMapReport="";
+	}
 
 function initValues(){
 	LoadTarget();
@@ -223,12 +237,12 @@ function initValues(){
 
 function LoadTarget(){
 	clear();	
-	SetValue("Class", "MISDataValidationHO","N");
+	SetValue("Class", "elixir.validator.pps.MISDataValidation","N");
 	SetValue("Method", "FetchTargetList","L");
 	xmlFinal();
 	$.ajax({
 		  method: "POST",
-		  url: "TransactionServlet",
+		  url: "CommomAjaxCallHandler",
 		  data: { DataString: DataMap }
 		})
 		  .done(function( responseMessage ) {
@@ -268,40 +282,39 @@ $(function() {
 function ViewAllReport()
 {	    
 	   
-var usr_brn = "<%= session.getAttribute("BranchCode")%>";	
-	
-	var DataString="loggedBranch="+usr_brn+"&ReportType="+document.getElementById("ReportType").value+
-	"&BranchCode="+usr_brn+
-	"&TargetCode="+document.getElementById("TargetCode").value+
-	"&performanceType="+document.getElementById("performanceType").value;
-	
-		var xhttp = new XMLHttpRequest();		
-		xhttp.open("POST", "MISReportServlet?"+DataString, true);
-		
-		xhttp.responseType = "blob";
-		xhttp.onreadystatechange = function () {
-		    if (xhttp.readyState === 4 && xhttp.status === 200) {
-		        var filename = "Report_"+ document.getElementById("ReportType").value +".pdf";
-		        if (typeof window.chrome !== 'undefined') {
-		            // Chrome version
-		            var link = document.createElement('a');
-		            link.href = window.URL.createObjectURL(xhttp.response);		       
-		            window.open(link.href);		            
-		            //link.download = "PdfName-" + new Date().getTime() + ".pdf";
-		            //link.click();
-		        } else if (typeof window.navigator.msSaveBlob !== 'undefined') {
-		            // IE version
-		            var blob = new Blob([xhttp.response], { type: 'application/pdf' });
-		            window.navigator.msSaveBlob(blob, filename);
-		           // window.open(window.navigator.msSaveBlob(blob, filename));
-		        } else {
-		            // Firefox version
-		            var file = new File([xhttp.response], filename, { type: 'application/force-download' });
-		            window.open(URL.createObjectURL(file));		            
-		        }
-		    }
-		};
-		xhttp.send();			
+   var usr_brn = "<%= session.getAttribute("BranchCode")%>";	
+	clearReport();
+	SetValueReport("loggedBranch",usr_brn);
+	SetValueReport("BranchCode",document.getElementById("BranchCode").value);
+	SetValueReport("ReportType",document.getElementById("ReportType").value);
+	SetValueReport("TargetCode",document.getElementById("TargetCode").value);
+	SetValueReport("performanceType",document.getElementById("performanceType").value);
+	SetValueReport("Class","elixir.report.ics.MISReport");
+	SetValueReport("Method","viewMISPerformanceReport");
+	var xhttp = new XMLHttpRequest();		
+	xhttp.open("POST", "CommomReportHandler?"+DataMapReport, true);
+	xhttp.responseType = "blob";
+	xhttp.onreadystatechange = function () {
+	    if (xhttp.readyState === 4 && xhttp.status === 200) {
+	        var filename = "Report_"+ document.getElementById("ReportType").value +".pdf";
+	        if (typeof window.chrome !== 'undefined') {
+	            // Chrome version
+	            var link = document.createElement('a');
+	            link.href = window.URL.createObjectURL(xhttp.response);		       
+	            window.open(link.href);		            
+	        
+	        } else if (typeof window.navigator.msSaveBlob !== 'undefined') {
+	            // IE version
+	            var blob = new Blob([xhttp.response], { type: 'application/pdf' });
+	            window.navigator.msSaveBlob(blob, filename);
+	        } else {
+	            // Firefox version
+	            var file = new File([xhttp.response], filename, { type: 'application/force-download' });
+	            window.open(URL.createObjectURL(file));		            
+	        }
+	    }
+	};
+	xhttp.send();	
 }
 </script>
 </head>
@@ -359,7 +372,9 @@ var usr_brn = "<%= session.getAttribute("BranchCode")%>";
 				</fieldset>
 				<div class="row">
 					<div class="col-25">
-						<label for="report_download"></label>
+						<form action="currentUserHomePage.do" method="post">
+						<input type="submit" id="submit" value="Home"  > 
+						</form>
 					</div>
 					<div class="col-75">
 						<input type="submit" id="report_download" value="Print Report" onclick="ViewAllReport()" > <br>

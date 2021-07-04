@@ -15,7 +15,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 
 
-<title>Insert title here</title>
+<title>Bangladesh House Building Finance Corporation</title>
 
 <style>
 

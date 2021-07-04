@@ -4,9 +4,6 @@ import java.util.Map;
 
 public class GeneralAccountingReport {
 	
-	
-	
-	
 	public byte[] InterBranchReconcialition(Map DataMap) {
 		String str = "byte array size example";
 		byte DataBytes[] = str.getBytes();

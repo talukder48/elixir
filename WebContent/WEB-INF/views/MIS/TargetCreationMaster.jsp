@@ -15,7 +15,7 @@
 
 
 
-<title>Insert title here</title>
+<title>Bangladesh House Building Finance Corporation</title>
 
 <style>
 
@@ -407,8 +407,17 @@ $(function() {
 				<br>				
 				<div class="col-75"></div>
 				<div class="row">
+				
+				<div class="col-15">
+						<form action="currentUserHomePage.do" method="post">
+						<input type="submit" id="submit" value="Home"  > 
+						</form>
+					</div>
+				<div class="col-15">
 					<input type="submit" id="submit" value="Submit" onclick="TargetCreationFunction(event)" >
+					</div>
 				</div>
+				
 			 </div>
 			</div>
 	</center>

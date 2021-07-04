@@ -11,7 +11,7 @@
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-
+<title>Bangladesh House Building Finance Corporation</title>
 <style>
 
 /* Popup container - can be anything you want */

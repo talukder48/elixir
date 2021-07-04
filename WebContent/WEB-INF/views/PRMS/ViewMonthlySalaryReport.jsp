@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Bangladesh House Building Finance Corporation</title>
 </head>
 <style> 
 body {
@@ -192,48 +192,8 @@ function initValues(){
 	
 	document.getElementById("Year").focus();
 }
-function BranchCodeValidation(event){
-	if (event.keyCode == 13 || event.which == 13) {		
-	if (document.getElementById("Branch_Code").value != "") {
-		clear();
-		SetValue("branch_code",document.getElementById("Branch_Code").value);
-		SetValue("Class","PRMSValidator");
-		SetValue("Method","BranchKeyPress");
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
-				if (obj.ERROR_MSG != "") {
-					alert(obj.ERROR_MSG);
-				} else {
-					if (obj.ERROR_MSG != "") {
-						alert(obj.ERROR_MSG);
-					} else {						
-						document.getElementById("Year").focus();
-					}					
-				}
-			}
-		};
-		xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-		xhttp.send();
-	}
-	else{
-		document.getElementById("Year").focus();
-	}
- }
-}
-function YearValidation(event)
-{
-	if (event.keyCode == 13 || event.which == 13) {
-		document.getElementById("MonthCode").focus();
-	}
-}
-function MonthCodeValidation(event)
-{
-	if (event.keyCode == 13 || event.which == 13) {
-		document.getElementById("ReportType").focus();
-	}
-}
+
+
 function GenerateReport(){	
 		var DataString="ReportType="+document.getElementById("ReportType").value;	
 		var branchCode="";

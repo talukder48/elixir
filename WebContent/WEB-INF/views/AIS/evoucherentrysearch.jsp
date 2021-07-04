@@ -6,7 +6,7 @@
 <head>
 <!-- <link rel="stylesheet" type="text/css" href="WebPages/style.css"> -->
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Central Accounting System</title>
+<title>Bangladesh House Building Finance Corporation</title>
 <style>
 * {
 	font-style: normal;
