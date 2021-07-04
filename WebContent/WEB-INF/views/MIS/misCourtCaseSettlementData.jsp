@@ -28,7 +28,7 @@ body {
  /*  background-image: url('../../Media/bg6.jpg') ;
   background-repeat: no-repeat;
   background-size:  /* 300px 100px    auto ; */
-  background-color: #006666; 
+  background-color: #ffffff; 
 }
 
  {
@@ -185,18 +185,23 @@ float: left;
 <script type="text/javascript">
 
 var DataMap="";
-function SetValue(key,value){
-	var Node = key+"*"+value;
-	if(DataMap!=""){
-		DataMap=DataMap+"$"+Node;
-	}
-	else{
-		DataMap="data="+Node;
-	}
+
+function SetValue(key,value,itemsl){
+if(itemsl=='L'){
+	var Node ='"'+ key+'"'+":"+'"'+value+'"';
+}
+else{
+	var Node ='"'+ key+'"'+":"+'"'+value+'"'+",";
+}
+DataMap=DataMap+Node;
 }
 function clear(){
 	DataMap="";
 }
+function xmlFinal(){
+	DataMap="{"+DataMap+"}";
+}
+
 /* cause google chrome cant assign fetched data in front end form */
 
 var userId="";
@@ -234,36 +239,38 @@ function EntryDateValidation(event){
 	    var isValid = IsValidDate(txtTest.value);
 	    if (isValid) {	    	
 	    	clear();
-			SetValue("BranchCode",document.getElementById("BranchCode").value);
-			SetValue("EntyDate",document.getElementById("EntyDate").value);	
-			SetValue("Class","MISDataValidation");
-			SetValue("Method","FetchCourtCaseSettlementData");
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					var obj = JSON.parse(this.responseText);
-						if (obj.ERROR_MSG != "") {
-							alert(obj.ERROR_MSG);
-							initValues();
-						} else {
-							if (obj.EXECUTIVE_CASE!=null) {
-								var r = confirm("Data already exists!\nDo you want to update?");
-								  if (r == true) {		
-									    document.getElementById("ExecutiveCase").value=obj.EXECUTIVE_CASE;
-										document.getElementById("MiscCase").value=obj.WRIT_CSE;							
-										document.getElementById("ExecutiveCase").focus();							
-								  }
-							}
-							else{
-								document.getElementById("ExecutiveCase").value="0";
-								document.getElementById("MiscCase").value="0";
-								document.getElementById("ExecutiveCase").focus();
-							}			
+			SetValue("BranchCode",document.getElementById("BranchCode").value,"N");
+			SetValue("EntyDate",document.getElementById("EntyDate").value,"N");	
+			SetValue("Class","elixir.validator.pps.MISDataValidation","N");
+			SetValue("Method","FetchCourtCaseSettlementData","L");
+			xmlFinal();
+			$.ajax({
+				  method: "POST",
+				  url: "CommomAjaxCallHandler",
+				  data: { DataString: DataMap }
+				})
+				  .done(function( responseMessage ) {
+				    var obj = JSON.parse(responseMessage);
+				    if (obj.ERROR_MSG != "") {
+						alert(obj.ERROR_MSG);
+						initValues();
+					} else {
+						if (obj.EXECUTIVE_CASE!=null) {
+							var r = confirm("Data already exists!\nDo you want to update?");
+							  if (r == true) {		
+								    document.getElementById("ExecutiveCase").value=obj.EXECUTIVE_CASE;
+									document.getElementById("MiscCase").value=obj.WRIT_CSE;							
+									document.getElementById("ExecutiveCase").focus();							
+							  }
 						}
-				}	
-		    };
-		    xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-			xhttp.send();		    	
+						else{
+							document.getElementById("ExecutiveCase").value="0";
+							document.getElementById("MiscCase").value="0";
+							document.getElementById("ExecutiveCase").focus();
+						}			
+					}	
+			}); 					
+						    	
 	    }
 	    else {
 	        alert('Incorrect format');
@@ -277,37 +284,38 @@ function fetchData(){
     var isValid = IsValidDate(txtTest.value);
     if (isValid) {	    	
     	clear();
-		SetValue("BranchCode",document.getElementById("BranchCode").value);
-		SetValue("EntyDate",document.getElementById("EntyDate").value);	
-		SetValue("Class","MISDataValidation");
-		SetValue("Method","FetchCourtCaseSettlementData");
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
-					if (obj.ERROR_MSG != "") {
-						alert(obj.ERROR_MSG);
-						initValues();
-					} else {
-						
-						if (obj.EXECUTIVE_CASE!=null) {
-							var r = confirm("Data already exists!\nDo you want to update?");
-							  if (r == true) {		
-								    document.getElementById("ExecutiveCase").value=obj.EXECUTIVE_CASE;
-									document.getElementById("MiscCase").value=obj.WRIT_CSE;							
-									document.getElementById("ExecutiveCase").focus();							
-							  }
-						}
-						else{
-							document.getElementById("ExecutiveCase").value="0";
-							document.getElementById("MiscCase").value="0";
-							document.getElementById("ExecutiveCase").focus();
-						}																			
+		SetValue("BranchCode",document.getElementById("BranchCode").value,"N");
+		SetValue("EntyDate",document.getElementById("EntyDate").value,"N");	
+		SetValue("Class","elixir.validator.pps.MISDataValidation","N");
+		SetValue("Method","FetchCourtCaseSettlementData","L");
+		xmlFinal();
+		$.ajax({
+			  method: "POST",
+			  url: "CommomAjaxCallHandler",
+			  data: { DataString: DataMap }
+			})
+			  .done(function( responseMessage ) {
+			    var obj = JSON.parse(responseMessage);
+			    if (obj.ERROR_MSG != "") {
+					alert(obj.ERROR_MSG);
+					initValues();
+				} else {
+					if (obj.EXECUTIVE_CASE!=null) {
+						var r = confirm("Data already exists!\nDo you want to update?");
+						  if (r == true) {		
+							    document.getElementById("ExecutiveCase").value=obj.EXECUTIVE_CASE;
+								document.getElementById("MiscCase").value=obj.WRIT_CSE;							
+								document.getElementById("ExecutiveCase").focus();							
+						  }
 					}
-			}	
-	    };
-	    xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-		xhttp.send();		    	
+					else{
+						document.getElementById("ExecutiveCase").value="0";
+						document.getElementById("MiscCase").value="0";
+						document.getElementById("ExecutiveCase").focus();
+					}			
+				}	
+		}); 					
+					    	
     }
     else {
         alert('Incorrect format');
@@ -320,27 +328,28 @@ function saveData(event)
 	 var c = confirm("Are you sure ?");
 	  if (c == true) {
 		  clear();
-			SetValue("User_Id",userId);				
-			SetValue("BranchCode",document.getElementById("BranchCode").value);
-			SetValue("EntyDate",document.getElementById("EntyDate").value);		
-			SetValue("ExecutiveCase",document.getElementById("ExecutiveCase").value);
-			SetValue("MiscCase",document.getElementById("MiscCase").value);						
-			SetValue("Class","MISDataValidation");
-			SetValue("Method","AddCourtCaseSettlementData");		
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					var obj = JSON.parse(this.responseText);
-						if (obj.ERROR_MSG != "") {
-							alert(obj.ERROR_MSG);
-						} else {
-							alert(obj.SUCCESS);
-							initValues();
-						}									
-				}
-			};
-			xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-			xhttp.send();			
+			SetValue("User_Id",userId,"N");				
+			SetValue("BranchCode",document.getElementById("BranchCode").value,"N");
+			SetValue("EntyDate",document.getElementById("EntyDate").value,"N");		
+			SetValue("ExecutiveCase",document.getElementById("ExecutiveCase").value,"N");
+			SetValue("MiscCase",document.getElementById("MiscCase").value,"N");						
+			SetValue("Class","elixir.validator.pps.MISDataValidation","N");
+			SetValue("Method","AddCourtCaseSettlementData","L");
+			xmlFinal();
+			$.ajax({
+				  method: "POST",
+				  url: "CommomAjaxCallHandler",
+				  data: { DataString: DataMap }
+				})
+				  .done(function( responseMessage ) {
+				    var obj = JSON.parse(responseMessage);
+				    if (obj.ERROR_MSG != "") {
+						alert(obj.ERROR_MSG);
+					} else {
+						alert(obj.SUCCESS);
+						initValues();
+					}				
+			}); 		
 	  }		
 }
 
@@ -355,13 +364,13 @@ $(function() {
 </head>
 <body onload="initValues()">
 	<center>	
-	<h1 style="color:white;">Bangladesh House Building Finance Corporation</h1>
-		<h3 style="color:white;">Management Information System</h3>
+		<h1 style="color:green;">Bangladesh House Building Finance Corporation</h1>
+		         <h3  style="color:green;"> Management Information System </h3>
 	
 		<div class="container">
 		   		
 		      <fieldset>
-		      <legend>Audit Objection Identifier</legend> 
+		      <legend>Court Case Identifier</legend> 
 		      
 		      	<div class="row">
 					<div class="col-15">
@@ -388,7 +397,7 @@ $(function() {
 				</fieldset>	
 				<br><br>	
 				<fieldset>	
-				<legend>Audit Objection Settlement</legend>
+				<legend>Court Case Settlement</legend>
 																			
 				<div class="row">	
 					<div class="col-20">

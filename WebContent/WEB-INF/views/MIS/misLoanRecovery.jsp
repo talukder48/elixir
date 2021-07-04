@@ -28,7 +28,7 @@ body {
  /*  background-image: url('../../Media/bg6.jpg') ;
   background-repeat: no-repeat;
   background-size:  /* 300px 100px    auto ; */
-  background-color: #006666; 
+  background-color: #ffffff; 
 }
 
  {
@@ -184,17 +184,21 @@ float: left;
 <script type="text/javascript">
 
 var DataMap="";
-function SetValue(key,value){
-	var Node = key+"*"+value;
-	if(DataMap!=""){
-		DataMap=DataMap+"$"+Node;
-	}
-	else{
-		DataMap="data="+Node;
-	}
+
+function SetValue(key,value,itemsl){
+if(itemsl=='L'){
+	var Node ='"'+ key+'"'+":"+'"'+value+'"';
+}
+else{
+	var Node ='"'+ key+'"'+":"+'"'+value+'"'+",";
+}
+DataMap=DataMap+Node;
 }
 function clear(){
 	DataMap="";
+}
+function xmlFinal(){
+	DataMap="{"+DataMap+"}";
 }
 /* cause google chrome cant assign fetched data in front end form */
 
@@ -233,37 +237,38 @@ function EntryDateValidation(event){
 	    var isValid = IsValidDate(txtTest.value);
 	    if (isValid) {	    	
 	    	clear();
-			SetValue("BranchCode",document.getElementById("BranchCode").value);
-			SetValue("EntyDate",document.getElementById("EntyDate").value);	
-			SetValue("Class","MISDataValidation");
-			SetValue("Method","FetchLoanRecoveryData");
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					var obj = JSON.parse(this.responseText);
-						if (obj.ERROR_MSG != "") {
-							alert(obj.ERROR_MSG);
-							initValues();
-						} else {
-							if (obj.CL_RECOVERY_AMT!=null) {
-								var r = confirm("Data already exists!\nDo you want to update?");
-								  if (r == true) {		
-									    document.getElementById("CLAmount").value=parseFloat(obj.CL_RECOVERY_AMT).toFixed(2);
-										document.getElementById("UCAmount").value=parseFloat(obj.UC_RECOVERY_AMT).toFixed(2);							
-										document.getElementById("CLAmount").focus();
-										
-								  }
-							}
-							else{
-								document.getElementById("CLAmount").value="0.00";
-								document.getElementById("UCAmount").value="0.00";	
-								document.getElementById("CLAmount").focus();
-							}			
+			SetValue("BranchCode",document.getElementById("BranchCode").value,"N");
+			SetValue("EntyDate",document.getElementById("EntyDate").value,"N");	
+			SetValue("Class","elixir.validator.pps.MISDataValidation","N");
+			SetValue("Method","FetchLoanRecoveryData","L");
+			xmlFinal();
+			$.ajax({
+				  method: "POST",
+				  url: "CommomAjaxCallHandler",
+				  data: { DataString: DataMap }
+				})
+				  .done(function( responseMessage ) {
+				    var obj = JSON.parse(responseMessage);
+				    if (obj.ERROR_MSG != "") {
+						alert(obj.ERROR_MSG);
+						initValues();
+					} else {
+						if (obj.CL_RECOVERY_AMT!=null) {
+							var r = confirm("Data already exists!\nDo you want to update?");
+							  if (r == true) {		
+								    document.getElementById("CLAmount").value=parseFloat(obj.CL_RECOVERY_AMT).toFixed(2);
+									document.getElementById("UCAmount").value=parseFloat(obj.UC_RECOVERY_AMT).toFixed(2);							
+									document.getElementById("CLAmount").focus();
+									
+							  }
 						}
-				}	
-		    };
-		    xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-			xhttp.send();	
+						else{
+							document.getElementById("CLAmount").value="0.00";
+							document.getElementById("UCAmount").value="0.00";	
+							document.getElementById("CLAmount").focus();
+						}			
+					}		
+			}); 		    	
 	    }
 	    else {
 	        alert('Incorrect format');
@@ -276,37 +281,38 @@ function fetchData(){
 	    var isValid = IsValidDate(txtTest.value);
 	    if (isValid) {	    	
 	    	clear();
-			SetValue("BranchCode",document.getElementById("BranchCode").value);
-			SetValue("EntyDate",document.getElementById("EntyDate").value);	
-			SetValue("Class","MISDataValidation");
-			SetValue("Method","FetchLoanRecoveryData");
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					var obj = JSON.parse(this.responseText);
-						if (obj.ERROR_MSG != "") {
-							alert(obj.ERROR_MSG);
-							initValues();
-						} else {														
-							if (obj.CL_RECOVERY_AMT!=null) {
-								var r = confirm("Data already exists!\nDo you want to update?");
-								  if (r == true) {		
-									    document.getElementById("CLAmount").value=parseFloat(obj.CL_RECOVERY_AMT).toFixed(2);
-										document.getElementById("UCAmount").value=parseFloat(obj.UC_RECOVERY_AMT).toFixed(2);							
-										document.getElementById("CLAmount").focus();
-										
-								  }
-							}
-							else{
-								document.getElementById("CLAmount").value="0.00";
-								document.getElementById("UCAmount").value="0.00";	
-								document.getElementById("CLAmount").focus();
-							}							
+			SetValue("BranchCode",document.getElementById("BranchCode").value,"N");
+			SetValue("EntyDate",document.getElementById("EntyDate").value,"N");	
+			SetValue("Class","elixir.validator.pps.MISDataValidation","N");
+			SetValue("Method","FetchLoanRecoveryData","L");
+			xmlFinal();
+			$.ajax({
+				  method: "POST",
+				  url: "CommomAjaxCallHandler",
+				  data: { DataString: DataMap }
+				})
+				  .done(function( responseMessage ) {
+				    var obj = JSON.parse(responseMessage);
+				    if (obj.ERROR_MSG != "") {
+						alert(obj.ERROR_MSG);
+						initValues();
+					} else {
+						if (obj.CL_RECOVERY_AMT!=null) {
+							var r = confirm("Data already exists!\nDo you want to update?");
+							  if (r == true) {		
+								    document.getElementById("CLAmount").value=parseFloat(obj.CL_RECOVERY_AMT).toFixed(2);
+									document.getElementById("UCAmount").value=parseFloat(obj.UC_RECOVERY_AMT).toFixed(2);							
+									document.getElementById("CLAmount").focus();
+									
+							  }
 						}
-				}	
-		    };
-		    xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-			xhttp.send();	
+						else{
+							document.getElementById("CLAmount").value="0.00";
+							document.getElementById("UCAmount").value="0.00";	
+							document.getElementById("CLAmount").focus();
+						}			
+					}		
+			}); 		    	
 	    }
 	    else {
 	        alert('Incorrect format');
@@ -317,28 +323,29 @@ function saveData(event)
 {	
 	 var c = confirm("Are you sure ?");
 	  if (c == true) {
-		  clear();
-			SetValue("User_Id",userId);				
-			SetValue("BranchCode",document.getElementById("BranchCode").value);
-			SetValue("EntyDate",document.getElementById("EntyDate").value);		
-			SetValue("CLAmount",document.getElementById("CLAmount").value);
-			SetValue("UCAmount",document.getElementById("UCAmount").value);						
-			SetValue("Class","MISDataValidation");
-			SetValue("Method","AddLoanRecoveryData");		
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					var obj = JSON.parse(this.responseText);
-						if (obj.ERROR_MSG != "") {
-							alert(obj.ERROR_MSG);
-						} else {
-							alert(obj.SUCCESS);
-							initValues();
-						}									
-				}
-			};
-			xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-			xhttp.send();	
+		    clear();
+			SetValue("User_Id",userId,"N");				
+			SetValue("BranchCode",document.getElementById("BranchCode").value,"N");
+			SetValue("EntyDate",document.getElementById("EntyDate").value,"N");		
+			SetValue("CLAmount",document.getElementById("CLAmount").value,"N");
+			SetValue("UCAmount",document.getElementById("UCAmount").value,"N");						
+			SetValue("Class","MISDataValidation","N");
+			SetValue("Method","AddLoanRecoveryData","L");				
+			xmlFinal();
+			$.ajax({
+				  method: "POST",
+				  url: "CommomAjaxCallHandler",
+				  data: { DataString: DataMap }
+				})
+				  .done(function( responseMessage ) {
+				    var obj = JSON.parse(responseMessage);
+				    if (obj.ERROR_MSG != "") {
+						alert(obj.ERROR_MSG);
+					} else {
+						alert(obj.SUCCESS);
+						initValues();
+					}				
+			}); 	
 	  }				
 }
 
@@ -353,8 +360,8 @@ $(function() {
 </head>
 <body onload="initValues()">
 	<center>
-	<h1 style="color:white;">Bangladesh House Building Finance Corporation</h1>
-		<h3 style="color:white;">Management Information System</h3>
+		<h1 style="color:green;">Bangladesh House Building Finance Corporation</h1>
+		         <h3  style="color:green;"> Management Information System </h3>
 		<div class="container">
 		   		
 		      <fieldset>

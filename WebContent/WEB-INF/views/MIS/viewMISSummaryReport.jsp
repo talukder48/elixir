@@ -196,23 +196,61 @@ float: left;
 
 <script type="text/javascript">
 var DataMap="";
-function SetValue(key,value){
-	var Node = key+"*"+value;
-	if(DataMap!=""){
-		DataMap=DataMap+"$"+Node;
+function SetValue(key,value,itemsl){
+	if(itemsl=='L'){
+		var Node ='"'+ key+'"'+":"+'"'+value+'"';
 	}
 	else{
-		DataMap="data="+Node;
+		var Node ='"'+ key+'"'+":"+'"'+value+'"'+",";
 	}
-}
-function clear(){
-	DataMap="";
-}
+	DataMap=DataMap+Node;
+   }
+	function clear(){
+		DataMap="";
+	}
+	function xmlFinal(){
+		DataMap="{"+DataMap+"}";
+  }
 
 function initValues(){
-	document.getElementById("BranchCode").value= "<%= session.getAttribute("BranchCode")%>";	
-	document.getElementById("FromDate").focus();
+	LoadTarget();
+	var dt = new Date();
+	var user = "<%= session.getAttribute("User_Id")%>";
+
+	document.getElementById("BranchCode").focus();
 }
+
+
+function LoadTarget(){
+	clear();	
+	SetValue("Class", "MISDataValidationHO","N");
+	SetValue("Method", "FetchTargetList","L");
+	xmlFinal();
+	$.ajax({
+		  method: "POST",
+		  url: "TransactionServlet",
+		  data: { DataString: DataMap }
+		})
+		  .done(function( responseMessage ) {
+		    var obj = JSON.parse(responseMessage);
+		    if (obj.ERROR_MSG != "") {
+				alert(obj.ERROR_MSG);
+			} else {				 
+				var item_srting=obj.TARGET_LIST;	
+				var select = document.getElementById("TargetCode");                  
+				 var item_arrayList = item_srting.split(',');
+				 for(var i = 0; i < item_arrayList.length; i++) {
+					 item_arrayList[i] = item_arrayList[i].replace("/^\s*/", "").replace("/^\s*/", "");							 
+					    var item_keyValue = item_arrayList[i].split(':');
+					    var option = document.createElement("option");
+					    option.value=item_keyValue[0] ;
+					    option.text=item_keyValue[1];	
+					    select.add(option, null);				   				   
+				 }
+			}
+	});			
+}
+
 
 $(function() {
 	$("#FromDate").datepicker({
@@ -230,11 +268,11 @@ $(function() {
 function ViewAllReport()
 {	    
 	   
-	var usr_brn = "<%= session.getAttribute("BranchCode")%>";	
+var usr_brn = "<%= session.getAttribute("BranchCode")%>";	
+	
 	var DataString="loggedBranch="+usr_brn+"&ReportType="+document.getElementById("ReportType").value+
-	"&BranchCode="+document.getElementById("BranchCode").value+
-	"&FromDate="+document.getElementById("FromDate").value+
-	"&ToDate="+document.getElementById("ToDate").value;
+	"&BranchCode="+usr_brn+
+	"&TargetCode="+document.getElementById("TargetCode").value;
 	
 		var xhttp = new XMLHttpRequest();		
 		xhttp.open("POST", "MISReportServlet?"+DataString, true);
@@ -274,63 +312,32 @@ function ViewAllReport()
 		<div class="container">
 		<fieldset>	
 		
-				 <div class="row">
+				  <div class="row">
 					<div class="col-25">
-						<label for="BranchCode">Office Code</label>
-					</div>
-					<div class="col-25">
-						<input type="text" id="BranchCode" name="BranchCode" read only>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-25">
-						<label for="FromDate">From Date</label>
-					</div>
-					<div class="col-45">
-						<input type="text" id="FromDate" name="FromDate" onkeypress="FromDateValidation(event)">
-					</div>
-				</div>
-						
-						
-				<div class="row">
-					<div class="col-25">
-						<label for="ToDate">To Date</label>
-					</div>
-					<div class="col-45">
-						<input type="text" id="ToDate" name="ToDate" onkeypress="ToDateValidation(event)">
-					</div>
-				</div>
-						
-				<div class="row">
-					<div class="col-25">
-							<label for="TargetCode">Target Code</label>
+						<label for="">Target Code</label>
 					</div>
 					<div class="col-75">
-						<select id="TargetCode" name="TargetCode" >
-						    <option value="100DAYS">100 Days</option>
-																													
-						</select>
-					</div>
+					<select id="TargetCode" name="TargetCode">						
+					</select>
 				</div>
-												
+																			
+				</div>		  												
 				<div class="row">
 					<div class="col-25">
 							<label for="ReportType">Report Type</label>
 					</div>
 					<div class="col-75">
 						<select id="ReportType" name="ReportType" >
-						    <option value="misBranchSummary">Branch Wise Summary Report</option>
-							<option value="misLoanSactionDisburse">Loan Sanction and Disburse</option>
-							<option value="misLoanRecovery">Loan Recovery</option>								
-							<option value="misAuditObjection">Disposal of Audit Objection</option>
-							<option value="misKharidabari">Kharidabari</option>	
-							<option value="misCaseSettlement">Court Case Settlement</option>
-							<option value="misDeedReturn">Deed Returned From Faulty Loan Cases</option>	
-																						
+						   <option value="LoanSanctionDisburseSummary">Loan Sanction & Disburse Report</option>
+						    <option value="LoanRecoverySummary">Loan Recovery Summary Report</option>
+						     <option value="AuditDisposalSummary">Audit Disposal Summary Report</option>
+						      <option value="KharidabariSummary">Kharidabari Summary Report</option>	
+						      <option value="CourtcaseSummary">Court Case Summary Report</option>	
+						       <option value="allLoanItemSummaryLoan">All Item Summary[Sanction,Disburse,Recovery] Report</option>	
+						        <option value="allOthersItemSummaryLoan">All Item Summary[Audit,Court Case,Kharidabari,Deed Return] Report</option>																					
 						</select>
 					</div>
 				</div>
-				
 				</fieldset>
 				<div class="row">
 					<div class="col-25">

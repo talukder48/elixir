@@ -75,8 +75,15 @@ input[type=submit]:hover {
 .col-20 {
 	text-align:left;
 	float: left;
-	width: 16%;
+	width: 20%;
 }
+.col-25 {
+	text-align:left;
+	float: left;
+	width: 25%;
+}
+
+
 .colr-15 {
 	float: left;
 	width: 15%;
@@ -100,7 +107,7 @@ float: left;
 
 .col-75 {
 	float: left;
-	width: 50%;
+	width: 16%;
 	margin-top: 6px;
 }
 .col-80 {
@@ -213,23 +220,72 @@ function IsValidDate(myDate) {
 function initValues(){	
 
 	document.getElementById("BranchCode").value= "<%= session.getAttribute("BranchCode")%>";
-	document.getElementById("Possession").value="0";
-	document.getElementById("SaleCase").value="0";
+	document.getElementById("ZeroEquityDisburse").value="0.00";
+	document.getElementById("OthersDisburse").value="0.00";
 	document.getElementById("EntyDate").focus();
 	userId="<%= session.getAttribute("User_Id")%>";
 }
 
 
-function PossessionValidation(event){
+function ZeroEquitySanctionValidation(event){
 	if (event.keyCode == 13 || event.which == 13) {
-		document.getElementById("SaleCase").focus();		
+		document.getElementById("OthersSanction").focus();		
 	}
 }
 
-function SaleCaseValidation(event){
+function OthersSanctionValidation(event){
+	if (event.keyCode == 13 || event.which == 13) {
+		document.getElementById("ZeroEquityDisburse").focus();		
+	}
+}
+
+function ZeroEquityDisburseValidation(event){
+	if (event.keyCode == 13 || event.which == 13) {
+		document.getElementById("OthersDisburse").focus();		
+	}
+}
+
+function OthersDisburseValidation(event){
 	if (event.keyCode == 13 || event.which == 13) {
 		document.getElementById("submit").focus();		
 	}
+}
+
+function fetchData(){
+	clear();
+	SetValue("BranchCode",document.getElementById("BranchCode").value,"N");
+	SetValue("EntyDate",document.getElementById("EntyDate").value,"N");	
+	SetValue("Class","elixir.validator.pps.MISDataValidation","N");
+	SetValue("Method","FetchSenctionAndDisburseData","L");
+	xmlFinal();
+	$.ajax({
+		  method: "POST",
+		  url: "CommomAjaxCallHandler",
+		  data: { DataString: DataMap }
+		})
+		  .done(function( responseMessage ) {
+		    var obj = JSON.parse(responseMessage);
+		    if (obj.ERROR_MSG != "") {
+				alert(obj.ERROR_MSG);
+				initValues();
+			} else {
+				if (obj.ZERO_EQ_SANCTION_AMT!=null) {
+					var r = confirm("Data already exists!\nDo you want to update?");
+					  if (r == true) {									    
+							document.getElementById("ZeroEquityDisburse").value=parseFloat(obj.ZERO_EQ_DISBURSE_AMT).toFixed(2);
+							document.getElementById("OthersDisburse").value=parseFloat(obj.OTH_PRD_DISBURSE_AMT).toFixed(2);
+							document.getElementById("ZeroEquitySanction").focus();
+					  }
+				}
+				else{						
+						document.getElementById("ZeroEquityDisburse").value="0.00";
+						document.getElementById("OthersDisburse").value="0.00";
+						document.getElementById("ZeroEquitySanction").focus();
+				}
+				
+			}	
+	}); 				
+	
 }
 
 function EntryDateValidation(event){
@@ -238,37 +294,38 @@ function EntryDateValidation(event){
 	    var isValid = IsValidDate(txtTest.value);
 	    if (isValid) {
 	    	clear();
-			SetValue("BranchCode",document.getElementById("BranchCode").value,"N");
-			SetValue("EntyDate",document.getElementById("EntyDate").value,"N");	
-			SetValue("Class","elixir.validator.pps.MISDataValidation","N");
-			SetValue("Method","FetchKharidaBariData","L");
-			xmlFinal();
-			$.ajax({
-				  method: "POST",
-				  url: "CommomAjaxCallHandler",
-				  data: { DataString: DataMap }
-				})
-				  .done(function( responseMessage ) {
-				    var obj = JSON.parse(responseMessage);
-				    if (obj.ERROR_MSG != "") {
-						alert(obj.ERROR_MSG);
-						initValues();
-					} else {
-						if (obj.PROCESSION!=null) {
-							var r = confirm("Data already exists!\nDo you want to update?");
-							  if (r == true) {		
-								  document.getElementById("Possession").value=obj.PROCESSION;
-									document.getElementById("SaleCase").value=obj.SALE;							
-									document.getElementById("Possession").focus();									
-							  }
-						}
-						else{
-							document.getElementById("Possession").value="0";
-							document.getElementById("SaleCase").value="0";
-							document.getElementById("Possession").focus();
-						}	
-					}		
-			}); 				
+	    	SetValue("BranchCode",document.getElementById("BranchCode").value,"N");
+	    	SetValue("EntyDate",document.getElementById("EntyDate").value,"N");	
+	    	SetValue("Class","elixir.validator.pps.MISDataValidation","N");
+	    	SetValue("Method","FetchSenctionAndDisburseData","L");
+	    	xmlFinal();
+	    	$.ajax({
+	    		  method: "POST",
+	    		  url: "CommomAjaxCallHandler",
+	    		  data: { DataString: DataMap }
+	    		})
+	    		  .done(function( responseMessage ) {
+	    		    var obj = JSON.parse(responseMessage);
+	    		    if (obj.ERROR_MSG != "") {
+	    				alert(obj.ERROR_MSG);
+	    				initValues();
+	    			} else {
+	    				if (obj.ZERO_EQ_SANCTION_AMT!=null) {
+	    					var r = confirm("Data already exists!\nDo you want to update?");
+	    					  if (r == true) {									    
+	    							document.getElementById("ZeroEquityDisburse").value=parseFloat(obj.ZERO_EQ_DISBURSE_AMT).toFixed(2);
+	    							document.getElementById("OthersDisburse").value=parseFloat(obj.OTH_PRD_DISBURSE_AMT).toFixed(2);
+	    							document.getElementById("ZeroEquitySanction").focus();
+	    					  }
+	    				}
+	    				else{						
+	    						document.getElementById("ZeroEquityDisburse").value="0.00";
+	    						document.getElementById("OthersDisburse").value="0.00";
+	    						document.getElementById("ZeroEquitySanction").focus();
+	    				}
+	    				
+	    			}	
+	    	}); 
 	    }
 	    else {
 	        alert('Incorrect format');
@@ -276,61 +333,18 @@ function EntryDateValidation(event){
 	    }
 	}
 }
-function fetchData(){
 
-	var txtTest = document.getElementById('EntyDate');
-    var isValid = IsValidDate(txtTest.value);
-    if (isValid) {
-    	clear();
-		SetValue("BranchCode",document.getElementById("BranchCode").value,"N");
-		SetValue("EntyDate",document.getElementById("EntyDate").value,"N");	
-		SetValue("Class","elixir.validator.pps.MISDataValidation","N");
-		SetValue("Method","FetchKharidaBariData","L");
-		xmlFinal();
-		$.ajax({
-			  method: "POST",
-			  url: "CommomAjaxCallHandler",
-			  data: { DataString: DataMap }
-			})
-			  .done(function( responseMessage ) {
-			    var obj = JSON.parse(responseMessage);
-			    if (obj.ERROR_MSG != "") {
-					alert(obj.ERROR_MSG);
-					initValues();
-				} else {
-					if (obj.PROCESSION!=null) {
-						var r = confirm("Data already exists!\nDo you want to update?");
-						  if (r == true) {		
-							  document.getElementById("Possession").value=obj.PROCESSION;
-								document.getElementById("SaleCase").value=obj.SALE;							
-								document.getElementById("Possession").focus();									
-						  }
-					}
-					else{
-						document.getElementById("Possession").value="0";
-						document.getElementById("SaleCase").value="0";
-						document.getElementById("Possession").focus();
-					}	
-				}		
-		}); 				
-    }
-    else {
-        alert('Incorrect format');
-        document.getElementById("EntyDate").focus();
-    }
-}
 function saveData(event)
-{	
+{
 	 var c = confirm("Are you sure ?");
 	  if (c == true) {
 		    clear();
-			SetValue("User_Id",userId,"N");				
 			SetValue("BranchCode",document.getElementById("BranchCode").value,"N");
-			SetValue("EntyDate",document.getElementById("EntyDate").value,"N");		
-			SetValue("Possession",document.getElementById("Possession").value,"N");
-			SetValue("SaleCase",document.getElementById("SaleCase").value,"N");						
+			SetValue("EntyDate",document.getElementById("EntyDate").value,"N");			
+			SetValue("ZeroEquityDisburse",document.getElementById("ZeroEquityDisburse").value,"N");
+			SetValue("OthersDisburse",document.getElementById("OthersDisburse").value,"N");				
 			SetValue("Class","elixir.validator.pps.MISDataValidation","N");
-			SetValue("Method","AddKharidabariData","L");
+			SetValue("Method","AddSanctionDisburseData","L");	
 			xmlFinal();
 			$.ajax({
 				  method: "POST",
@@ -353,6 +367,7 @@ $(function() {
 	$("#EntyDate").datepicker({
 		dateFormat : 'dd-M-yy'
 	});
+		
 });
 
 </script>
@@ -365,9 +380,9 @@ $(function() {
 		<div class="container">
 		   		
 		      <fieldset>
-		      <legend>Kharidabari Identifier</legend> 
+		      <legend>Loan Related Identifier</legend> 
 		      
-		       	<div class="row">
+		       <div class="row">
 					<div class="col-15">
 						<label for="BranchCode">Office Code</label>
 					</div>
@@ -387,31 +402,28 @@ $(function() {
 				<div class="row">
 					<input type="submit" id="fetchData" value="Fetch Data" onclick="fetchData(event)" >
 				</div>
-				
 		            				
 				</fieldset>	
-				<br><br>	
-				<fieldset>	
-				<legend>Kharidabari Settlement</legend>
-																			
+				<br>
+				
+				
+				<fieldset>					
+				<legend>Loan Disbursement</legend>																			
 				<div class="row">	
-					<div class="col-20">
-						<label for="Possession">No of Possession </label>
+					<div class="col-15">
+						<label for="ZeroEquityDisburse">Zero Equity (Amount) </label>
+					</div>
+					<div class="col-15">
+						<input type="text" id="ZeroEquityDisburse" name="ZeroEquityDisburse" onkeypress="ZeroEquityDisburseValidation(event)">
+					</div>
+					
+					<div class="col-15">
+						<label for="OthersDisburse">Other Products </label>
 					</div>
 					<div class="col-20">
-						<input type="text" id="Possession" name="Possession" onkeypress="PossessionValidation(event)">
-					</div>									  														
-				</div>
-												
-				<div class="row">
-						<div class="col-20">
-						<label for="SaleCase">No of Sale </label>
-					</div>
-					<div class="col-20">
-						<input type="text" id="SaleCase" name="SaleCase" onkeypress="SaleCaseValidation(event)">
-					</div>							
-				</div>	
-																
+						<input type="text" id="OthersDisburse" name="OthersDisburse" onkeypress="OthersDisburseValidation(event)">
+					</div>																				  														
+				</div>																																
 				</fieldset>	
 																	
 				<div>				

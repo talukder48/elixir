@@ -552,8 +552,10 @@ function AccReportFunction() {
 		<div class="misreportdown">
 			<button onclick="misreportfunction()" class="misbutton">Management Information System  </button>			
 			<div id="misreportDropdown" class="misreportdown-content">
-			    <a id="1" href="viewMISReport.do">Branch Wise Report</a>
-			    <a id="2" href="viewMISReport.do">Zone Wise Report</a>				
+			
+			    <a id="1" href="viewBranchMISReport.do">Branch Wise Report</a>
+			    <a id="2" href="viewZoneMISReport.do">Zone Wise Report</a>	
+			    			
 				<a id="3" href="viewMISSummaryReport.do">Summary Report</a>
 				<a id="4" href="viewMISPerformanceReport.do">Performance Report</a>
 			</div>

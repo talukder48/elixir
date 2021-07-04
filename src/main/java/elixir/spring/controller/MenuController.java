@@ -174,10 +174,18 @@ public class MenuController {
 		return "PRMS/ViewSalaryCertificate";		
 	}
 	
-	@RequestMapping(value = "misLoanSanctionAndDisbursement.do")
-	public String misLoanSanctionAndDisbursement() {
-		return "MIS/misLoanSanctionAndDisbursement";		
+	
+	
+	
+	@RequestMapping(value = "misLoanSanction.do")
+	public String misLoanSanction() {
+		return "MIS/misLoanSanction";		
 	}
+	@RequestMapping(value = "misLoanDisbursement.do")
+	public String misLoanDisbursement() {
+		return "MIS/misLoanDisbursement";		
+	}
+	
 	@RequestMapping(value = "misLoanRecovery.do")
 	public String misLoanRecovery() {
 		return "MIS/misLoanRecovery";		
@@ -200,10 +208,34 @@ public class MenuController {
 	public String misFaultyLoanCaseDeedReturn() {
 		return "MIS/misFaultyLoanCaseDeedReturn";		
 	}
+	
+	@RequestMapping(value = "TargetCreationMaster.do")
+	public String TargetCreationMaster() {
+		return "MIS/TargetCreationMaster";		
+	}
+	
+	@RequestMapping(value = "BranchWiseTargetSetup.do")
+	public String BranchWiseTargetSetup() {
+		return "MIS/BranchWiseTargetSetup";		
+	}
+	
+	
 	@RequestMapping(value = "viewMISReport.do")
 	public String viewMISReport() {
 		return "MIS/viewMISReport";		
 	}
+	
+	
+	@RequestMapping(value = "viewMISSummaryReport.do")
+	public String viewMISSummaryReport() {
+		return "MIS/viewMISSummaryReport";		
+	}
+	@RequestMapping(value = "viewMISPerformanceReport.do")
+	public String viewMISPerformanceReport() {
+		return "MIS/viewMISPerformanceReport";		
+	}
+		
+	
 	
 	@RequestMapping(value = "viewAdvanceReport.do")
 	public String viewAdvanceReport() {
@@ -213,6 +245,9 @@ public class MenuController {
 	public String viewSalaryDeductionReport() {
 		return "ELMS/viewSalaryDeductionReport";		
 	}
+	
+	
+	
 	
 	@RequestMapping(value = "ResetPassword.do")
 	public String ResetPassword() {

@@ -28,7 +28,7 @@ body {
  /*  background-image: url('../../Media/bg6.jpg') ;
   background-repeat: no-repeat;
   background-size:  /* 300px 100px    auto ; */
-  background-color: #006666; 
+  background-color: #ffffff; 
 }
 
  {
@@ -101,6 +101,11 @@ float: left;
 .col-75 {
 	float: left;
 	width: 50%;
+	margin-top: 6px;
+}
+.col-50 {
+	float: left;
+	width: 35%;
 	margin-top: 6px;
 }
 .col-80 {
@@ -185,18 +190,23 @@ float: left;
 <script type="text/javascript">
 
 var DataMap="";
-function SetValue(key,value){
-	var Node = key+"*"+value;
-	if(DataMap!=""){
-		DataMap=DataMap+"$"+Node;
-	}
-	else{
-		DataMap="data="+Node;
-	}
+
+function SetValue(key,value,itemsl){
+if(itemsl=='L'){
+	var Node ='"'+ key+'"'+":"+'"'+value+'"';
+}
+else{
+	var Node ='"'+ key+'"'+":"+'"'+value+'"'+",";
+}
+DataMap=DataMap+Node;
 }
 function clear(){
 	DataMap="";
 }
+function xmlFinal(){
+	DataMap="{"+DataMap+"}";
+}
+
 /* cause google chrome cant assign fetched data in front end form */
 
 var userId="";
@@ -208,10 +218,9 @@ function IsValidDate(myDate) {
 
 function initValues(){	
 
-	document.getElementById("BranchCode").value= "<%= session.getAttribute("BranchCode")%>";
 	document.getElementById("CommercialAudit").value="0";
 	document.getElementById("PostAudit").value="0";		
-	document.getElementById("EntyDate").focus();
+	document.getElementById("BranchCode").focus();
 	userId="<%= session.getAttribute("User_Id")%>";
 }
 
@@ -234,62 +243,22 @@ function EntryDateValidation(event){
 	    var isValid = IsValidDate(txtTest.value);
 	    if (isValid) {
 	    	clear();
-			SetValue("BranchCode",document.getElementById("BranchCode").value);
-			SetValue("EntyDate",document.getElementById("EntyDate").value);	
-			SetValue("Class","MISDataValidation");
-			SetValue("Method","FetchAuditDisposalData");
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					var obj = JSON.parse(this.responseText);
-						if (obj.ERROR_MSG != "") {
-							alert(obj.ERROR_MSG);
-							initValues();
-						} else {							
-							if (obj.COMMERCIAL_OBJ!=null) {
-								var r = confirm("Data already exists!\nDo you want to update?");
-								  if (r == true) {		
-									  document.getElementById("CommercialAudit").value=obj.COMMERCIAL_OBJ;
-										document.getElementById("PostAudit").value=obj.AUDIT_OBJ;							
-										document.getElementById("CommercialAudit").focus();																									
-								  }
-							}
-							else{
-								document.getElementById("CommercialAudit").value="0";
-								document.getElementById("PostAudit").value="0";
-								document.getElementById("CommercialAudit").focus();
-							}	
-							
-						}
-				}	
-		    };
-		    xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-			xhttp.send();	    	
-	    }
-	    else {
-	        alert('Incorrect format');
-	        document.getElementById("EntyDate").focus();
-	    }
-	}
-}
-function fetchData(){
-
-	var txtTest = document.getElementById('EntyDate');
-    var isValid = IsValidDate(txtTest.value);
-    if (isValid) {
-    	clear();
-		SetValue("BranchCode",document.getElementById("BranchCode").value);
-		SetValue("EntyDate",document.getElementById("EntyDate").value);	
-		SetValue("Class","MISDataValidation");
-		SetValue("Method","FetchAuditDisposalData");
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var obj = JSON.parse(this.responseText);
+			SetValue("BranchCode",document.getElementById("BranchCode").value,"N");
+			SetValue("EntyDate",document.getElementById("EntyDate").value,"N");	
+			SetValue("Class","elixir.validator.pps.MISDataValidation","N");
+			SetValue("Method","FetchAuditDisposalData","L");
+			xmlFinal();
+			$.ajax({
+				  method: "POST",
+				  url: "CommomAjaxCallHandler",
+				  data: { DataString: DataMap }
+				})
+				  .done(function( responseMessage ) {
+				    var obj = JSON.parse(responseMessage);
 					if (obj.ERROR_MSG != "") {
 						alert(obj.ERROR_MSG);
 						initValues();
-					} else {
+					} else {							
 						if (obj.COMMERCIAL_OBJ!=null) {
 							var r = confirm("Data already exists!\nDo you want to update?");
 							  if (r == true) {		
@@ -303,11 +272,54 @@ function fetchData(){
 							document.getElementById("PostAudit").value="0";
 							document.getElementById("CommercialAudit").focus();
 						}	
+						
+					}			
+			}); 											
+	    }
+	    else {
+	        alert('Incorrect format');
+	        document.getElementById("EntyDate").focus();
+	    }
+	}
+}
+function fetchData(){
+
+	var txtTest = document.getElementById('EntyDate');
+    var isValid = IsValidDate(txtTest.value);
+    if (isValid) {
+    	clear();
+		SetValue("BranchCode",document.getElementById("BranchCode").value,"N");
+		SetValue("EntyDate",document.getElementById("EntyDate").value,"N");	
+		SetValue("Class","elixir.validator.pps.MISDataValidation","N");
+		SetValue("Method","FetchAuditDisposalData","L");
+		xmlFinal();
+		$.ajax({
+			  method: "POST",
+			  url: "CommomAjaxCallHandler",
+			  data: { DataString: DataMap }
+			})
+			  .done(function( responseMessage ) {
+			    var obj = JSON.parse(responseMessage);
+				if (obj.ERROR_MSG != "") {
+					alert(obj.ERROR_MSG);
+					initValues();
+				} else {							
+					if (obj.COMMERCIAL_OBJ!=null) {
+						var r = confirm("Data already exists!\nDo you want to update?");
+						  if (r == true) {		
+							  document.getElementById("CommercialAudit").value=obj.COMMERCIAL_OBJ;
+								document.getElementById("PostAudit").value=obj.AUDIT_OBJ;							
+								document.getElementById("CommercialAudit").focus();																									
+						  }
 					}
-			}	
-	    };
-	    xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-		xhttp.send();	    	
+					else{
+						document.getElementById("CommercialAudit").value="0";
+						document.getElementById("PostAudit").value="0";
+						document.getElementById("CommercialAudit").focus();
+					}	
+					
+				}			
+		}); 											
     }
     else {
         alert('Incorrect format');
@@ -320,27 +332,28 @@ function saveData(event)
 	 var c = confirm("Are you sure ?");
 	  if (c == true) {
 		  clear();
-			SetValue("User_Id",userId);				
-			SetValue("BranchCode",document.getElementById("BranchCode").value);
-			SetValue("EntyDate",document.getElementById("EntyDate").value);		
-			SetValue("CommercialAudit",document.getElementById("CommercialAudit").value);
-			SetValue("PostAudit",document.getElementById("PostAudit").value);						
-			SetValue("Class","MISDataValidation");
-			SetValue("Method","AddDisposalAuditObjection");		
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					var obj = JSON.parse(this.responseText);
-						if (obj.ERROR_MSG != "") {
-							alert(obj.ERROR_MSG);
-						} else {
-							alert(obj.SUCCESS);
-							initValues();
-						}									
-				}
-			};
-			xhttp.open("POST", "HTTPValidator?" + DataMap, true);
-			xhttp.send();	
+			SetValue("User_Id",userId,"N");				
+			SetValue("BranchCode",document.getElementById("BranchCode").value,"N");
+			SetValue("EntyDate",document.getElementById("EntyDate").value,"N");		
+			SetValue("CommercialAudit",document.getElementById("CommercialAudit").value,"N");
+			SetValue("PostAudit",document.getElementById("PostAudit").value,"N");						
+			SetValue("Class","elixir.validator.pps.MISDataValidation","N");
+			SetValue("Method","AddDisposalAuditObjection","L");	
+			xmlFinal();
+			$.ajax({
+				  method: "POST",
+				  url: "CommomAjaxCallHandler",
+				  data: { DataString: DataMap }
+				})
+				  .done(function( responseMessage ) {
+				    var obj = JSON.parse(responseMessage);
+				    if (obj.ERROR_MSG != "") {
+						alert(obj.ERROR_MSG);
+					} else {
+						alert(obj.SUCCESS);
+						initValues();
+					}				
+			}); 
 	  }				
 }
 
@@ -355,27 +368,95 @@ $(function() {
 </head>
 <body onload="initValues()">
 	<center>
-		<h1 style="color:white;">Bangladesh House Building Finance Corporation</h1>
-		<h3 style="color:white;">Management Information System</h3>
+		<h1 style="color:green;">Bangladesh House Building Finance Corporation</h1>
+		         <h3  style="color:green;"> Management Information System </h3>
 		<div class="container">
 		   		
 		      <fieldset>
-		      <legend>Court Case Identifier</legend> 
+		      <legend>Audit Objection Identifier</legend> 
+		      
+		       <div class="row">
+					<div class="col-15">
+							<label for="BranchCode">Branch Name</label>
+					</div>
+					<div class="col-50">
+						<select id="BranchCode" name="BranchCode" >						   
+							<option value="0100">Chattogram Branch</option>
+							<option value="0101">Cumilla Branch</option>
+							<option value="0102">Noakhali Branch</option>
+							<option value="0103">Cox's Bazar</option>
+							<option value="0104">Rangamati Branch</option>
+							<option value="0105">Brahmanbaria</option>
+							<option value="0106">Chandpur</option>
+							<option value="0107">Feni</option>
+							<option value="0108">Laxmipur</option>
+							<option value="0200">Khulna Branch</option>
+							<option value="0201">Sathkhira</option>
+							<option value="0202">Bagerhat</option>
+							<option value="0203">Jashore Branch</option>
+							<option value="0204">Kushtia Branch</option>
+							<option value="0205">Magura</option>
+							<option value="0206">Jhinaidah</option>
+							<option value="0207">Chuadanga</option>
+							<option value="0300">Rajshahi Branch</option>
+							<option value="0301">Bogura Branch</option>
+							<option value="0302">Nawgaon</option>
+							<option value="0303">Pabna  Branch</option>
+							<option value="0304">Natore</option>
+							<option value="0305">Sirajganj</option>
+							<option value="0400">Barishal Branch</option>
+							<option value="0401">Jhalokati</option>
+							<option value="0402">Potuakhali</option>
+							<option value="0403">Bhola</option>
+							<option value="0404">Pirojpur</option>
+							<option value="0405">Barguna</option>
+							<option value="0500">Sylhet Branch</option>
+							<option value="0501">Sreemongal</option>
+							<option value="0502">Hobiganj</option>
+							<option value="0503">Sunamganj</option>
+							<option value="0600">Main Branch,Dhaka North.</option>
+							<option value="0601">Gazipur Sadar Branch</option>
+							<option value="0602">Narsindhi branch</option>
+							<option value="0603">Manikganj</option>
+							<option value="0700">Dhanmondi</option>
+							<option value="0800">Sadar Main Branch</option>
+							<option value="0801">Khilgaon</option>
+							<option value="0802">Keraniganj</option>
+							<option value="0803">Munshiganj</option>
+							<option value="0900">Mirpur</option>
+							<option value="0901">Pallabi</option>
+							<option value="1000">Gulshan</option>
+							<option value="2000">Savar</option>
+							<option value="2001">Faridpur Branch</option>
+							<option value="2002">Gopalganj  Branch</option>
+							<option value="2003">Madaripur</option>
+							<option value="2004">Rajbari</option>
+							<option value="3000">Narayanganj Branch</option>
+							<option value="4000">Mymensingh Branch</option>
+							<option value="4001">Tangail Branch</option>
+							<option value="4002">Jamalpur Branch</option>
+							<option value="4003">Kishoreganj</option>
+							<option value="4004">Netrokona</option>
+							<option value="4005">Sherpur</option>
+							<option value="5000">Rangpur Branch</option>
+							<option value="5001">Dinajpur Branch</option>
+							<option value="5002">Kurigram</option>
+							<option value="5003">Gaibandha</option>
+							<option value="5004">Lalmonirhat</option>
+							<option value="5005">Thakurgaon </option>														
+						</select>
+					</div>
+				</div>	
+		      
 		      
 		      	<div class="row">
-					<div class="col-15">
-						<label for="BranchCode">Office Code</label>
-					</div>
-					<div class="col-20">
-						<input type="text" id="BranchCode" name="BranchCode" read only>
-					</div>
 					<div class="col-15">
 						<label for="EntyDate"> Entry Date</label>
 					</div>
 					<div class="col-20">
 						<input  type="text" id="EntyDate" value="" onkeypress="EntryDateValidation(event)" >
 					</div>										
-			  </div>
+			    </div>
 			  
 		      
 				<div class="col-80"></div>
@@ -387,7 +468,7 @@ $(function() {
 				</fieldset>	
 				<br><br>	
 				<fieldset>	
-				<legend>Court Case Settlement</legend>
+				<legend> Audit Objection Settlement</legend>
 																			
 				<div class="row">	
 					<div class="col-20">
