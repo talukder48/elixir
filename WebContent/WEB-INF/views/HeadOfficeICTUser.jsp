@@ -587,12 +587,12 @@ function init()
 		<div class="AccEntyDropDown">
 			<button onclick="AccEntyFunction()" class="AccEntyDropBtn">  General Accounting Software  </button>
 			<div id="accDropDown" class="AccEntyDropDown-content">
-				<a id="1" href="ebranchglaccess.do">1. GL Creation Allow For Branch</a>
-				<a id="2" href="ezerobalanceinit.do">2. Zero Balance Initialization </a>
-				<a id="3" href="ebranchlive.do">3. Branch Live  </a> 				
-				<a id="4" href="enewglcreation.do"> 4. New GL Create   </a>
-				<a id="5" href="eusercreationgas.do">5. User Creation for GAS  </a> 
-				<a id="6" href="edaybeginprocess.do">6. Day Begin Process </a>																
+				<a id="1" href="ebranchglaccess.do">GL Creation Allow For Branch</a>
+				<a id="2" href="ezerobalanceinit.do">Zero Balance Initialization </a>
+				<a id="3" href="ebranchlive.do">Branch Live  </a> 				
+				<a id="4" href="enewglcreation.do"> New GL Create   </a>
+				<a id="5" href="eusercreationgas.do">User Creation for GAS  </a> 
+				<a id="6" href="edaybeginprocess.do">Day Begin Process </a>																
 			</div>
 			<br /><br />			
 		  

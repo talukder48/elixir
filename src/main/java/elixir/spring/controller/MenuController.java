@@ -234,9 +234,6 @@ public class MenuController {
 	public String viewMISPerformanceReport() {
 		return "MIS/viewMISPerformanceReport";		
 	}
-		
-	
-	
 	@RequestMapping(value = "viewAdvanceReport.do")
 	public String viewAdvanceReport() {
 		return "ELMS/viewAdvanceReport";		
@@ -245,10 +242,6 @@ public class MenuController {
 	public String viewSalaryDeductionReport() {
 		return "ELMS/viewSalaryDeductionReport";		
 	}
-	
-	
-	
-	
 	@RequestMapping(value = "ResetPassword.do")
 	public String ResetPassword() {
 		return "Profile/ResetPassword";		
