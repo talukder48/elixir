@@ -511,7 +511,7 @@ function AccReportFunction() {
 <header>
   <div align="center">
 			<h1 style="color: green;">Bangladesh House Building Finance Corporation</h1>			
-			<h5>22, Purana Paltan</h5>
+			<h3 style="color:red;">${BRN_NAME}</h3>
 		</div>
 	<hr style="width:100%;text-align:left;margin-left:0">	
 </header>

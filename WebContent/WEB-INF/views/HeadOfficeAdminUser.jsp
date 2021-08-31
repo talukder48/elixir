@@ -335,7 +335,7 @@ function hrmReportFunction() {
 
 		<div align="center">
 			<h1>Bangladesh House Building Finance Corporation</h1>			
-			<h5>22, Purana Paltan</h5>
+			<h3 style="color:red;">${BRN_NAME}</h3>
 		</div>
 
 		<div class="hrmEntyDropDown">

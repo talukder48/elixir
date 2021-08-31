@@ -99,6 +99,7 @@ window.onclick = function(event) {
 	<f:view>
 		<div align="center">
 			<h1>Bangladesh House Building Finance Corporation</h1>
+			<h3 style="color:red;">${BRN_NAME}</h3>
 		</div>
 
 		<div class="dropdown">
