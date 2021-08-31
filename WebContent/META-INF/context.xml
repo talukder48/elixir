@@ -4,7 +4,7 @@
 	driverClassName="oracle.jdbc.OracleDriver" 
 	url="jdbc:oracle:thin:@192.168.151.11:1576/EMPDB" 
 	username="INNOVATION" 
-	password="bhbfc$2021" 
+	password="bhbfc$1457" 
 	maxActive="10000"
 	maxTotal="10000" 	
 	maxIdle="5000" 		

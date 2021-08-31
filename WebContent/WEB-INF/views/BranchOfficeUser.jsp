@@ -692,24 +692,7 @@ function init()
 	
   </nav>
   
-  <article>
-  
-   <div class="vl">
-  
-    <p>ESTABLISHMENT:House Building Finance Corporation was established in 1952 to provide financial assistance in housing sector. After independence, the corporation was reconstituted as House Building Finance Corporation (BHBFC) by the President’s Order no 7 of 1973.</p>
-    <p>OBJECTIVES: Shelter is one of the five basic needs of human being to alleviate the acute housing problem.
-     The primary objective is to alleviate the acute housing problem in the country. 
-     It is the only financial institution in the housing sector that has been financing for the last 6 decades. 
-     Although some of the commercial banks and private sector housing institutions are providing financial assistance to this sector, yet, 
-     BHBFC continues to be the major source of housing credit for the middle and lower middle income group of people till today.</p>
-     
-     
-    <p>OWNERSHIP: BHBFC is the only state-owned specialized financial institution of its kind. The total paid-up capital of the corporation is paid by the Government of Bangladesh.</p> 
-    <p>OURCES OF FUND : The primary source of the Corporation’s fund is the paid-up capital contributed by the Government. The authorised capital is Taka 110 Crore and during 2010-11 the total paid-up capital stood at taka 110 crore. Other than this the corporation raised its fund by selling Govt. guaranteed debentures with the assistance of the Ministry of Finance to Bangladesh Bank and to other Commercial Banks.</p>
-    <p>OFFICES: Head Office of the Corporation is located in Dhaka. There are 15 departments at Head Office. Other than head office it has 10 Zonal offices. Out of these 10 offices 2 offices are in Dhaka City and the rest 8 Zonal offices are situated in Chittagong, Sylhet, Rajshahi, Khulna, Barisal, Rangpur, Faridpur and Mymensing. The corporation has 14 Regional offices located at Cumilla, Noakhali, Jessore, Kushtia, Pabna, Bagura, Dinajpur, Tangail, Jamalpur, Rangamati, Gopalganj and Narayanganj. There are 61 branch offices all over the country under the control of 10 Zonal and 14 Regional Offices.</p>
-    <p>MANAGEMENT: Board of BHBFC is designated by the Government. The Board consists of 6 (six) members -a Chairman and a Managing Director and 4 other directors. Managing Director is the chief executive and a member of the Board by post. The Board of Directors formulates overall policy and directs on the Corporation’s activities. To manage the Corporation the Board acts on commercial consideration guided by the Government directives. Managing Director, on behalf of the board, directs and controls the whole affairs of the Corporation. Board meeting is held regularly at the Head Office or at any other office of the Corporation where the Chairman officiate the meeting.  Managing Director manages all activities of the Corporation as chief executive officer and General Managers help the Managing Director to manage the tasks.</p>
-  </div>
-  </article>
+ 
 </section>
 
 <footer>

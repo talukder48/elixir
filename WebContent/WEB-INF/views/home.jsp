@@ -107,7 +107,10 @@ function ValidateLogIn(){
 	<h1 style="color:green;">${Title}</h1>
 	<h2>Please Login Here !!</h2>
 	<P>The time on the server is ${serverTime}.</p>
-	<form action="UserHomePage.Do" method ="post" onkeydown="return event.key != 'Enter';">
+	
+	
+	<P  style="color:red;"> ${Error}</p>
+	<form action="UserHomePage.do" method ="post" onkeydown="return event.key != 'Enter';">
 		<input id="userName" type="text" name="userName" onkeydown="ValidateUsername()"><br> 
 		<input id="password" type="password" name="password" onkeydown="ValidatePasword()"><br> <br>
 		<input id="logIn"	 type="submit" value="Login" >
