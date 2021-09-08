@@ -165,7 +165,7 @@ public class HomeController {
 		} catch (Exception e) {
 
 		}
-		return "home";
+		return "redirect:/";
 
 	}
 
